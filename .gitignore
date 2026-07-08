@@ -1,0 +1,22 @@
+# Compiled files
+*.class
+
+# Build folders
+target/
+bin/
+build/
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Secrets
+src/db.properties
