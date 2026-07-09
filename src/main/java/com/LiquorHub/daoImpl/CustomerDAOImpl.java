@@ -1,4 +1,4 @@
-package com.liqourhub.dao.impl;
+package com.LiquorHub.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,20 +7,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liqourhub.dao.CustomerDAO;
-import com.liqourhub.dto.Customer;
-import com.liqourhub.utility.Connector;
+import com.LiquorHub.dao.CustomerDAO;
+import com.LiquorHub.dto.CustomerDTO;
+import com.LiquorHub.utility.Connector;
+
 
 public class CustomerDAOImpl implements CustomerDAO {
 
     private Connection con;
 
     public CustomerDAOImpl() {
-        con = Connector.getConnection();
+        con = Connector.requestConnection();
     }
 
     @Override
-    public boolean insertCustomer(Customer customer) {
+    public boolean insertCustomer(CustomerDTO customer) {
 
         String sql = "INSERT INTO Customer(name,email,password,phone,address) VALUES(?,?,?,?,?)";
 
@@ -44,7 +45,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean updateCustomer(Customer customer) {
+    public boolean updateCustomer(CustomerDTO customer) {
 
         String sql = "UPDATE Customer SET name=?,email=?,password=?,phone=?,address=? WHERE customer_id=?";
 
@@ -89,7 +90,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public Customer getCustomerById(int customerId) {
+    public CustomerDTO getCustomerById(int customerId) {
 
         String sql = "SELECT * FROM Customer WHERE customer_id=?";
 
@@ -103,7 +104,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
             if (rs.next()) {
 
-                Customer c = new Customer();
+                CustomerDTO c = new CustomerDTO();
 
                 c.setCustomerId(rs.getInt("customer_id"));
                 c.setName(rs.getString("name"));
@@ -123,7 +124,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public Customer login(String email, String password) {
+    public CustomerDTO login(String email, String password) {
 
         String sql = "SELECT * FROM Customer WHERE email=? AND password=?";
 
@@ -138,7 +139,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
             if (rs.next()) {
 
-                Customer c = new Customer();
+                CustomerDTO c = new CustomerDTO();
 
                 c.setCustomerId(rs.getInt("customer_id"));
                 c.setName(rs.getString("name"));
@@ -158,9 +159,9 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
+    public List<CustomerDTO> getAllCustomers() {
 
-        List<Customer> customers = new ArrayList<>();
+        List<CustomerDTO> customers = new ArrayList<>();
 
         String sql = "SELECT * FROM Customer";
 
@@ -172,7 +173,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
             while (rs.next()) {
 
-                Customer c = new Customer();
+                CustomerDTO c = new CustomerDTO();
 
                 c.setCustomerId(rs.getInt("customer_id"));
                 c.setName(rs.getString("name"));

@@ -1,12 +1,13 @@
-package com.liqourhub.dao;
+package com.LiquorHub.dao;
 
 import java.util.List;
-import com.liqourhub.dto.OrderItem;
+
+import com.LiquorHub.dto.OrderItemDTO;
 
 public interface OrderItemDAO {
 
-	boolean addOrderItem(OrderItem orderItem);
+	boolean addOrderItem(OrderItemDTO orderItem);
 
-	List<OrderItem> getOrderItems(int orderId);
+	List<OrderItemDTO> getOrderItems(int orderId);
 
 }

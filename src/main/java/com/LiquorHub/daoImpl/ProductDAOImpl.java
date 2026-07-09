@@ -1,4 +1,4 @@
-package com.liqourhub.dao.impl;
+package com.LiquorHub.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,20 +7,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liqourhub.dao.ProductDAO;
-import com.liqourhub.dto.Product;
-import com.liqourhub.utility.Connector;
+import com.LiquorHub.dao.ProductDAO;
+import com.LiquorHub.dto.ProductDTO;
+import com.LiquorHub.utility.Connector;
+
 
 public class ProductDAOImpl implements ProductDAO {
 
     private Connection con;
 
     public ProductDAOImpl() {
-        con = Connector.getConnection();
+        con = Connector.requestConnection();
     }
 
     @Override
-    public boolean addProduct(Product product) {
+    public boolean addProduct(ProductDTO product) {
 
         String sql = "INSERT INTO Product(category_id, product_name, brand, price, stock) VALUES(?,?,?,?,?)";
 
@@ -44,7 +45,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public boolean updateProduct(Product product) {
+    public boolean updateProduct(ProductDTO product) {
 
         String sql = "UPDATE Product SET category_id=?, product_name=?, brand=?, price=?, stock=? WHERE product_id=?";
 
@@ -89,7 +90,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public Product getProductById(int productId) {
+    public ProductDTO getProductById(int productId) {
 
         String sql = "SELECT * FROM Product WHERE product_id=?";
 
@@ -103,7 +104,7 @@ public class ProductDAOImpl implements ProductDAO {
 
             if (rs.next()) {
 
-                Product product = new Product();
+                ProductDTO product = new ProductDTO();
 
                 product.setProductId(rs.getInt("product_id"));
                 product.setCategoryId(rs.getInt("category_id"));
@@ -123,9 +124,9 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<ProductDTO> getAllProducts() {
 
-        List<Product> products = new ArrayList<>();
+        List<ProductDTO> products = new ArrayList<>();
 
         String sql = "SELECT * FROM Product";
 
@@ -137,7 +138,7 @@ public class ProductDAOImpl implements ProductDAO {
 
             while (rs.next()) {
 
-                Product product = new Product();
+                ProductDTO product = new ProductDTO();
 
                 product.setProductId(rs.getInt("product_id"));
                 product.setCategoryId(rs.getInt("category_id"));
@@ -157,9 +158,9 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List<Product> getProductsByCategory(int categoryId) {
+    public List<ProductDTO> getProductsByCategory(int categoryId) {
 
-        List<Product> products = new ArrayList<>();
+        List<ProductDTO> products = new ArrayList<>();
 
         String sql = "SELECT * FROM Product WHERE category_id=?";
 
@@ -173,7 +174,7 @@ public class ProductDAOImpl implements ProductDAO {
 
             while (rs.next()) {
 
-                Product product = new Product();
+                ProductDTO product = new ProductDTO();
 
                 product.setProductId(rs.getInt("product_id"));
                 product.setCategoryId(rs.getInt("category_id"));

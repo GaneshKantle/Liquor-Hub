@@ -1,4 +1,4 @@
-package com.liqourhub.dao.impl;
+package com.LiquorHub.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,20 +7,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liqourhub.dao.CategoryDAO;
-import com.liqourhub.dto.Category;
-import com.liqourhub.utility.Connector;
+import com.LiquorHub.dto.CategoryDTO;
+import com.LiquorHub.utility.Connector;
 
-public class CategoryDAOImpl implements CategoryDAO {
+
+public class CategoryDAOImpl implements com.LiquorHub.dao.CategoryDAO {
 
     private Connection con;
 
     public CategoryDAOImpl() {
-        con = Connector.getConnection();
+        con = Connector.requestConnection();
     }
 
     @Override
-    public boolean addCategory(Category category) {
+    public boolean addCategory(CategoryDTO category) {
 
         String sql = "INSERT INTO Category(category_name) VALUES(?)";
 
@@ -40,7 +40,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public boolean updateCategory(Category category) {
+    public boolean updateCategory(CategoryDTO category) {
 
         String sql = "UPDATE Category SET category_name=? WHERE category_id=?";
 
@@ -81,7 +81,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public Category getCategoryById(int categoryId) {
+    public CategoryDTO getCategoryById(int categoryId) {
 
         String sql = "SELECT * FROM Category WHERE category_id=?";
 
@@ -95,7 +95,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 
             if (rs.next()) {
 
-                Category category = new Category();
+                CategoryDTO category = new CategoryDTO();
 
                 category.setCategoryId(rs.getInt("category_id"));
                 category.setCategoryName(rs.getString("category_name"));
@@ -111,9 +111,9 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public List<Category> getAllCategories() {
+    public List<CategoryDTO> getAllCategories() {
 
-        List<Category> categories = new ArrayList<>();
+        List<CategoryDTO> categories = new ArrayList<>();
 
         String sql = "SELECT * FROM Category";
 
@@ -125,7 +125,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 
             while (rs.next()) {
 
-                Category category = new Category();
+                CategoryDTO category = new CategoryDTO();
 
                 category.setCategoryId(rs.getInt("category_id"));
                 category.setCategoryName(rs.getString("category_name"));

@@ -1,27 +1,27 @@
-package com.liqourhub.dao.impl;
+package com.LiquorHub.daoImpl;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liqourhub.dao.OrdersDAO;
-import com.liqourhub.dto.Orders;
-import com.liqourhub.utility.Connector;
+import com.LiquorHub.dao.OrderDAO;
+import com.LiquorHub.dto.OrderDTO;
+import com.LiquorHub.utility.Connector;
 
-public class OrdersDAOImpl implements OrdersDAO {
+
+public class OrderDAOImpl implements OrderDAO {
 
     private Connection con;
 
-    public OrdersDAOImpl() {
-        con = Connector.getConnection();
+    public OrderDAOImpl() {
+        con = Connector.requestConnection();
     }
 
     @Override
-    public boolean placeOrder(Orders order) {
+    public boolean placeOrder(OrderDTO order) {
 
         String sql = "INSERT INTO Orders(customer_id, order_date, total_amount, status) VALUES(?,?,?,?)";
 
@@ -30,7 +30,7 @@ public class OrdersDAOImpl implements OrdersDAO {
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setInt(1, order.getCustomerId());
-            ps.setDate(2, order.getOrderDate());
+            ps.setString(2, order.getOrderDate());
             ps.setDouble(3, order.getTotalAmount());
             ps.setString(4, order.getStatus());
 
@@ -65,7 +65,7 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public Orders getOrderById(int orderId) {
+    public OrderDTO getOrderById(int orderId) {
 
         String sql = "SELECT * FROM Orders WHERE order_id=?";
 
@@ -79,11 +79,11 @@ public class OrdersDAOImpl implements OrdersDAO {
 
             if (rs.next()) {
 
-                Orders order = new Orders();
+                OrderDTO order = new OrderDTO();
 
                 order.setOrderId(rs.getInt("order_id"));
                 order.setCustomerId(rs.getInt("customer_id"));
-                order.setOrderDate(rs.getDate("order_date"));
+                order.setOrderDate(rs.getString("order_date"));
                 order.setTotalAmount(rs.getDouble("total_amount"));
                 order.setStatus(rs.getString("status"));
 
@@ -98,9 +98,9 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public List<Orders> getOrdersByCustomer(int customerId) {
+    public List<OrderDTO> getOrdersByCustomer(int customerId) {
 
-        List<Orders> orders = new ArrayList<>();
+        List<OrderDTO> orders = new ArrayList<>();
 
         String sql = "SELECT * FROM Orders WHERE customer_id=?";
 
@@ -114,11 +114,11 @@ public class OrdersDAOImpl implements OrdersDAO {
 
             while (rs.next()) {
 
-                Orders order = new Orders();
+                OrderDTO order = new OrderDTO();
 
                 order.setOrderId(rs.getInt("order_id"));
                 order.setCustomerId(rs.getInt("customer_id"));
-                order.setOrderDate(rs.getDate("order_date"));
+                order.setOrderDate(rs.getString("order_date")); 
                 order.setTotalAmount(rs.getDouble("total_amount"));
                 order.setStatus(rs.getString("status"));
 
@@ -133,9 +133,9 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public List<Orders> getAllOrders() {
+    public List<OrderDTO> getAllOrders() {
 
-        List<Orders> orders = new ArrayList<>();
+        List<OrderDTO> orders = new ArrayList<>();
 
         String sql = "SELECT * FROM Orders";
 
@@ -147,11 +147,11 @@ public class OrdersDAOImpl implements OrdersDAO {
 
             while (rs.next()) {
 
-                Orders order = new Orders();
+                OrderDTO order = new OrderDTO();
 
                 order.setOrderId(rs.getInt("order_id"));
                 order.setCustomerId(rs.getInt("customer_id"));
-                order.setOrderDate(rs.getDate("order_date"));
+                order.setOrderDate(rs.getString("order_date"));
                 order.setTotalAmount(rs.getDouble("total_amount"));
                 order.setStatus(rs.getString("status"));
 

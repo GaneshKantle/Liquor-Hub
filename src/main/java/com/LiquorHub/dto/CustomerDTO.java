@@ -1,6 +1,7 @@
 package com.LiquorHub.dto;
 
 public class CustomerDTO {
+	private int customerId;
 	private String name;
 	private String email;
 	private String password;
@@ -10,10 +11,15 @@ public class CustomerDTO {
 	
 	@Override
 	public String toString() {
-		return "CustomerDTO [name=" + name + ", email=" + email + ", phone=" + phone + ", address=" + address + "]";
+		return "CustomerDTO [id= "+ customerId +"name=" + name + ", email=" + email + ", phone=" + phone + ", address=" + address + "]";
+	} 
+	
+	public int getCustomerId() {
+		return customerId;
 	}
-	
-	
+	public void setCustomerId(int customerId) { 
+		this.customerId = customerId;
+	}
 	public String getName() {
 		return name;
 	}

@@ -1,16 +1,17 @@
-package com.liqourhub.dao;
+package com.LiquorHub.dao;
 
 import java.util.List;
-import com.liqourhub.dto.CartItem;
+
+import com.LiquorHub.dto.CartItemDTO;
 
 public interface CartItemDAO {
 
-	boolean addItem(CartItem cartItem);
+	boolean addItem(CartItemDTO cartItem);
 
 	boolean updateQuantity(int cartItemId, int quantity);
 
 	boolean removeItem(int cartItemId);
 
-	List<CartItem> getCartItems(int cartId);
+	List<CartItemDTO> getCartItems(int cartId);
 
 }

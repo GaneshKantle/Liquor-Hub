@@ -1,12 +1,13 @@
-package com.liqourhub.dao;
+package com.LiquorHub.dao;
 
-import com.liqourhub.dto.Cart;
+import com.LiquorHub.dto.CartDTO;
+
 
 public interface CartDAO {
 
-	boolean createCart(Cart cart);
+	boolean createCart(CartDTO cart);
 
-	Cart getCartByCustomerId(int customerId);
+	CartDTO getCartByCustomerId(int customerId);
 
 	boolean deleteCart(int cartId);
 

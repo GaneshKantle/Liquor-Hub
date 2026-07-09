@@ -1,20 +1,21 @@
-package com.liqourhub.dao;
+package com.LiquorHub.dao;
 
 import java.util.List;
-import com.liqourhub.dto.Product;
+
+import com.LiquorHub.dto.ProductDTO;
 
 public interface ProductDAO {
 
-	boolean addProduct(Product product);
-
-	boolean updateProduct(Product product);
+	boolean addProduct(ProductDTO product);
+ 
+	boolean updateProduct(ProductDTO product);
 
 	boolean deleteProduct(int productId);
 
-	Product getProductById(int productId);
+	ProductDTO getProductById(int productId);
 
-	List<Product> getAllProducts();
+	List<ProductDTO> getAllProducts();
 
-	List<Product> getProductsByCategory(int categoryId);
+	List<ProductDTO> getProductsByCategory(int categoryId);
 
 }

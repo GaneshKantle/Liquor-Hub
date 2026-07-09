@@ -1,4 +1,4 @@
-package com.liqourhub.dao.impl;
+package com.LiquorHub.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,20 +7,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liqourhub.dao.CartItemDAO;
-import com.liqourhub.dto.CartItem;
-import com.liqourhub.utility.Connector;
+import com.LiquorHub.dao.CartItemDAO;
+import com.LiquorHub.dto.CartItemDTO;
+import com.LiquorHub.utility.Connector;
 
 public class CartItemDAOImpl implements CartItemDAO {
 
     private Connection con;
 
     public CartItemDAOImpl() {
-        con = Connector.getConnection();
+        con = Connector.requestConnection();
     }
 
     @Override
-    public boolean addItem(CartItem cartItem) {
+    public boolean addItem(CartItemDTO cartItem) {
 
         String sql = "INSERT INTO CartItem(cart_id, product_id, quantity) VALUES(?,?,?)";
 
@@ -83,9 +83,9 @@ public class CartItemDAOImpl implements CartItemDAO {
     }
 
     @Override
-    public List<CartItem> getCartItems(int cartId) {
+    public List<CartItemDTO> getCartItems(int cartId) {
 
-        List<CartItem> items = new ArrayList<>();
+        List<CartItemDTO> items = new ArrayList<>();
 
         String sql = "SELECT * FROM CartItem WHERE cart_id=?";
 
@@ -99,7 +99,7 @@ public class CartItemDAOImpl implements CartItemDAO {
 
             while (rs.next()) {
 
-                CartItem item = new CartItem();
+                CartItemDTO item = new CartItemDTO();
 
                 item.setCartItemId(rs.getInt("cart_item_id"));
                 item.setCartId(rs.getInt("cart_id"));

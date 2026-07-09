@@ -1,24 +1,26 @@
-package com.liqourhub.dao.impl;
+package com.LiquorHub.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.liqourhub.dao.PaymentDAO;
-import com.liqourhub.dto.Payment;
-import com.liqourhub.utility.Connector;
+import com.LiquorHub.dao.PaymentDAO;
+import com.LiquorHub.dto.PaymentDTO;
+import com.LiquorHub.utility.Connector;
+
+
 
 public class PaymentDAOImpl implements PaymentDAO {
 
     private Connection con;
 
     public PaymentDAOImpl() {
-        con = Connector.getConnection();
+        con = Connector.requestConnection();
     }
 
     @Override
-    public boolean makePayment(Payment payment) {
+    public boolean makePayment(PaymentDTO payment) {
 
         String sql = "INSERT INTO Payment(order_id, payment_method, payment_status) VALUES(?,?,?)";
 
@@ -40,7 +42,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public Payment getPaymentByOrderId(int orderId) {
+    public PaymentDTO getPaymentByOrderId(int orderId) {
 
         String sql = "SELECT * FROM Payment WHERE order_id=?";
 
@@ -54,7 +56,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
             if (rs.next()) {
 
-                Payment payment = new Payment();
+                PaymentDTO payment = new PaymentDTO();
 
                 payment.setPaymentId(rs.getInt("payment_id"));
                 payment.setOrderId(rs.getInt("order_id"));

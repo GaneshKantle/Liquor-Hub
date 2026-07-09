@@ -1,20 +1,21 @@
-package com.liqourhub.dao;
+package com.LiquorHub.dao;
 
 import java.util.List;
-import com.liqourhub.dto.Customer;
+
+import com.LiquorHub.dto.CustomerDTO;
 
 public interface CustomerDAO {
 
-	boolean insertCustomer(Customer customer);
+	boolean insertCustomer(CustomerDTO customer);
 
-	boolean updateCustomer(Customer customer);
+	boolean updateCustomer(CustomerDTO customer);
 
 	boolean deleteCustomer(int customerId);
 
-	Customer getCustomerById(int customerId);
+	CustomerDTO getCustomerById(int customerId);
 
-	Customer login(String email, String password);
+	CustomerDTO login(String email, String password);
 
-	List<Customer> getAllCustomers();
+	List<CustomerDTO> getAllCustomers(); 
 
 }

@@ -1,24 +1,22 @@
-package com.liqourhub.dao.impl;
+package com.LiquorHub.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.liqourhub.dao.CartDAO;
-import com.liqourhub.dto.Cart;
-import com.liqourhub.utility.Connector;
+import com.LiquorHub.dao.CartDAO;
+import com.LiquorHub.dto.CartDTO;
 
 public class CartDAOImpl implements CartDAO {
 
     private Connection con;
 
     public CartDAOImpl() {
-        con = Connector.getConnection();
+        con = com.LiquorHub.utility.Connector.requestConnection();
     }
 
     @Override
-    public boolean createCart(Cart cart) {
+    public boolean createCart(CartDTO cart) {
 
         String sql = "INSERT INTO Cart(customer_id) VALUES(?)";
 
@@ -38,7 +36,7 @@ public class CartDAOImpl implements CartDAO {
     }
 
     @Override
-    public Cart getCartByCustomerId(int customerId) {
+    public CartDTO getCartByCustomerId(int customerId) {
 
         String sql = "SELECT * FROM Cart WHERE customer_id=?";
 
@@ -52,7 +50,7 @@ public class CartDAOImpl implements CartDAO {
 
             if (rs.next()) {
 
-                Cart cart = new Cart();
+                CartDTO cart = new CartDTO();
 
                 cart.setCartId(rs.getInt("cart_id"));
                 cart.setCustomerId(rs.getInt("customer_id"));
@@ -86,4 +84,5 @@ public class CartDAOImpl implements CartDAO {
 
         return false;
     }
+
 }

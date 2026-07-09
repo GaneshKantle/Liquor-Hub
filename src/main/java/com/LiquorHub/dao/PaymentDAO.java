@@ -1,12 +1,12 @@
-package com.liqourhub.dao;
+package com.LiquorHub.dao;
 
-import com.liqourhub.dto.Payment;
+import com.LiquorHub.dto.PaymentDTO;
 
 public interface PaymentDAO {
 
-	boolean makePayment(Payment payment);
+	boolean makePayment(PaymentDTO payment);
 
-	Payment getPaymentByOrderId(int orderId);
+	PaymentDTO getPaymentByOrderId(int orderId);
 
 	boolean updatePaymentStatus(int paymentId, String paymentStatus);
 

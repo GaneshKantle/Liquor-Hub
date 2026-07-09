@@ -1,4 +1,4 @@
-package com.liqourhub.dao.impl;
+package com.LiquorHub.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,20 +7,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liqourhub.dao.OrderItemDAO;
-import com.liqourhub.dto.OrderItem;
-import com.liqourhub.utility.Connector;
+import com.LiquorHub.dao.OrderItemDAO;
+import com.LiquorHub.dto.OrderItemDTO;
+import com.LiquorHub.utility.Connector;
+
 
 public class OrderItemDAOImpl implements OrderItemDAO {
 
     private Connection con;
 
     public OrderItemDAOImpl() {
-        con = Connector.getConnection();
+        con = Connector.requestConnection();
     }
 
     @Override
-    public boolean addOrderItem(OrderItem orderItem) {
+    public boolean addOrderItem(OrderItemDTO orderItem) { 
 
         String sql = "INSERT INTO OrderItem(order_id, product_id, quantity) VALUES(?,?,?)";
 
@@ -42,9 +43,9 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     }
 
     @Override
-    public List<OrderItem> getOrderItems(int orderId) {
+    public List<OrderItemDTO> getOrderItems(int orderId) {
 
-        List<OrderItem> orderItems = new ArrayList<>();
+        List<OrderItemDTO> orderItems = new ArrayList<>();
 
         String sql = "SELECT * FROM OrderItem WHERE order_id=?";
 
@@ -58,7 +59,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 
             while (rs.next()) {
 
-                OrderItem item = new OrderItem();
+                OrderItemDTO item = new OrderItemDTO();
 
                 item.setOrderItemId(rs.getInt("order_item_id"));
                 item.setOrderId(rs.getInt("order_id"));
@@ -74,5 +75,6 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 
         return orderItems;
     }
+
 
 }
