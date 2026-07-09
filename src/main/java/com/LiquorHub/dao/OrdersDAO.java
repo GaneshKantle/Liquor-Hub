@@ -1,18 +1,19 @@
-package com.liqourhub.dao;
+package com.LiquorHub.dao;
 
 import java.util.List;
-import com.liqourhub.dto.Orders;
+
+import com.LiquorHub.dto.OrderDTO;
 
 public interface OrdersDAO {
 
-	boolean placeOrder(Orders order);
+	boolean placeOrder(OrderDTO order);
 
 	boolean updateOrderStatus(int orderId, String status);
 
-	Orders getOrderById(int orderId);
+	OrderDTO getOrderById(int orderId);
 
-	List<Orders> getOrdersByCustomer(int customerId);
+	List<OrderDTO> getOrdersByCustomer(int customerId);
 
-	List<Orders> getAllOrders();
+	List<OrderDTO> getAllOrders();
 
 }
