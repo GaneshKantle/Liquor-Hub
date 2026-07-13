@@ -11,23 +11,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/logout")
-public class logout extends HttpServlet {
+@WebServlet("/dashboard")
+public class Dashboard extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
-		if (session != null) {
-			CustomerDTO customer = (CustomerDTO) session.getAttribute("Customer");
-			session.invalidate();
-			if (customer != null) {
-				req.setAttribute("success", "logged Out Successfully");
-			} else {
-				req.setAttribute("error", "session Already Expired");
-			}
-		} else {
+		CustomerDTO customer = session == null ? null : (CustomerDTO) session.getAttribute("Customer");
+		if (customer == null) {
 			req.setAttribute("error", "session Already Expired");
+			req.getRequestDispatcher("/WEB-INF/login.jsp").forward(req, resp);
+			return;
 		}
-		req.getRequestDispatcher("/WEB-INF/login.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(req, resp);
 	}
 }

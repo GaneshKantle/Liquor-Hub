@@ -1,138 +1,97 @@
-<%@page import="com.dto.Employee"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page import="com.LiquorHub.dto.CustomerDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Hide radio buttons */
-        .tab-radio {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        /* Hide all sections by default */
-        .profile-section, .coworkers-section, .update-section, .reset-section {
-            display: none;
-        }
-        
-        /* Show sections when radio is checked */
-        #tab-profile:checked ~ .main-wrapper .profile-section {
-            display: block;
-        }
-        #tab-coworkers:checked ~ .main-wrapper .coworkers-section {
-            display: block;
-        }
-        #tab-update:checked ~ .main-wrapper .update-section {
-            display: block;
-        }
-        #tab-reset:checked ~ .main-wrapper .reset-section {
-            display: block;
-        }
-        
-       
-      
-        
-        .nav-label {
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        
-        .nav-label:hover {
-            background-color: #e5e7eb;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your account | LiquorHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/liquorhub.css">
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="lh-body">
+<%
+  CustomerDTO customer = (CustomerDTO) session.getAttribute("Customer");
+  if (customer == null) {
+    request.setAttribute("error", "Already session Expired");
+    request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+    return;
+  }
+%>
 
-	
-    <input type="radio" name="tab" id="tab-profile" class="tab-radio" checked>
-
-
-   
-    <div class="nav-bar bg-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex flex-wrap">
-                <label for="tab-profile" class="nav-label px-5 py-4 text-gray-700 font-medium flex items-center gap-2">
-                    <i class="fas fa-user text-orange-500"></i> My Profile
-                </label>
-                <a href="view.jsp" class="ml-auto px-5 py-4 text-orange-600 font-medium flex items-center gap-2 hover:bg-orange-50">
-                    <i class="fas fa-users text-orange-500"></i> My Co-workers
-                </a>
-                <a href="update.jsp" class="ml-auto px-5 py-4 text-orange-600 font-medium flex items-center gap-2 hover:bg-orange-50">
-                    <i class="fas fa-edit text-orange-500"></i> Update Account
-                </a>
-               <a href="reset.jsp" class="ml-auto px-5 py-4 text-orange-600 font-medium flex items-center gap-2 hover:bg-orange-50">
-                    <i class="fas fa-key text-orange-500"></i> Reset Password
-                </a>
-                <a href="logout" class="ml-auto px-5 py-4 text-red-600 font-medium flex items-center gap-2 hover:bg-red-50">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </div>
-        </div>
+  <header class="lh-top">
+    <div class="lh-top__inner">
+      <h1 class="lh-top__brand">LiquorHub</h1>
+      <a href="resetPassword" class="lh-btn lh-btn--ghost">Reset password</a>
+      <a href="logout" class="lh-btn lh-btn--danger">Logout</a>
     </div>
+  </header>
 
-    <!-- Main Wrapper -->
-    <div class="main-wrapper">
-        
-        
-        <div class="profile-section">
-            <div class="max-w-4xl mx-auto px-4 py-8">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <div class="bg-orange-600 -m-6 mb-6 rounded-t-lg p-4">
-                        <h2 class="text-xl font-bold text-white">My Profile</h2>
-                        
-                    </div>
-                    <%Employee e=(Employee) session.getAttribute("Employee");%>
-                    <%if(e!=null){ %>
-       
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
-                        <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-orange-500">
-                            <p class="text-xs text-gray-500 uppercase">Employee ID</p>
-                            <p class="text-xl font-bold text-gray-800">EMP00<%=e.getId() %></p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-orange-500">r
-                            <p class="text-xs text-gray-500 uppercase">Full Name</p>
-                            <p class="text-xl font-bold text-gray-800"><%=e.getName() %></p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-orange-500">
-                            <p class="text-xs text-gray-500 uppercase">Job Position</p>
-                            <p class="text-xl font-bold text-gray-800"><%= e.getJob() %></p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-orange-500">
-                            <p class="text-xs text-gray-500 uppercase">Salary</p>
-                            <p class="text-xl font-bold text-gray-800"><%=e.getSalary() %><span class="text-sm font-normal">/ month</span></p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-orange-500">
-                            <p class="text-xs text-gray-500 uppercase">Department</p>
-                            <p class="text-xl font-bold text-gray-800">IT</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-orange-500">
-                            <p class="text-xs text-gray-500 uppercase">Email ID</p>
-                            <p class="text-xl font-bold text-gray-800"><%=e.getMail() %></p>
-                        </div>
-                        
-                        
-                    </div>
-                    <%}else{%>
-                    <%request.setAttribute("error","Already session Expired");%>
-                    <%request.getRequestDispatcher("login.jsp").forward(request,response);%>
-                    <%}%>
-                </div>
-            </div>
+  <main class="lh-page">
+    <div class="lh-glass lh-glass--wide">
+      <h2 class="lh-title">Your collector profile</h2>
+      <p class="lh-hero-line">Manage the details used when you buy or sell rare liquor here.</p>
+
+      <% String success = (String) request.getAttribute("success");
+         if (success != null) { %>
+      <p class="lh-msg lh-msg--ok"><%= success %></p>
+      <% } %>
+
+      <div class="lh-grid">
+        <div class="lh-info">
+          <span>Member ID</span>
+          <strong>CUST<%= customer.getCustomerId() %></strong>
         </div>
+        <div class="lh-info">
+          <span>Name</span>
+          <strong><%= customer.getName() %></strong>
+        </div>
+        <div class="lh-info">
+          <span>Email</span>
+          <strong><%= customer.getEmail() %></strong>
+        </div>
+        <div class="lh-info">
+          <span>Phone</span>
+          <strong><%= customer.getPhone() %></strong>
+        </div>
+        <div class="lh-info" style="grid-column: 1 / -1;">
+          <span>Address</span>
+          <strong><%= customer.getAddress() %></strong>
+        </div>
+      </div>
 
-        
-    <div class="text-center text-gray-400 text-sm py-6 border-t mt-4">
-        DCL Employee Management System | Ganesh Kantle | J2EE Session
+      <hr class="lh-divider">
+
+      <h3 class="lh-section-title">Update details</h3>
+      <form action="update" method="POST" class="lh-form">
+        <div class="lh-field">
+          <label for="name">Name</label>
+          <input id="name" type="text" name="name" value="<%= customer.getName() %>" required>
+        </div>
+        <div class="lh-field">
+          <label for="mail">Email</label>
+          <input id="mail" type="email" name="mail" value="<%= customer.getEmail() %>" required>
+        </div>
+        <div class="lh-field">
+          <label for="phone">Phone</label>
+          <input id="phone" type="text" name="phone" value="<%= customer.getPhone() %>" required>
+        </div>
+        <div class="lh-field">
+          <label for="address">Address</label>
+          <input id="address" type="text" name="address" value="<%= customer.getAddress() %>" required>
+        </div>
+        <div class="lh-field">
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" placeholder="Leave blank to keep current">
+          <p class="lh-hint">Only fill this if you want to change your password here.</p>
+        </div>
+        <button type="submit" class="lh-btn">Save changes</button>
+      </form>
     </div>
+  </main>
+
+  <footer class="lh-foot">LiquorHub — rare liquor marketplace</footer>
 </body>
 </html>

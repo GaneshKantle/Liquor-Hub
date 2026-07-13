@@ -1,83 +1,59 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Employee</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join | LiquorHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/liquorhub.css">
 </head>
-<body >
- <div class="min-h-screen flex flex-col items-center justify-center bg-orange-300 p-4">
+<body class="lh-body">
+  <div class="lh-shell">
+    <header class="lh-brand">
+      <h1 class="lh-brand__name">LiquorHub</h1>
+      <p class="lh-brand__tag">Collect. Trade. Discover rare pours.</p>
+    </header>
 
-    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-sm border border-gray-200">
-        <h2 class="text-lg text-gray-400 font-mono mb-4 text-center">Add Employee</h2>
-        <%String success1= (String) request.getAttribute("success"); %>
-        <%if(success1!=null){%>
-        <h3 class="text-blue-300"><%=success1%></h3>
-        <%} %>
-        
-        <form action="register" method="POST" class="space-y-4">
-            <!-- Employee Name -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">EmpName</label>
-                <input type="text" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-            </div>
+    <div class="lh-glass">
+      <h2 class="lh-title">Create your account</h2>
+      <p class="lh-subtitle">Join the marketplace for rare and limited liquor.</p>
 
-            <!-- Job Dropdown -->
-            <div >
-                <label class="block text-sm font-medium text-gray-700 mb-1">Job</label>
-                
-                <select name="job" class="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <option value="">-- Job --</option>
-                    <option value="developer">Developer</option>
-                    <option value="hr">HR</option>
-                    <option value="manager">Manager</option>
-                    <option value="tester">Tester</option>
-                    <option value="salesman">Salesman</option>
-                </select>
-            </div>
+      <% String success = (String) request.getAttribute("success");
+         if (success != null) { %>
+      <p class="lh-msg lh-msg--ok"><%= success %></p>
+      <% } %>
 
-            <!-- Salary -->
-            <div >
-                <label class="block text-sm font-medium text-gray-700 mb-1">Salary</label>
-                <input type="number" name="sal" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-            </div>
+      <form action="register" method="POST" class="lh-form">
+        <div class="lh-field">
+          <label for="name">Full name</label>
+          <input id="name" type="text" name="name" required placeholder="Your name">
+        </div>
+        <div class="lh-field">
+          <label for="mail">Email</label>
+          <input id="mail" type="email" name="mail" required placeholder="you@email.com" autocomplete="email">
+        </div>
+        <div class="lh-field">
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" required placeholder="Create a password" autocomplete="new-password">
+        </div>
+        <div class="lh-field">
+          <label for="phone">Phone</label>
+          <input id="phone" type="text" name="phone" required placeholder="Contact number">
+        </div>
+        <div class="lh-field">
+          <label for="address">Address</label>
+          <input id="address" type="text" name="address" required placeholder="Delivery / pickup address">
+        </div>
+        <button type="submit" class="lh-btn">Join LiquorHub</button>
+      </form>
 
-            <!-- Department Dropdown -->
-            <div >
-                <label class="block text-sm font-medium text-gray-700 mb-1">Dept:</label>
-                
-                <select name="Dno" class="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <option >-- Dept --</option>
-                    <option value="10">IT</option>
-                    <option value="20">HR</option>
-                    <option value="30">Salesman</option>
-                </select>
-            </div>
-
-            <!-- Mail -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">mail</label>
-                <input type="email" name="mail" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-            </div>
-             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" name="password" value="1234" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-            </div>
-            
-            
-
-            <!-- Register Button -->
-            <div class="pt-2 flex flex-row px-6">
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 text-sm cursor-pointer shadow-sm">
-                    Register
-                </button>
-            </div>
-        </form>
+      <div class="lh-links">
+        Already a member? <a href="login">Sign in</a>
+      </div>
     </div>
-    </div>
-
+  </div>
 </body>
 </html>

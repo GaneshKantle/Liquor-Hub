@@ -1,11 +1,10 @@
-package com.servlet;
+package com.LiquorHub.servlet;
 
 import java.io.IOException;
 
-
-import com.dao.impl.EmployeeImplementation;
-import com.dao.inf.EmployeeDAO;
-import com.dto.Employee;
+import com.LiquorHub.dao.CustomerDAO;
+import com.LiquorHub.daoImpl.CustomerDAOImpl;
+import com.LiquorHub.dto.CustomerDTO;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -13,21 +12,27 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 @WebServlet("/register")
 public class Register extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.getRequestDispatcher("/WEB-INF/register.jsp").forward(req, resp);
+	}
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		EmployeeDAO EDAO=new EmployeeImplementation();
-		Employee e=new Employee();
-		e.setName(req.getParameter("name"));
-		e.setJob(req.getParameter("job"));
-		e.setSalary(Double.parseDouble(req.getParameter("sal")));
-		e.setDept_no(Integer.parseInt(req.getParameter("Dno")));
-		e.setMail(req.getParameter("mail"));
-		e.setPassword("1234");
-		EDAO.addEmployee(e);
-		 req.setAttribute("success", "Employee Account created");
-		 RequestDispatcher rd=req.getRequestDispatcher("login.jsp");
-		 rd.forward(req,resp);		
-	}	 
+		CustomerDAO customerDAO = new CustomerDAOImpl();
+		CustomerDTO customer = new CustomerDTO();
+		customer.setName(req.getParameter("name"));
+		customer.setEmail(req.getParameter("mail"));
+		customer.setPassword(req.getParameter("password"));
+		customer.setPhone(req.getParameter("phone"));
+		customer.setAddress(req.getParameter("address"));
+		customerDAO.insertCustomer(customer);
+		req.setAttribute("success", "Customer account created");
+		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/login.jsp");
+		rd.forward(req, resp);
+	}
 }

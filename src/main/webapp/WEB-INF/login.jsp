@@ -1,58 +1,57 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Login Page</title>
- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in | LiquorHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/liquorhub.css">
 </head>
-<body>
-<div>
-     <div class="min-h-screen flex flex-col items-center justify-center bg-orange-300 p-4">
-      <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-sm border border-gray-200">
-     <%String success1= (String) request.getAttribute("success"); %>
-        <%if(success1!=null){%>
-        <h1 class="text-black"><%=success1%></h1>
-        <%} %>
-        <%String error= (String) request.getAttribute("error"); %>
-        <%if(error!=null){%>
-        <h1 class="text-black"><%=error%></h1>
-        <%} %>
-        <%String success2= (String) request.getAttribute("success1"); %>
-        <%if(success2!=null){%>
-        <h1 class="text-black"><%=success2%></h1>
-        <%} %>
-        
-     <form action="login" method="POST" class="space-y-4">     
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Enter your Email Id</label>
-                <input type="email" name="mail" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-            </div>
-             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Enter Your Password</label>
-                <input type="password" name="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-            </div>
-            <div class="pt-2 flex flex-row px-6  ">
-                <button type="submit" class="w-full bg-blue-600 mx-5 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 text-sm cursor-pointer shadow-sm">
-                   Login
-                </button>
-                 <a href="forget.jsp" class="text-sm font-medium text-orange-600 hover:text-orange-700 hover:underline">
-                Forget Password
-              </a>
-            </div>
-             <div class="pt-2 flex flex-row px-6  ">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Didn't have Account</label>
-                 <a href="register.jsp" class="text-sm font-medium text-orange-600 hover:text-orange-700 hover:underline">
-                 Register
-              </a>
-            </div>
-            </div>          
-            </div>
- </form>
- </div>
-            
-            
+<body class="lh-body">
+  <div class="lh-shell">
+    <header class="lh-brand">
+      <h1 class="lh-brand__name">LiquorHub</h1>
+      <p class="lh-brand__tag">Rare bottles. Trusted exchange.</p>
+    </header>
+
+    <div class="lh-glass">
+      <h2 class="lh-title">Welcome back</h2>
+      <p class="lh-subtitle">Sign in to buy or list rare liquor on our platform.</p>
+
+      <% String success = (String) request.getAttribute("success");
+         if (success != null) { %>
+      <p class="lh-msg lh-msg--ok"><%= success %></p>
+      <% } %>
+      <% String error = (String) request.getAttribute("error");
+         if (error != null) { %>
+      <p class="lh-msg lh-msg--err"><%= error %></p>
+      <% } %>
+      <% String success1 = (String) request.getAttribute("success1");
+         if (success1 != null) { %>
+      <p class="lh-msg lh-msg--ok"><%= success1 %></p>
+      <% } %>
+
+      <form action="login" method="POST" class="lh-form">
+        <div class="lh-field">
+          <label for="mail">Email</label>
+          <input id="mail" type="email" name="mail" required placeholder="you@email.com" autocomplete="email">
+        </div>
+        <div class="lh-field">
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" required placeholder="Your password" autocomplete="current-password">
+        </div>
+        <button type="submit" class="lh-btn">Sign in</button>
+      </form>
+
+      <div class="lh-links">
+        <a href="forgetPassword">Forgot password?</a>
+        <span> · </span>
+        <a href="register">Create account</a>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
