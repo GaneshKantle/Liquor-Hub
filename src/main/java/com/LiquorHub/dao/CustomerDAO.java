@@ -14,8 +14,11 @@ public interface CustomerDAO {
 
 	CustomerDTO getCustomerById(int customerId);
 
-	CustomerDTO login(String email, String password);
+	CustomerDTO login(String email, String password); 
 
 	List<CustomerDTO> getAllCustomers(); 
+
+	CustomerDTO getCustomerByEmail(String email);
+
 
 }
