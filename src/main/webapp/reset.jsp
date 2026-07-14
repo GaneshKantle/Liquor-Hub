@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reset password | LiquorHub</title>
+  <link rel="icon" href="<%=request.getContextPath()%>/assets/favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
 <% CustomerDTO customer = (CustomerDTO) session.getAttribute("Customer"); %>
   <div class="lh-shell">
     <header class="lh-brand">
-      <h1 class="lh-brand__name">LiquorHub</h1>
+      <a href="<%=request.getContextPath()%>/home" class="lh-brand__name">LiquorHub</a>
       <p class="lh-brand__tag">Keep your cellar account secure.</p>
     </header>
 
