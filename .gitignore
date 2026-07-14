@@ -20,4 +20,4 @@ build/
 
 # Secrets
 src/db.properties
-src/main/resources/db.properties
+src/resources/db.properties
