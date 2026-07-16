@@ -1,58 +1,87 @@
 <%@page import="com.LiquorHub.dto.CustomerDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="color-scheme: light;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light only">
   <title>Reset password | LiquorHub</title>
   <link rel="icon" href="<%=request.getContextPath()%>/assets/favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/liquorhub.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: { DEFAULT: '#f8f5ef' },
+            ink: { DEFAULT: '#13110d', muted: '#6a655d' },
+            copper: { DEFAULT: '#b87333', strong: '#8a5520' }
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Outfit', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    .glass-strong {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: 0 20px 60px rgba(38,34,29,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+  </style>
 </head>
-<body class="lh-body">
+<body class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-10 font-sans text-ink antialiased"
+  style="background-color:#f8f5ef; background-image: radial-gradient(ellipse 70% 50% at 10% 0%, rgba(184,115,51,0.16), transparent 50%), linear-gradient(165deg, #fff, #f8f5ef);">
 <% CustomerDTO customer = (CustomerDTO) session.getAttribute("Customer"); %>
-  <div class="lh-shell">
-    <header class="lh-brand">
-      <a href="<%=request.getContextPath()%>/home" class="lh-brand__name">LiquorHub</a>
-      <p class="lh-brand__tag">Keep your cellar account secure.</p>
-    </header>
+  <jsp:include page="/WEB-INF/jspf/loader.jsp" />
+  <div class="pointer-events-none absolute -left-20 top-20 h-64 w-64 rounded-full bg-copper/15 blur-3xl"></div>
 
-    <div class="lh-glass">
-      <h2 class="lh-title">Reset password</h2>
-      <p class="lh-subtitle">Change the password for your LiquorHub account.</p>
+  <header class="relative mb-8 text-center">
+    <a href="<%=request.getContextPath()%>/home" class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">LiquorHub</a>
+    <p class="mt-2 text-sm text-ink-muted">Keep your cellar account secure.</p>
+  </header>
 
-      <% String success = (String) request.getAttribute("success");
-         if (success != null) { %>
-      <p class="lh-msg lh-msg--ok"><%= success %></p>
-      <% } %>
-      <% String error = (String) request.getAttribute("error");
-         if (error != null) { %>
-      <p class="lh-msg lh-msg--err"><%= error %></p>
-      <% } %>
+  <div class="glass-strong relative w-full max-w-md rounded-[2rem] p-6 sm:p-8">
+    <h2 class="font-display text-2xl font-semibold tracking-tight">Reset password</h2>
+    <p class="mt-1 mb-5 text-sm text-ink-muted">Change the password for your LiquorHub account.</p>
 
-      <form action="resetPassword" method="POST" class="lh-form">
-        <div class="lh-field">
-          <label for="currentPassword">Current password</label>
-          <input id="currentPassword" type="password" name="currentPassword" required placeholder="Current password">
-        </div>
-        <div class="lh-field">
-          <label for="newPassword">New password</label>
-          <input id="newPassword" type="password" name="newPassword" required placeholder="New password" minlength="6">
-          <p class="lh-hint">At least 6 characters</p>
-        </div>
-        <div class="lh-field">
-          <label for="confirmPassword">Confirm new password</label>
-          <input id="confirmPassword" type="password" name="confirmPassword" required placeholder="Confirm new password">
-        </div>
-        <div class="lh-actions">
-          <button type="submit" class="lh-btn">Save password</button>
-          <a href="dashboard" class="lh-btn lh-btn--ghost">Back</a>
-        </div>
-      </form>
-    </div>
+    <% String success = (String) request.getAttribute("success");
+       if (success != null) { %>
+    <p class="mb-4 rounded-2xl border border-green-700/15 bg-green-50/70 px-3 py-2.5 text-sm text-green-800"><%= success %></p>
+    <% } %>
+    <% String error = (String) request.getAttribute("error");
+       if (error != null) { %>
+    <p class="mb-4 rounded-2xl border border-red-700/15 bg-red-50/70 px-3 py-2.5 text-sm text-red-800"><%= error %></p>
+    <% } %>
+
+    <form action="resetPassword" method="POST" class="space-y-4">
+      <div>
+        <label for="currentPassword" class="mb-1.5 block text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted">Current password</label>
+        <input id="currentPassword" type="password" name="currentPassword" required placeholder="Current password" class="w-full min-h-11 rounded-2xl border border-white/80 bg-white/50 px-3.5 text-sm outline-none backdrop-blur transition focus:border-copper/40 focus:bg-white/80 focus:ring-2 focus:ring-copper/15">
+      </div>
+      <div>
+        <label for="newPassword" class="mb-1.5 block text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted">New password</label>
+        <input id="newPassword" type="password" name="newPassword" required placeholder="New password" minlength="6" class="w-full min-h-11 rounded-2xl border border-white/80 bg-white/50 px-3.5 text-sm outline-none backdrop-blur transition focus:border-copper/40 focus:bg-white/80 focus:ring-2 focus:ring-copper/15">
+        <p class="mt-1 text-xs text-ink-muted">At least 6 characters</p>
+      </div>
+      <div>
+        <label for="confirmPassword" class="mb-1.5 block text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted">Confirm new password</label>
+        <input id="confirmPassword" type="password" name="confirmPassword" required placeholder="Confirm new password" class="w-full min-h-11 rounded-2xl border border-white/80 bg-white/50 px-3.5 text-sm outline-none backdrop-blur transition focus:border-copper/40 focus:bg-white/80 focus:ring-2 focus:ring-copper/15">
+      </div>
+      <div class="flex flex-wrap gap-3 pt-1">
+        <button type="submit" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-full bg-copper px-5 text-sm font-semibold text-white shadow-md transition hover:bg-copper-strong">Save password</button>
+        <a href="dashboard" class="inline-flex min-h-11 items-center justify-center rounded-full border border-white/80 bg-white/40 px-5 text-sm font-semibold text-ink backdrop-blur transition hover:bg-white/70">Back</a>
+      </div>
+    </form>
   </div>
 </body>
 </html>
