@@ -1,14 +1,14 @@
 :root {
   --bg: #f8f5ef;
-  --bg-soft: #fffbf7;
+  --bg-soft: #fffcf7;
   --surface: #ffffff;
   --text: #13110d;
   --text-muted: #6a655d;
-  --accent: #b87333;
-  --accent-strong: #8a5520;
-  --border: rgba(38, 34, 29, 0.1);
-  --font-display: "Cormorant Garamond", Georgia, serif;
-  --font-body: "Outfit", sans-serif;
+  --accent: #d96a3b;
+  --accent-strong: #a84822;
+  --border: rgba(38, 34, 29, 0.08);
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
 }
 
 *,

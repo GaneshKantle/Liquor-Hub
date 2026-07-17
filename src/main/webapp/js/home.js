@@ -10,8 +10,13 @@
   var searchMobile = document.getElementById("siteSearchMobile");
   var products = document.querySelectorAll(".lh-prod");
   var empty = document.getElementById("productEmpty");
+  var itemsSection = document.getElementById("items");
+  var loginModal = document.getElementById("lhLoginModal");
+  var loginClose = document.getElementById("lhLoginModalClose");
   var activeCat = "";
   var query = "";
+  var searchTimer = null;
+  var didScrollSearch = false;
 
   function setHeaderState() {
     if (!header) return;
@@ -29,6 +34,11 @@
     mobileNav.classList.add("hidden");
     mobileNav.hidden = true;
     menuBtn.setAttribute("aria-expanded", "false");
+  }
+
+  function scrollToItems() {
+    if (!itemsSection) return;
+    itemsSection.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function filterProducts() {
@@ -49,13 +59,33 @@
     filterProducts();
     closeDesktopCat();
     closeMobile();
+    scrollToItems();
   }
 
-  function applyQuery(value) {
+  function applyQuery(value, fromUser) {
     query = (value || "").trim().toLowerCase();
     if (search && document.activeElement !== search) search.value = value || "";
     if (searchMobile && document.activeElement !== searchMobile) searchMobile.value = value || "";
     filterProducts();
+    if (fromUser && query) {
+      if (!didScrollSearch) {
+        didScrollSearch = true;
+        scrollToItems();
+      }
+    }
+    if (!query) didScrollSearch = false;
+  }
+
+  function openLoginModal() {
+    if (!loginModal) return;
+    loginModal.hidden = false;
+    loginModal.classList.remove("hidden");
+  }
+
+  function closeLoginModal() {
+    if (!loginModal) return;
+    loginModal.hidden = true;
+    loginModal.classList.add("hidden");
   }
 
   if (menuBtn && mobileNav) {
@@ -96,6 +126,7 @@
     if (e.key === "Escape") {
       closeDesktopCat();
       closeMobile();
+      closeLoginModal();
     }
   });
 
@@ -105,12 +136,33 @@
     applyCat(String(link.getAttribute("data-filter-cat")));
   });
 
-  if (search) search.addEventListener("input", function () { applyQuery(search.value); });
-  if (searchMobile) searchMobile.addEventListener("input", function () { applyQuery(searchMobile.value); });
+  function onSearchInput(el) {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+      applyQuery(el.value, true);
+    }, 150);
+  }
+
+  if (search) search.addEventListener("input", function () { onSearchInput(search); });
+  if (searchMobile) searchMobile.addEventListener("input", function () { onSearchInput(searchMobile); });
 
   document.querySelectorAll('#mobileNav a[href^="#"]').forEach(function (a) {
     a.addEventListener("click", closeMobile);
   });
+
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".lh-add-cart");
+    if (!btn) return;
+    e.preventDefault();
+    openLoginModal();
+  });
+
+  if (loginClose) loginClose.addEventListener("click", closeLoginModal);
+  if (loginModal) {
+    loginModal.addEventListener("click", function (e) {
+      if (e.target === loginModal) closeLoginModal();
+    });
+  }
 
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -129,11 +181,8 @@
   window.addEventListener("scroll", setHeaderState, { passive: true });
   setHeaderState();
 
-  if (document.querySelector("#contact .border-green-700\\/20, #contact .border-red-700\\/20") ||
-      document.querySelector("#contact p.rounded-xl")) {
+  if (document.querySelector("#contact .bg-green-50, #contact .bg-red-50")) {
     var contact = document.getElementById("contact");
-    if (contact && (document.querySelector("#contact .bg-green-700\\/10") || document.querySelector("#contact .bg-red-700\\/10"))) {
-      contact.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (contact) contact.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 })();

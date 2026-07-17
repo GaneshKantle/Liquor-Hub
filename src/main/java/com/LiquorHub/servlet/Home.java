@@ -66,10 +66,44 @@ public class Home extends HttpServlet {
 			}
 		}
 
+		// Fallback so collection panels never render as empty voids
+		if (whiskyEssentials.isEmpty()) {
+			whiskyEssentials = take(products, 4);
+		}
+		if (housePour.isEmpty()) {
+			housePour = take(products, 4);
+		}
+		if (premiumPicks.isEmpty()) {
+			premiumPicks = takeFromEnd(products, 4);
+		}
+
 		req.setAttribute("categories", categories);
 		req.setAttribute("products", products);
 		req.setAttribute("whiskyEssentials", whiskyEssentials);
 		req.setAttribute("housePour", housePour);
 		req.setAttribute("premiumPicks", premiumPicks);
+	}
+
+	private static List<ProductDTO> take(List<ProductDTO> src, int n) {
+		List<ProductDTO> out = new ArrayList<>();
+		if (src == null) {
+			return out;
+		}
+		for (int i = 0; i < src.size() && out.size() < n; i++) {
+			out.add(src.get(i));
+		}
+		return out;
+	}
+
+	private static List<ProductDTO> takeFromEnd(List<ProductDTO> src, int n) {
+		List<ProductDTO> out = new ArrayList<>();
+		if (src == null || src.isEmpty()) {
+			return out;
+		}
+		int start = Math.max(0, src.size() - n);
+		for (int i = start; i < src.size(); i++) {
+			out.add(src.get(i));
+		}
+		return out;
 	}
 }
