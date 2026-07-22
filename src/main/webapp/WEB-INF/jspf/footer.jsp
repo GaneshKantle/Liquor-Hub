@@ -47,6 +47,7 @@
             <li style="margin:0.35rem 0"><a href="<%= footAccountHref %>" style="font-size:0.88rem;font-weight:600"><%= footAccountLabel %></a></li>
             <li style="margin:0.35rem 0"><a href="<%= footCtx %>/login" style="font-size:0.88rem;font-weight:600">Sign in</a></li>
             <li style="margin:0.35rem 0"><a href="<%= footCtx %>/register" style="font-size:0.88rem;font-weight:600">Join</a></li>
+            <li style="margin:0.35rem 0"><a href="mailto:contact.liqourhub@gmail.com" style="font-size:0.88rem;font-weight:600">contact.liqourhub@gmail.com</a></li>
           </ul>
         </div>
       </nav>

@@ -381,4 +381,56 @@
     var contact = document.getElementById("contact");
     if (contact) contact.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+
+  var contactForm = document.getElementById("lhContactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var btn = document.getElementById("lhContactSubmit");
+      var status = document.getElementById("lhContactStatus");
+      var data = new FormData(contactForm);
+
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+      }
+      if (status) {
+        status.hidden = true;
+        status.textContent = "";
+        status.className = "rounded-xl border px-3 py-2.5 text-sm";
+      }
+
+      fetch(contactForm.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" }
+      })
+        .then(function (res) { return res.json().then(function (json) { return { ok: res.ok, json: json }; }); })
+        .then(function (result) {
+          if (!result.ok || !(result.json && result.json.success)) {
+            throw new Error((result.json && result.json.message) || "Could not send message");
+          }
+          contactForm.reset();
+          if (status) {
+            status.hidden = false;
+            status.className = "rounded-xl border border-green-700/15 bg-green-50 px-3 py-2.5 text-sm text-green-800";
+            status.textContent = "Message sent. We’ll get back to you soon.";
+          }
+          showToast("Message sent successfully", 'Or email us at <a href="mailto:contact.liqourhub@gmail.com">contact.liqourhub@gmail.com</a>');
+        })
+        .catch(function () {
+          if (status) {
+            status.hidden = false;
+            status.className = "rounded-xl border border-red-700/15 bg-red-50 px-3 py-2.5 text-sm text-red-800";
+            status.textContent = "Couldn’t send right now. Email contact.liqourhub@gmail.com instead.";
+          }
+        })
+        .finally(function () {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Send message";
+          }
+        });
+    });
+  }
 })();

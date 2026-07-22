@@ -27,8 +27,6 @@
   java.text.NumberFormat inr = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "IN"));
   inr.setMaximumFractionDigits(0);
 
-  String contactOk = (String) request.getAttribute("contactSuccess");
-  String contactErr = (String) request.getAttribute("contactError");
   int productCount = products != null ? products.size() : 0;
   Integer productTotalObj = (Integer) request.getAttribute("productTotal");
   int productTotal = productTotalObj != null ? productTotalObj.intValue() : productCount;
@@ -606,22 +604,24 @@
             <div>
               <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Contact</p>
               <h2 class="mt-2 max-w-[14ch] font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Talk to LiquorHub</h2>
-              <p class="mt-3 max-w-md text-ink-muted">Questions on a bottle, a collection, or your collector profile? Send a short note.</p>
+              <p class="mt-3 max-w-md text-ink-muted">Questions on a bottle, a collection, or your collector profile? Email us directly or send a short note below.</p>
               <p class="mt-4">
-                <a href="mailto:liquourhub@gmail.com" class="text-sm font-semibold text-accent-strong underline decoration-accent/40 underline-offset-4 hover:text-accent">liquourhub@gmail.com</a>
+                <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Direct email</span>
+                <a href="mailto:contact.liqourhub@gmail.com" class="mt-1 inline-block text-sm font-semibold text-accent-strong underline decoration-accent/40 underline-offset-4 hover:text-accent">contact.liqourhub@gmail.com</a>
               </p>
               <div class="mt-6 flex flex-wrap gap-3">
                 <a href="#items" class="inline-flex min-h-11 items-center rounded-full bg-accent px-5 text-sm font-semibold text-white transition hover:bg-accent-strong">Browse bottles</a>
                 <a href="<%= accountHref %>" class="inline-flex min-h-11 items-center rounded-full border border-black/[0.1] bg-white/80 px-5 text-sm font-semibold text-ink transition hover:bg-white"><%= accountLabel %></a>
               </div>
             </div>
-            <form action="<%= ctx %>/contact" method="post" class="space-y-4 rounded-[1.25rem] border border-black/[0.08] bg-white/80 p-5 sm:p-6">
-              <% if (contactOk != null) { %>
-              <p class="rounded-xl border border-green-700/15 bg-green-50 px-3 py-2.5 text-sm text-green-800"><%= contactOk %></p>
-              <% } %>
-              <% if (contactErr != null) { %>
-              <p class="rounded-xl border border-red-700/15 bg-red-50 px-3 py-2.5 text-sm text-red-800"><%= contactErr %></p>
-              <% } %>
+            <form id="lhContactForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-4 rounded-[1.25rem] border border-black/[0.08] bg-white/80 p-5 sm:p-6">
+              <input type="hidden" name="access_key" value="dd25e6c0-5976-4bdc-84c9-0e7090f32f59">
+              <input type="hidden" name="subject" value="New message from LiquorHub">
+              <input type="hidden" name="from_name" value="LiquorHub Contact">
+              <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+              <p id="lhContactStatus" class="rounded-xl border px-3 py-2.5 text-sm" hidden></p>
+
               <div>
                 <label for="c-name" class="mb-1.5 block text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Name</label>
                 <input id="c-name" name="name" type="text" required placeholder="Your name" autocomplete="name"
@@ -637,7 +637,7 @@
                 <textarea id="c-message" name="message" rows="4" required placeholder="How can we help?"
                   class="w-full rounded-2xl border border-black/[0.08] bg-cream/60 px-4 py-3 text-sm outline-none transition focus:border-accent/40 focus:ring-2 focus:ring-accent/15"></textarea>
               </div>
-              <button type="submit" class="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold text-white transition hover:bg-accent-strong">Send message</button>
+              <button type="submit" id="lhContactSubmit" class="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-60">Send message</button>
             </form>
           </div>
         </div>
