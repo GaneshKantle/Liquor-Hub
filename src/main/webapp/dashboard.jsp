@@ -19,7 +19,11 @@
   String ordered = request.getParameter("ordered");
   boolean profileUpdated = "1".equals(request.getParameter("updated"));
   if (profileUpdated) {
-    success = "Profile updated successfully.";
+    success = "Updated successfully.";
+  }
+  String formError = null;
+  if ("phone".equals(request.getParameter("err"))) {
+    formError = "Phone must be 10 digits or international with country code (e.g. +919876543210).";
   }
   List<OrderDTO> orders = (List<OrderDTO>) request.getAttribute("orders");
   List<WishlistItemDTO> wishlistItems = (List<WishlistItemDTO>) request.getAttribute("wishlistItems");
@@ -33,12 +37,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light only">
-  <title>Desk | LiquorHub</title>
+  <title>Profile | LiquorHub</title>
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
   <link rel="stylesheet" href="<%= ctx %>/css/account.css">
   <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/toast.css">
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
 <body class="lh-body overflow-x-clip antialiased" data-ctx="<%= ctx %>">
@@ -60,7 +65,7 @@
         <div class="lh-account__hero-body">
           <div class="lh-account__avatar" aria-hidden="true"><%= initial %></div>
           <div>
-            <p class="lh-sec__kicker">Collector desk</p>
+            <p class="lh-sec__kicker">Your profile</p>
             <h1 class="lh-sec__title" style="margin:0.2rem 0 0"><%= name %></h1>
             <p class="lh-sec__lede" style="margin:0.4rem 0 0">CUST<%= customer.getCustomerId() %> · Member on LiquorHub</p>
           </div>
@@ -75,7 +80,10 @@
       </section>
 
       <% if (success != null) { %>
-      <p class="lh-account__flash"><%= success %></p>
+      <p class="lh-account__flash" id="lhProfileFlash"><%= success %></p>
+      <% } %>
+      <% if (formError != null) { %>
+      <p class="lh-account__flash lh-account__flash--error"><%= formError %></p>
       <% } %>
       <% if (ordered != null) { %>
       <%-- success toast via toast.js (?ordered=) --%>
@@ -205,7 +213,7 @@
               <h2 class="lh-sec__title">Update profile</h2>
               <p class="lh-sec__lede">Your details stay here until you open this panel.</p>
             </div>
-            <a href="#desk-top" class="lh-btn lh-btn--ghost" id="lhCloseProfileEdit">Back to desk</a>
+            <a href="#profile-top" class="lh-btn lh-btn--ghost" id="lhCloseProfileEdit">Back to profile</a>
           </div>
         </div>
         <div class="lh-account__split">
@@ -252,7 +260,12 @@
               </div>
               <div>
                 <label for="phone">Phone</label>
-                <input id="phone" type="text" name="phone" value="<%= customer.getPhone() %>" required>
+                <input id="phone" type="tel" name="phone" value="<%= customer.getPhone() != null ? customer.getPhone() : "" %>" required
+                  inputmode="tel" autocomplete="tel"
+                  placeholder="10 digits or +country code"
+                  aria-describedby="phoneHint phoneError">
+                <p id="phoneHint" class="hint">10 digits (9876543210) or international (+919876543210).</p>
+                <p id="phoneError" class="lh-field-error" role="alert" hidden>Enter a valid 10-digit or international number.</p>
               </div>
               <div>
                 <label for="address">Address</label>
@@ -268,7 +281,7 @@
           </section>
         </div>
       </div>
-      <div id="desk-top" hidden aria-hidden="true"></div>
+      <div id="profile-top" hidden aria-hidden="true"></div>
     </div>
   </main>
 
@@ -295,8 +308,20 @@
 
   <jsp:include page="/WEB-INF/jspf/footer.jsp" />
   <script src="<%= ctx %>/js/toast.js" defer></script>
+  <script src="<%= ctx %>/js/phone.js" defer></script>
   <script src="<%= ctx %>/js/gates.js" defer></script>
   <script src="<%= ctx %>/js/home.js" defer></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.LHPhone) {
+        LHPhone.bind(
+          document.querySelector(".lh-account__form"),
+          document.getElementById("phone"),
+          document.getElementById("phoneError")
+        );
+      }
+    });
+  </script>
   <script>
     (function () {
       var modal = document.getElementById("lhOrderModal");

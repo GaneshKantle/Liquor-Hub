@@ -53,7 +53,7 @@
         <div>
           <section class="lh-account__block">
             <p class="lh-sec__kicker">Delivering to</p>
-            <h2 class="lh-sec__title">Desk details</h2>
+            <h2 class="lh-sec__title">Profile details</h2>
             <div class="lh-buy-meta">
               <div>
                 <p>Name</p>
@@ -116,7 +116,7 @@
             <span class="label" style="opacity:0.7">Total payable</span>
             <strong><%= inr.format(total) %></strong>
           </div>
-          <p class="note">Saved cart becomes an order · Shown in Desk → Buying history · Demo payment marked Paid</p>
+          <p class="note">Saved cart becomes an order · Shown in Profile → Buying history · Demo payment marked Paid</p>
           <div class="actions">
             <button type="submit" class="lh-btn lh-btn--signal">Place order</button>
             <a href="<%= ctx %>/cart" class="lh-btn lh-btn--ghost">Back to bag</a>

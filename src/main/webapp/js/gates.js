@@ -33,8 +33,9 @@
     var slides = form ? form.querySelectorAll(".lh-quiz__slide") : [];
     var dots = gate.querySelectorAll(".lh-quiz__dot");
     var step = 0;
-    var total = slides.length || 4;
-    var answers = { q1: "c", q2: "b", q3: "a", q4: "c" };
+    var total = slides.length || 5;
+    /* q1 = humour (any answer). q2–q5 = knowledge. */
+    var answers = { q2: "c", q3: "b", q4: "a", q5: "c" };
 
     function qName(i) {
       return "q" + (i + 1);

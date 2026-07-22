@@ -51,7 +51,7 @@
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:0.5rem">
           <button type="submit" class="lh-btn lh-btn--signal" style="flex:1;justify-content:center">Save password</button>
-          <a href="<%= ctx %>/profile" class="lh-btn lh-btn--chalk">Back to desk</a>
+          <a href="<%= ctx %>/profile" class="lh-btn lh-btn--chalk">Back to profile</a>
         </div>
       </form>
     </div>

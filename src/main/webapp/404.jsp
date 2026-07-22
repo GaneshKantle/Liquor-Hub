@@ -85,7 +85,7 @@
       <h1 class="lh-404__title">Lot not found</h1>
       <p class="lh-404__copy">This aisle is empty. The page you asked for is off the floor — or never listed.</p>
       <div class="lh-404__actions">
-        <a href="<%= ctx %>/home" class="lh-btn lh-btn--signal">Back to desk</a>
+        <a href="<%= ctx %>/home" class="lh-btn lh-btn--signal">Back to home</a>
         <a href="<%= ctx %>/catalog" class="lh-btn lh-btn--chalk">Browse lots</a>
       </div>
     </div>

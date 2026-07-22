@@ -89,7 +89,12 @@
         </div>
         <div>
           <label for="phone">Phone</label>
-          <input id="phone" type="text" name="phone" required placeholder="Contact number" autocomplete="tel">
+          <input id="phone" type="tel" name="phone" required
+            inputmode="tel" autocomplete="tel"
+            placeholder="10 digits or +country code"
+            aria-describedby="phoneHint phoneError">
+          <p id="phoneHint" class="lh-auth__hint">10 digits (9876543210) or international (+919876543210).</p>
+          <p id="phoneError" class="lh-field-error" role="alert" hidden>Enter a valid 10-digit or international number.</p>
         </div>
         <div>
           <label for="address">Address</label>
@@ -108,6 +113,7 @@
 
   <jsp:include page="/WEB-INF/jspf/footer.jsp" />
   <script src="<%= ctx %>/js/home.js" defer></script>
+  <script src="<%= ctx %>/js/phone.js" defer></script>
   <script>
     (function () {
       var pw = document.getElementById("password");
@@ -153,6 +159,12 @@
           btn.setAttribute("aria-pressed", show ? "true" : "false");
           btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
         });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.LHPhone) {
+          LHPhone.bind(form, document.getElementById("phone"), document.getElementById("phoneError"));
+        }
       });
     })();
   </script>

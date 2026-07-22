@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.LiquorHub.dao.CustomerDAO;
 import com.LiquorHub.daoImpl.CustomerDAOImpl;
 import com.LiquorHub.dto.CustomerDTO;
+import com.LiquorHub.utility.PhoneValidator;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,9 +27,16 @@ public class update extends HttpServlet {
 			req.getRequestDispatcher("/login.jsp").forward(req, resp);
 			return;
 		}
+
+		String phone = PhoneValidator.normalize(req.getParameter("phone"));
+		if (!PhoneValidator.isValid(phone)) {
+			resp.sendRedirect(req.getContextPath() + "/profile?err=phone#edit");
+			return;
+		}
+
 		customer.setName(req.getParameter("name"));
 		customer.setEmail(req.getParameter("mail"));
-		customer.setPhone(req.getParameter("phone"));
+		customer.setPhone(phone);
 		customer.setAddress(req.getParameter("address"));
 		String password = req.getParameter("password");
 		if (password != null && !password.isBlank()) {

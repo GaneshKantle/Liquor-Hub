@@ -16,7 +16,7 @@
   CustomerDTO navCustomer = (CustomerDTO) session.getAttribute("Customer");
   boolean navLoggedIn = navCustomer != null;
   String profileHref = navLoggedIn ? ctx + "/profile" : ctx + "/login";
-  String profileLabel = navLoggedIn ? "Desk" : "Sign in";
+  String profileLabel = navLoggedIn ? "Profile" : "Sign in";
   String home = ctx + "/home";
 %>
 <header id="siteHeader" class="lh-desk">
@@ -24,12 +24,12 @@
     <a href="<%= home %>" class="lh-desk__brand" aria-label="LiquorHub home">
       <img src="<%= ctx %>/assets/logo.png" alt="LiquorHub" width="152" height="52" decoding="async">
     </a>
-    <span class="lh-desk__live" aria-hidden="true">Live desk</span>
+    <span class="lh-desk__live" aria-hidden="true">Live</span>
 
     <div class="lh-desk__search">
       <form id="siteSearchForm" role="search" action="<%= ctx %>/catalog" method="get">
         <label class="sr-only" for="siteSearch">Search bottles</label>
-        <input id="siteSearch" type="search" name="q" placeholder="Scan lot..." autocomplete="off">
+        <input id="siteSearch" type="search" name="q"  autocomplete="off">
         <button type="submit" id="siteSearchBtn">Scan</button>
       </form>
     </div>
@@ -49,7 +49,7 @@
       <a href="<%= home %>#about">Manifest</a>
       <a href="<%= home %>#learn">Notes</a>
       <% if (navLoggedIn) { %>
-      <a href="<%= ctx %>/profile">Desk</a>
+      <a href="<%= ctx %>/profile">Profile</a>
       <a href="<%= ctx %>/cart">Bag</a>
       <% } %>
       <a href="<%= home %>#contact">Wire</a>
@@ -71,7 +71,7 @@
     <a href="<%= home %>#about">Manifest</a>
     <a href="<%= home %>#learn">Notes</a>
     <% if (navLoggedIn) { %>
-    <a href="<%= ctx %>/profile">Desk</a>
+    <a href="<%= ctx %>/profile">Profile</a>
     <a href="<%= ctx %>/cart">Bag</a>
     <% } %>
     <a href="<%= home %>#contact">Wire</a>

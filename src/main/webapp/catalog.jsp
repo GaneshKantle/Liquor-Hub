@@ -21,7 +21,7 @@
   java.text.NumberFormat inr = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "IN"));
   inr.setMaximumFractionDigits(0);
   String accountHref = loggedIn ? ctx + "/profile" : ctx + "/login";
-  String accountLabel = loggedIn ? "Desk" : "Sign in";
+  String accountLabel = loggedIn ? "Profile" : "Sign in";
 %>
 <!DOCTYPE html>
 <html lang="en" style="color-scheme: light;">
@@ -77,7 +77,7 @@
              } %>
         </div>
         <p class="lh-catalog-meta">Showing <strong><%= shown %></strong> of <strong><%= productTotal %></strong> lots
-          · <a href="<%= ctx %>/home" style="font-weight:700;text-decoration:underline">Back to desk</a>
+          · <a href="<%= ctx %>/home" style="font-weight:700;text-decoration:underline">Back to home</a>
           · <a href="<%= accountHref %>" style="font-weight:700;text-decoration:underline"><%= accountLabel %></a>
         </p>
       </div>

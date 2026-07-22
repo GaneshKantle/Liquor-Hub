@@ -40,7 +40,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LiquorHub — Bottle clearing house</title>
-  <meta name="description" content="LiquorHub is a live bottle clearing house. Scan the desk, quote the lot, sign in only when you trade.">
+  <meta name="description" content="LiquorHub is a live bottle clearing house. Browse the floor, quote the lot, sign in only when you trade.">
   <meta name="color-scheme" content="light only">
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
@@ -80,62 +80,71 @@
   <div id="lhQuizGate" class="lh-quiz" hidden role="dialog" aria-modal="true" aria-labelledby="lhQuizTitle">
     <div class="lh-quiz__card">
       <div class="lh-quiz__head">
-        <p class="lh-quiz__kicker">Desk check · 4 quick hits</p>
+        <p class="lh-quiz__kicker">Quick check · 5 hits</p>
         <h2 id="lhQuizTitle" class="lh-quiz__title">Know your pour</h2>
         <div class="lh-quiz__progress" aria-hidden="true">
           <span class="lh-quiz__dot is-on" data-dot="0"></span>
           <span class="lh-quiz__dot" data-dot="1"></span>
           <span class="lh-quiz__dot" data-dot="2"></span>
           <span class="lh-quiz__dot" data-dot="3"></span>
+          <span class="lh-quiz__dot" data-dot="4"></span>
         </div>
-        <p class="lh-quiz__step-label"><span id="lhQuizStepNum">1</span> / 4</p>
+        <p class="lh-quiz__step-label"><span id="lhQuizStepNum">1</span> / 5</p>
       </div>
 
       <form id="lhQuizForm" class="lh-quiz__form">
         <div class="lh-quiz__slide is-active" data-step="0">
-          <p class="lh-quiz__q">Whisky is typically aged in what?</p>
+          <p class="lh-quiz__q">Be honest — what’s your capacity for drinking?</p>
           <div class="lh-quiz__opts">
-            <label class="lh-quiz__opt"><input type="radio" name="q1" value="a"><span>Plastic bottles</span></label>
-            <label class="lh-quiz__opt"><input type="radio" name="q1" value="b"><span>Steel cans</span></label>
-            <label class="lh-quiz__opt"><input type="radio" name="q1" value="c"><span>Oak barrels</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q1" value="a"><span>One polite sip, then I narrate the evening</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q1" value="b"><span>Two rounds — after that I’m a philosopher</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q1" value="c"><span>Full tank — call me only if the fridge is stocked</span></label>
           </div>
         </div>
         <div class="lh-quiz__slide" data-step="1" hidden>
-          <p class="lh-quiz__q">Which spirit is juniper-forward?</p>
+          <p class="lh-quiz__q">Whisky is typically aged in what?</p>
           <div class="lh-quiz__opts">
-            <label class="lh-quiz__opt"><input type="radio" name="q2" value="a"><span>Vodka</span></label>
-            <label class="lh-quiz__opt"><input type="radio" name="q2" value="b"><span>Gin</span></label>
-            <label class="lh-quiz__opt"><input type="radio" name="q2" value="c"><span>Rum</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q2" value="a"><span>Plastic bottles</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q2" value="b"><span>Steel cans</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q2" value="c"><span>Oak barrels</span></label>
           </div>
         </div>
         <div class="lh-quiz__slide" data-step="2" hidden>
-          <p class="lh-quiz__q">Tequila is traditionally made from?</p>
+          <p class="lh-quiz__q">Which spirit is juniper-forward?</p>
           <div class="lh-quiz__opts">
-            <label class="lh-quiz__opt"><input type="radio" name="q3" value="a"><span>Blue agave</span></label>
-            <label class="lh-quiz__opt"><input type="radio" name="q3" value="b"><span>Sugarcane</span></label>
-            <label class="lh-quiz__opt"><input type="radio" name="q3" value="c"><span>Barley</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q3" value="a"><span>Vodka</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q3" value="b"><span>Gin</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q3" value="c"><span>Rum</span></label>
           </div>
         </div>
         <div class="lh-quiz__slide" data-step="3" hidden>
+          <p class="lh-quiz__q">Tequila is traditionally made from?</p>
+          <div class="lh-quiz__opts">
+            <label class="lh-quiz__opt"><input type="radio" name="q4" value="a"><span>Blue agave</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q4" value="b"><span>Sugarcane</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q4" value="c"><span>Barley</span></label>
+          </div>
+        </div>
+        <div class="lh-quiz__slide" data-step="4" hidden>
           <p class="lh-quiz__q">ABV stands for?</p>
           <div class="lh-quiz__opts">
-            <label class="lh-quiz__opt"><input type="radio" name="q4" value="a"><span>Average Bottle Volume</span></label>
-            <label class="lh-quiz__opt"><input type="radio" name="q4" value="b"><span>Aged Barrel Vintage</span></label>
-            <label class="lh-quiz__opt"><input type="radio" name="q4" value="c"><span>Alcohol By Volume</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q5" value="a"><span>Average Bottle Volume</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q5" value="b"><span>Aged Barrel Vintage</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q5" value="c"><span>Alcohol By Volume</span></label>
           </div>
         </div>
 
         <div class="lh-quiz__nav">
           <button type="button" id="lhQuizBack" class="lh-btn lh-btn--chalk" hidden>Back</button>
           <button type="button" id="lhQuizNext" class="lh-btn lh-btn--signal">Next</button>
-          <button type="submit" id="lhQuizSubmit" class="lh-btn lh-btn--signal" hidden>Enter desk</button>
+          <button type="submit" id="lhQuizSubmit" class="lh-btn lh-btn--signal" hidden>Continue</button>
         </div>
         <p id="lhQuizHint" class="lh-quiz__hint" hidden>Pick an answer to continue.</p>
       </form>
 
       <div id="lhQuizFail" class="lh-quiz__fail" hidden>
         <p class="lh-quiz__fail-title">Not quite</p>
-        <p class="lh-quiz__fail-copy">Oak barrels, gin, blue agave, Alcohol By Volume — then you’re in.</p>
+        <p class="lh-quiz__fail-copy">Capacity can be anything — but oak barrels, gin, blue agave, and Alcohol By Volume get you in.</p>
         <button type="button" id="lhQuizRetry" class="lh-btn lh-btn--signal">Try again</button>
       </div>
     </div>
@@ -168,17 +177,17 @@
         <div>
           <p class="lh-stamp" style="color:#e8ff6a;border-color:#e8ff6a">Open floor · <%= productTotal %> lots</p>
           <h1 class="lh-clearing__brand">Liquor<span>Hub</span></h1>
-          <p class="lh-clearing__line">Not a pretty shop. A live desk for bottles with hard prices.</p>
+          <p class="lh-clearing__line">Not a pretty shop. A live floor for bottles with hard prices.</p>
           <p class="lh-clearing__sub">Scan the floor. Quote the lot. Sign in only when you bag or buy.</p>
           <div class="lh-clearing__actions">
             <a href="#items" class="lh-btn lh-btn--signal">Open the floor</a>
             <a href="#categories" class="lh-btn lh-btn--ghost" style="color:#fff;border-color:rgba(255,255,255,0.55)">Spirit dossiers</a>
           </div>
         </div>
-        <aside class="lh-clearing__ticket" aria-label="Desk ticket">
+        <aside class="lh-clearing__ticket" aria-label="Floor ticket">
           <dl>
             <dt>Session</dt>
-            <dd><%= loggedIn ? "Member desk" : "Guest browse" %></dd>
+            <dd><%= loggedIn ? "Member" : "Guest browse" %></dd>
             <dt>Spirit lines</dt>
             <dd><%= categoryCount %> active</dd>
             <dt>Trade rule</dt>
@@ -243,7 +252,7 @@
       <div class="lh-shell lh-reveal">
         <p class="lh-sec__kicker">Quote boards</p>
         <h2 class="lh-sec__title">Three boards. Live lots.</h2>
-        <p class="lh-sec__lede">Starter sets pulled straight from the desk — essentials, house pour, premium.</p>
+        <p class="lh-sec__lede">Starter sets pulled straight from the floor — essentials, house pour, premium.</p>
         <div class="lh-boards">
           <article class="lh-board">
             <h3>Whisky Essentials</h3>
@@ -469,7 +478,7 @@
       <div class="lh-shell lh-reveal">
         <p class="lh-sec__kicker">Social proof</p>
         <h2 class="lh-sec__title">Collectors keep coming back</h2>
-        <p class="lh-sec__lede">Notes from hosts and buyers — scrolling the desk.</p>
+        <p class="lh-sec__lede">Notes from hosts and buyers — straight from the floor.</p>
       </div>
       <div class="lh-marquee-wrap" style="margin-top:1.75rem" aria-label="Testimonials">
         <div class="lh-marquee">

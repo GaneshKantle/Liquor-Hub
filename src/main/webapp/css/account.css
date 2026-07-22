@@ -464,6 +464,28 @@
   font-weight: 600;
 }
 
+.lh-account__flash--error {
+  border-color: #b0180c;
+  background: #fdecea;
+  color: #8a1208;
+}
+
+.lh-account__form .lh-field-error {
+  margin: 0.35rem 0 0;
+  color: #b0180c;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.lh-account__form .lh-field-error[hidden] {
+  display: none !important;
+}
+
+.lh-account__form input.is-invalid {
+  border-color: #ff2d1a;
+  outline: 2px solid rgba(255, 45, 26, 0.25);
+}
+
 .lh-btn--danger {
   background: transparent !important;
   color: #b0180c !important;

@@ -15,7 +15,7 @@
   }
   CustomerDTO footCustomer = (CustomerDTO) session.getAttribute("Customer");
   String footAccountHref = footCustomer != null ? footCtx + "/profile" : footCtx + "/login";
-  String footAccountLabel = footCustomer != null ? "Desk" : "Sign in";
+  String footAccountLabel = footCustomer != null ? "Profile" : "Sign in";
   String footHome = footCtx + "/home";
 %>
 <link rel="stylesheet" href="<%= footCtx %>/css/footer.css">
@@ -50,7 +50,7 @@
           </ul>
         </div>
         <div>
-          <p class="lh-sec__kicker">Desk</p>
+          <p class="lh-sec__kicker">Account</p>
           <ul>
             <li><a href="<%= footAccountHref %>"><%= footAccountLabel %></a></li>
             <% if (footCustomer == null) { %>
@@ -63,6 +63,6 @@
         </div>
       </nav>
     </div>
-    <p class="lh-site-footer__copy">LiquorHub clearing desk · drink responsibly</p>
+    <p class="lh-site-footer__copy">LiquorHub · drink responsibly</p>
   </div>
 </footer>

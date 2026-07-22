@@ -81,7 +81,7 @@
       return;
     }
     if (params.get("updated") === "1") {
-      show("Profile updated successfully", "Your account details were saved.");
+      show("Updated successfully", "Your profile details were saved.");
     }
   }
 

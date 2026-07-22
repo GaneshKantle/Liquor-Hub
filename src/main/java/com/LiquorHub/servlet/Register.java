@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.LiquorHub.dao.CustomerDAO;
 import com.LiquorHub.daoImpl.CustomerDAOImpl;
 import com.LiquorHub.dto.CustomerDTO;
+import com.LiquorHub.utility.PhoneValidator;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -50,12 +51,19 @@ public class Register extends HttpServlet {
 			return;
 		}
 
+		String phone = PhoneValidator.normalize(req.getParameter("phone"));
+		if (!PhoneValidator.isValid(phone)) {
+			req.setAttribute("error", PhoneValidator.HINT);
+			req.getRequestDispatcher("/register.jsp").forward(req, resp);
+			return;
+		}
+
 		CustomerDAO customerDAO = new CustomerDAOImpl();
 		CustomerDTO customer = new CustomerDTO();
 		customer.setName(req.getParameter("name"));
 		customer.setEmail(req.getParameter("mail"));
 		customer.setPassword(password);
-		customer.setPhone(req.getParameter("phone"));
+		customer.setPhone(phone);
 		customer.setAddress(req.getParameter("address"));
 		customerDAO.insertCustomer(customer);
 		req.setAttribute("success", "Account created. Sign in to continue.");
