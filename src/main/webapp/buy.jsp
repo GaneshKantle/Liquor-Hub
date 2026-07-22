@@ -139,7 +139,7 @@
                   CartItemDTO item = cartItems.get(i);
                   ProductDTO p = i < cartProducts.size() ? cartProducts.get(i) : null;
                   if (p == null) continue;
-                  String img = ImageUrls.forProduct(p.getProductName(), p.getBrand());
+                  String img = ImageUrls.forProduct(p.getProductName(), p.getBrand(), p.getCategoryId());
             %>
             <article class="flex gap-3 rounded-2xl bg-[#f5f5f7] p-3">
               <img src="<%= img %>" alt="" class="h-16 w-14 rounded-xl object-cover" width="56" height="64" loading="lazy">

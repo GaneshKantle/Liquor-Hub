@@ -2,6 +2,7 @@
    Cold steel desk. Vermillion signal. Hard edges. Not boutique cream. */
 
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap");
+@import url("toast.css");
 
 :root {
   --paper: #d9e0e6;
@@ -154,18 +155,28 @@ img, video { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.05rem;
-  letter-spacing: -0.04em;
+  flex-shrink: 0;
+  line-height: 0;
 }
 
 .lh-desk__brand img {
-  width: 2rem;
-  height: 2rem;
-  object-fit: cover;
-  border: 1.5px solid var(--carbon);
-  border-radius: var(--r);
+  display: block;
+  height: 2.35rem;
+  width: auto;
+  max-width: 9.5rem;
+  object-fit: contain;
+  object-position: left center;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@media (min-width: 640px) {
+  .lh-desk__brand img {
+    height: 2.65rem;
+    max-width: 11rem;
+  }
 }
 
 .lh-desk__live {
@@ -949,22 +960,187 @@ img, video { max-width: 100%; display: block; }
   box-shadow: 4px 4px 0 var(--signal);
 }
 
-.lh-toast {
-  position: fixed;
-  left: 50%;
-  bottom: 1.25rem;
-  z-index: 45;
-  transform: translateX(-50%);
-  min-width: min(90vw, 20rem);
-  padding: 0.85rem 1rem;
-  background: var(--chalk);
-  border: 1.5px solid var(--carbon);
-  border-radius: var(--r);
-  box-shadow: 4px 4px 0 var(--carbon);
-}
+/* Toast styles: toast.css (imported at top) */
 
 html.lh-quiz-lock,
 html.lh-quiz-lock body { overflow: hidden !important; }
+
+.lh-quiz {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483645;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(10, 12, 16, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.lh-quiz:not([hidden]) { display: flex; }
+
+.lh-quiz.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.lh-quiz__card {
+  width: min(100%, 21.5rem);
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: var(--chalk, #eef2f5);
+  box-shadow: 6px 6px 0 var(--signal, #ff2d1a);
+  padding: 1.15rem 1.15rem 1.2rem;
+  animation: lhQuizIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes lhQuizIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.lh-quiz__kicker {
+  margin: 0;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--signal-ink, #b0180c);
+}
+
+.lh-quiz__title {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display, system-ui);
+  font-weight: 800;
+  font-size: 1.45rem;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--carbon, #0a0c10);
+}
+
+.lh-quiz__progress {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+}
+
+.lh-quiz__dot {
+  flex: 1;
+  height: 3px;
+  background: rgba(10, 12, 16, 0.12);
+  border-radius: 2px;
+}
+
+.lh-quiz__dot.is-on { background: var(--signal, #ff2d1a); }
+.lh-quiz__dot.is-done { background: var(--carbon, #0a0c10); }
+
+.lh-quiz__step-label {
+  margin: 0.45rem 0 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--smoke, #3a424c);
+}
+
+.lh-quiz__slide { margin-top: 0.9rem; }
+.lh-quiz__slide[hidden] { display: none !important; }
+
+.lh-quiz__q {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--carbon, #0a0c10);
+}
+
+.lh-quiz__opts {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.lh-quiz__opt {
+  display: block;
+  cursor: pointer;
+}
+
+.lh-quiz__opt input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lh-quiz__opt span {
+  display: flex;
+  align-items: center;
+  min-height: 2.55rem;
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--carbon, #0a0c10);
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.lh-quiz__opt:hover span {
+  box-shadow: 2px 2px 0 var(--carbon, #0a0c10);
+}
+
+.lh-quiz__opt input:checked + span {
+  background: var(--carbon, #0a0c10);
+  color: #e8ff6a;
+}
+
+.lh-quiz__nav {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.lh-quiz__nav .lh-btn {
+  flex: 1;
+  min-height: 2.55rem;
+  clip-path: none;
+  border-radius: 2px;
+}
+
+.lh-quiz__hint {
+  margin: 0.55rem 0 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--signal-ink, #b0180c);
+}
+
+.lh-quiz__fail {
+  margin-top: 0.75rem;
+  text-align: left;
+}
+
+.lh-quiz__fail[hidden] { display: none !important; }
+
+.lh-quiz__fail-title {
+  margin: 0;
+  font-family: var(--font-display, system-ui);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.lh-quiz__fail-copy {
+  margin: 0.45rem 0 0.9rem;
+  font-size: 0.82rem;
+  color: var(--smoke, #3a424c);
+  line-height: 1.4;
+}
+
+.lh-quiz__form[hidden],
+.lh-quiz__form.hidden { display: none !important; }
 
 #lhQuizGate:not([hidden]):not(.hidden),
 #lhLoginModal:not([hidden]):not(.hidden) { display: flex; }

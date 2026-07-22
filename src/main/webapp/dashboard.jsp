@@ -32,6 +32,7 @@
   <title>Profile | LiquorHub</title>
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/toast.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -63,7 +64,7 @@
   </style>
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
-<body class="min-h-screen overflow-x-clip bg-cream font-sans text-ink antialiased"
+<body class="min-h-screen overflow-x-clip bg-cream font-sans text-ink antialiased" data-ctx="<%= ctx %>"
   style="background-image: radial-gradient(ellipse 70% 45% at 10% 0%, rgba(217,106,59,0.14), transparent 50%), radial-gradient(ellipse 50% 40% at 100% 100%, rgba(255,255,255,0.9), transparent 45%), linear-gradient(180deg, #fff, #f8f5ef);">
   <jsp:include page="/WEB-INF/jspf/loader.jsp" />
   <jsp:include page="/WEB-INF/jspf/age-gate.jsp" />
@@ -108,7 +109,7 @@
     <p class="mt-5 rounded-2xl border border-green-700/15 bg-green-50 px-4 py-3 text-sm text-green-800"><%= success %></p>
     <% } %>
     <% if (ordered != null) { %>
-    <p class="mt-5 rounded-2xl border border-green-700/15 bg-green-50 px-4 py-3 text-sm text-green-800">Order #<%= ordered %> placed successfully. See buying history below.</p>
+    <%-- success toast shown via toast.js (?ordered=) --%>
     <% } %>
 
     <!-- Quick links -->
@@ -150,7 +151,7 @@
               if (w == null || p == null) continue;
               hasWish = true;
               String brand = p.getBrand() != null ? p.getBrand() : "";
-              String img = ImageUrls.forProduct(p.getProductName(), brand);
+              String img = ImageUrls.forProduct(p.getProductName(), brand, p.getCategoryId());
               String safeName = p.getProductName() != null ? p.getProductName() : "Bottle";
         %>
         <article class="flex flex-col gap-4 rounded-2xl border border-black/[0.06] bg-cream/60 p-4 sm:flex-row sm:items-center">
@@ -294,6 +295,7 @@
     <span class="mx-2">·</span>
     LiquorHub profile
   </footer>
+  <script src="<%= ctx %>/js/toast.js" defer></script>
   <script src="<%= ctx %>/js/gates.js" defer></script>
 </body>
 </html>

@@ -35,6 +35,7 @@
   <title>Cart | LiquorHub</title>
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/toast.css">
   <link rel="stylesheet" href="<%= ctx %>/css/cart-shelf.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -72,7 +73,7 @@
   </style>
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
-<body class="min-h-screen text-ink antialiased">
+<body class="min-h-screen text-ink antialiased" data-ctx="<%= ctx %>">
   <jsp:include page="/WEB-INF/jspf/loader.jsp" />
 
   <header class="sticky top-0 z-20 px-4 pt-3 sm:px-6">
@@ -89,7 +90,7 @@
     <p class="mt-2 text-sm text-ink-muted"><%= lines %> item<%= lines == 1 ? "" : "s" %> saved to your account - buy anytime.</p>
 
     <% if (added) { %>
-    <p class="mt-4 rounded-2xl border border-green-700/15 bg-green-50 px-4 py-3 text-sm text-green-800">Saved to cart. Come back later or Buy Now.</p>
+    <%-- success toast shown via toast.js (?added=1) --%>
     <% } %>
 
     <div class="mt-6 space-y-3">
@@ -101,7 +102,7 @@
             ProductDTO p = i < cartProducts.size() ? cartProducts.get(i) : null;
             if (p == null) continue;
             any = true;
-            String img = ImageUrls.forProduct(p.getProductName(), p.getBrand());
+            String img = ImageUrls.forProduct(p.getProductName(), p.getBrand(), p.getCategoryId());
             int qty = Math.max(1, item.getQuantity());
       %>
       <article class="lh-cart-row flex gap-4 rounded-[1.35rem] border border-black/8 bg-white p-3 sm:p-4">
@@ -155,5 +156,6 @@
     </div>
     <% } %>
   </main>
+  <script src="<%= ctx %>/js/toast.js" defer></script>
 </body>
 </html>

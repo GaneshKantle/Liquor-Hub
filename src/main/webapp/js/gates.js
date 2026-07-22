@@ -6,7 +6,7 @@
     return document.getElementById(id);
   }
 
-  /* ---- First-visit liquor quiz (home only) ---- */
+  /* ---- First-visit liquor quiz (compact stepper) ---- */
   function initQuiz() {
     var gate = qs("lhQuizGate");
     if (!gate) return;
@@ -25,16 +25,81 @@
     var form = qs("lhQuizForm");
     var fail = qs("lhQuizFail");
     var retry = qs("lhQuizRetry");
+    var nextBtn = qs("lhQuizNext");
+    var backBtn = qs("lhQuizBack");
+    var submitBtn = qs("lhQuizSubmit");
+    var stepNum = qs("lhQuizStepNum");
+    var hint = qs("lhQuizHint");
+    var slides = form ? form.querySelectorAll(".lh-quiz__slide") : [];
+    var dots = gate.querySelectorAll(".lh-quiz__dot");
+    var step = 0;
+    var total = slides.length || 4;
+    var answers = { q1: "c", q2: "b", q3: "a", q4: "c" };
+
+    function qName(i) {
+      return "q" + (i + 1);
+    }
+
+    function hasAnswer(i) {
+      return !!(form && form.querySelector('input[name="' + qName(i) + '"]:checked'));
+    }
+
+    function showStep(i) {
+      step = i;
+      for (var s = 0; s < slides.length; s++) {
+        var on = s === step;
+        slides[s].hidden = !on;
+        slides[s].classList.toggle("is-active", on);
+      }
+      for (var d = 0; d < dots.length; d++) {
+        dots[d].classList.toggle("is-on", d === step);
+        dots[d].classList.toggle("is-done", d < step);
+      }
+      if (stepNum) stepNum.textContent = String(step + 1);
+      if (backBtn) backBtn.hidden = step === 0;
+      if (nextBtn) nextBtn.hidden = step >= total - 1;
+      if (submitBtn) submitBtn.hidden = step < total - 1;
+      if (hint) {
+        hint.hidden = true;
+      }
+    }
+
+    function passQuiz() {
+      try { localStorage.setItem(QUIZ_KEY, "1"); } catch (err) {}
+      document.documentElement.classList.remove("lh-quiz-lock");
+      gate.classList.add("is-done");
+      setTimeout(function () {
+        if (gate.parentNode) gate.parentNode.removeChild(gate);
+      }, 380);
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        if (!hasAnswer(step)) {
+          if (hint) hint.hidden = false;
+          return;
+        }
+        if (step < total - 1) showStep(step + 1);
+      });
+    }
+
+    if (backBtn) {
+      backBtn.addEventListener("click", function () {
+        if (step > 0) showStep(step - 1);
+      });
+    }
 
     if (form) {
+      form.addEventListener("change", function () {
+        if (hint) hint.hidden = true;
+      });
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-        var answers = {
-          q1: "c",
-          q2: "b",
-          q3: "a",
-          q4: "c"
-        };
+        if (!hasAnswer(step)) {
+          if (hint) hint.hidden = false;
+          return;
+        }
         var ok = true;
         Object.keys(answers).forEach(function (name) {
           var picked = form.querySelector('input[name="' + name + '"]:checked');
@@ -42,15 +107,10 @@
         });
 
         if (ok) {
-          try { localStorage.setItem(QUIZ_KEY, "1"); } catch (err) {}
-          document.documentElement.classList.remove("lh-quiz-lock");
-          gate.classList.add("is-done");
-          setTimeout(function () {
-            if (gate.parentNode) gate.parentNode.removeChild(gate);
-          }, 400);
+          passQuiz();
         } else if (fail) {
           form.classList.add("hidden");
-          fail.classList.remove("hidden");
+          form.hidden = true;
           fail.hidden = false;
         }
       });
@@ -58,12 +118,15 @@
 
     if (retry && form && fail) {
       retry.addEventListener("click", function () {
-        fail.classList.add("hidden");
         fail.hidden = true;
+        form.hidden = false;
         form.classList.remove("hidden");
         form.reset();
+        showStep(0);
       });
     }
+
+    showStep(0);
   }
 
   /* ---- Age 13+ after login (dashboard) ---- */

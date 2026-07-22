@@ -191,27 +191,15 @@
     }
   }
 
-  var toast = document.getElementById("lhToast");
-  var toastTitle = document.getElementById("lhToastTitle");
-  var toastSub = document.getElementById("lhToastSub");
   var cartDock = document.getElementById("lhCartDock");
   var cartCountLabel = document.getElementById("lhCartCountLabel");
   var addedCount = 0;
-  var toastTimer = null;
 
   function showToast(title, subHtml) {
-    if (!toast) return;
-    if (toastTitle) toastTitle.textContent = title;
-    if (toastSub && subHtml) toastSub.innerHTML = subHtml;
-    toast.hidden = false;
-    requestAnimationFrame(function () {
-      toast.classList.add("is-on");
-    });
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () {
-      toast.classList.remove("is-on");
-      setTimeout(function () { toast.hidden = true; }, 350);
-    }, 2600);
+    if (window.LHToast && typeof window.LHToast.show === "function") {
+      window.LHToast.show(title, subHtml);
+      return;
+    }
   }
 
   function bumpCartDock() {
@@ -275,10 +263,10 @@
         wishBtn.setAttribute("aria-pressed", on ? "true" : "false");
         wishBtn.setAttribute("aria-label", on ? "Remove from wishlist" : "Add to wishlist");
         showToast(
-          on ? wishName + " saved" : wishName + " removed",
+          on ? "Saved to wishlist" : "Removed from wishlist",
           on
-            ? 'In your wishlist · <a href="' + ctx + '/profile#wishlist">View favourites</a>'
-            : "Removed from favourites"
+            ? wishName + ' · <a href="' + ctx + '/profile#wishlist">View favourites</a>'
+            : wishName + " removed from favourites"
         );
       }).catch(function (err) {
         if (err && err.message === "login") return;
@@ -323,7 +311,10 @@
     }).then(function () {
       markAdded(btn);
       bumpCartDock();
-      showToast(name + " added", 'Ready in your cart · <a href="' + (document.body.getAttribute("data-ctx") || "") + '/cart">View cart</a>');
+      showToast(
+        "Added to cart successfully",
+        name + ' is in your bag · <a href="' + (document.body.getAttribute("data-ctx") || "") + '/cart">View cart</a>'
+      );
     }).catch(function () {
       if (btn) btn.classList.remove("is-adding");
       form.submit();

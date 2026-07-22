@@ -15,7 +15,6 @@ import com.LiquorHub.daoImpl.WishlistItemDAOImpl;
 import com.LiquorHub.dto.CategoryDTO;
 import com.LiquorHub.dto.CustomerDTO;
 import com.LiquorHub.dto.ProductDTO;
-
 import com.LiquorHub.utility.CatalogSeeder;
 
 import jakarta.servlet.ServletException;
@@ -25,21 +24,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/home")
-public class Home extends HttpServlet {
+@WebServlet({ "/catalog", "/shop", "/all-products" })
+public class Catalog extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		loadHome(req);
-		req.getRequestDispatcher("/index.jsp").forward(req, resp);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doGet(req, resp);
-	}
-
-	static void loadHome(HttpServletRequest req) {
 		List<CategoryDTO> categories = new ArrayList<>();
 		List<ProductDTO> products = new ArrayList<>();
 
@@ -59,31 +48,23 @@ public class Home extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		List<ProductDTO> whiskyEssentials = new ArrayList<>();
-		List<ProductDTO> housePour = new ArrayList<>();
-		List<ProductDTO> premiumPicks = new ArrayList<>();
-
-		for (ProductDTO p : products) {
-			if (p.getCategoryId() == 1 && whiskyEssentials.size() < 4) {
-				whiskyEssentials.add(p);
-			}
-			if (p.getPrice() < 1500 && housePour.size() < 4) {
-				housePour.add(p);
-			}
-			if (p.getPrice() >= 4000 && premiumPicks.size() < 4) {
-				premiumPicks.add(p);
+		String catParam = req.getParameter("cat");
+		Integer filterCat = null;
+		if (catParam != null && !catParam.isBlank()) {
+			try {
+				filterCat = Integer.parseInt(catParam);
+			} catch (NumberFormatException ignored) {
 			}
 		}
 
-		// Fallback so collection panels never render as empty voids
-		if (whiskyEssentials.isEmpty()) {
-			whiskyEssentials = take(products, 4);
-		}
-		if (housePour.isEmpty()) {
-			housePour = take(products, 4);
-		}
-		if (premiumPicks.isEmpty()) {
-			premiumPicks = takeFromEnd(products, 4);
+		List<ProductDTO> visible = products;
+		if (filterCat != null) {
+			visible = new ArrayList<>();
+			for (ProductDTO p : products) {
+				if (p.getCategoryId() == filterCat.intValue()) {
+					visible.add(p);
+				}
+			}
 		}
 
 		Set<Integer> wishlistIds = new HashSet<>();
@@ -99,34 +80,10 @@ public class Home extends HttpServlet {
 		}
 
 		req.setAttribute("categories", categories);
+		req.setAttribute("products", visible);
 		req.setAttribute("productTotal", products.size());
-		req.setAttribute("products", take(products, 8));
-		req.setAttribute("whiskyEssentials", whiskyEssentials);
-		req.setAttribute("housePour", housePour);
-		req.setAttribute("premiumPicks", premiumPicks);
+		req.setAttribute("filterCat", filterCat);
 		req.setAttribute("wishlistIds", wishlistIds);
-	}
-
-	private static List<ProductDTO> take(List<ProductDTO> src, int n) {
-		List<ProductDTO> out = new ArrayList<>();
-		if (src == null) {
-			return out;
-		}
-		for (int i = 0; i < src.size() && out.size() < n; i++) {
-			out.add(src.get(i));
-		}
-		return out;
-	}
-
-	private static List<ProductDTO> takeFromEnd(List<ProductDTO> src, int n) {
-		List<ProductDTO> out = new ArrayList<>();
-		if (src == null || src.isEmpty()) {
-			return out;
-		}
-		int start = Math.max(0, src.size() - n);
-		for (int i = start; i < src.size(); i++) {
-			out.add(src.get(i));
-		}
-		return out;
+		req.getRequestDispatcher("/catalog.jsp").forward(req, resp);
 	}
 }

@@ -30,6 +30,8 @@
   String contactOk = (String) request.getAttribute("contactSuccess");
   String contactErr = (String) request.getAttribute("contactError");
   int productCount = products != null ? products.size() : 0;
+  Integer productTotalObj = (Integer) request.getAttribute("productTotal");
+  int productTotal = productTotalObj != null ? productTotalObj.intValue() : productCount;
   int categoryCount = categories != null ? categories.size() : 0;
   String accountHref = loggedIn ? ctx + "/profile" : ctx + "/login";
   String accountLabel = loggedIn ? "Profile" : "Sign in";
@@ -75,45 +77,67 @@
 <body class="lh-body overflow-x-clip antialiased" data-logged-in="<%= loggedIn ? "1" : "0" %>" data-ctx="<%= ctx %>">
   <jsp:include page="/WEB-INF/jspf/loader.jsp" />
 
-  <!-- First-visit liquor quiz -->
-  <div id="lhQuizGate" class="fixed inset-0 z-[2147483645] hidden items-center justify-center overflow-y-auto bg-[#13110d]/92 p-4 backdrop-blur-md" hidden role="dialog" aria-modal="true" aria-labelledby="lhQuizTitle">
-    <div class="my-6 w-full max-w-lg rounded-[1.75rem] border border-white/20 bg-cream-soft p-5 shadow-2xl sm:p-8">
-      <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Entry quiz</p>
-      <h2 id="lhQuizTitle" class="mt-2 font-display text-[clamp(1.75rem,5vw,2.4rem)] leading-tight tracking-[-0.03em] text-ink">Prove you know your pour</h2>
-      <p class="mt-2 text-sm text-ink-muted">Four basics. First visit only. Get them right to enter LiquorHub.</p>
+  <!-- First-visit liquor quiz — compact stepper -->
+  <div id="lhQuizGate" class="lh-quiz" hidden role="dialog" aria-modal="true" aria-labelledby="lhQuizTitle">
+    <div class="lh-quiz__card">
+      <div class="lh-quiz__head">
+        <p class="lh-quiz__kicker">Desk check · 4 quick hits</p>
+        <h2 id="lhQuizTitle" class="lh-quiz__title">Know your pour</h2>
+        <div class="lh-quiz__progress" aria-hidden="true">
+          <span class="lh-quiz__dot is-on" data-dot="0"></span>
+          <span class="lh-quiz__dot" data-dot="1"></span>
+          <span class="lh-quiz__dot" data-dot="2"></span>
+          <span class="lh-quiz__dot" data-dot="3"></span>
+        </div>
+        <p class="lh-quiz__step-label"><span id="lhQuizStepNum">1</span> / 4</p>
+      </div>
 
-      <form id="lhQuizForm" class="mt-6 space-y-5">
-        <fieldset class="space-y-2">
-          <legend class="text-sm font-semibold text-ink">1. Whisky is typically aged in what?</legend>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q1" value="a" required class="mt-0.5 accent-[#d96a3b]"> Plastic bottles</label>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q1" value="b" class="mt-0.5 accent-[#d96a3b]"> Steel cans</label>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q1" value="c" class="mt-0.5 accent-[#d96a3b]"> Oak barrels</label>
-        </fieldset>
-        <fieldset class="space-y-2">
-          <legend class="text-sm font-semibold text-ink">2. Which spirit is juniper-forward?</legend>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q2" value="a" required class="mt-0.5 accent-[#d96a3b]"> Vodka</label>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q2" value="b" class="mt-0.5 accent-[#d96a3b]"> Gin</label>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q2" value="c" class="mt-0.5 accent-[#d96a3b]"> Rum</label>
-        </fieldset>
-        <fieldset class="space-y-2">
-          <legend class="text-sm font-semibold text-ink">3. Tequila is traditionally made from what plant?</legend>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q3" value="a" required class="mt-0.5 accent-[#d96a3b]"> Blue agave</label>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q3" value="b" class="mt-0.5 accent-[#d96a3b]"> Sugarcane</label>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q3" value="c" class="mt-0.5 accent-[#d96a3b]"> Barley</label>
-        </fieldset>
-        <fieldset class="space-y-2">
-          <legend class="text-sm font-semibold text-ink">4. ABV stands for?</legend>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q4" value="a" required class="mt-0.5 accent-[#d96a3b]"> Average Bottle Volume</label>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q4" value="b" class="mt-0.5 accent-[#d96a3b]"> Aged Barrel Vintage</label>
-          <label class="flex gap-2 text-sm text-ink-muted"><input type="radio" name="q4" value="c" class="mt-0.5 accent-[#d96a3b]"> Alcohol By Volume</label>
-        </fieldset>
-        <button type="submit" class="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold text-white hover:bg-accent-strong">Enter LiquorHub</button>
+      <form id="lhQuizForm" class="lh-quiz__form">
+        <div class="lh-quiz__slide is-active" data-step="0">
+          <p class="lh-quiz__q">Whisky is typically aged in what?</p>
+          <div class="lh-quiz__opts">
+            <label class="lh-quiz__opt"><input type="radio" name="q1" value="a"><span>Plastic bottles</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q1" value="b"><span>Steel cans</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q1" value="c"><span>Oak barrels</span></label>
+          </div>
+        </div>
+        <div class="lh-quiz__slide" data-step="1" hidden>
+          <p class="lh-quiz__q">Which spirit is juniper-forward?</p>
+          <div class="lh-quiz__opts">
+            <label class="lh-quiz__opt"><input type="radio" name="q2" value="a"><span>Vodka</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q2" value="b"><span>Gin</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q2" value="c"><span>Rum</span></label>
+          </div>
+        </div>
+        <div class="lh-quiz__slide" data-step="2" hidden>
+          <p class="lh-quiz__q">Tequila is traditionally made from?</p>
+          <div class="lh-quiz__opts">
+            <label class="lh-quiz__opt"><input type="radio" name="q3" value="a"><span>Blue agave</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q3" value="b"><span>Sugarcane</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q3" value="c"><span>Barley</span></label>
+          </div>
+        </div>
+        <div class="lh-quiz__slide" data-step="3" hidden>
+          <p class="lh-quiz__q">ABV stands for?</p>
+          <div class="lh-quiz__opts">
+            <label class="lh-quiz__opt"><input type="radio" name="q4" value="a"><span>Average Bottle Volume</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q4" value="b"><span>Aged Barrel Vintage</span></label>
+            <label class="lh-quiz__opt"><input type="radio" name="q4" value="c"><span>Alcohol By Volume</span></label>
+          </div>
+        </div>
+
+        <div class="lh-quiz__nav">
+          <button type="button" id="lhQuizBack" class="lh-btn lh-btn--chalk" hidden>Back</button>
+          <button type="button" id="lhQuizNext" class="lh-btn lh-btn--signal">Next</button>
+          <button type="submit" id="lhQuizSubmit" class="lh-btn lh-btn--signal" hidden>Enter desk</button>
+        </div>
+        <p id="lhQuizHint" class="lh-quiz__hint" hidden>Pick an answer to continue.</p>
       </form>
 
-      <div id="lhQuizFail" class="mt-6 hidden" hidden>
-        <p class="font-display text-2xl tracking-[-0.03em] text-ink">Bro first learn the basics you kid</p>
-        <p class="mt-2 text-sm text-ink-muted">Come back when oak, juniper, agave, and ABV make sense.</p>
-        <button type="button" id="lhQuizRetry" class="mt-5 inline-flex min-h-11 items-center justify-center rounded-full border border-black/10 bg-white px-6 text-sm font-semibold text-ink hover:bg-cream">Try again</button>
+      <div id="lhQuizFail" class="lh-quiz__fail" hidden>
+        <p class="lh-quiz__fail-title">Not quite</p>
+        <p class="lh-quiz__fail-copy">Oak barrels, gin, blue agave, Alcohol By Volume — then you’re in.</p>
+        <button type="button" id="lhQuizRetry" class="lh-btn lh-btn--signal">Try again</button>
       </div>
     </div>
   </div>
@@ -143,7 +167,7 @@
       </div>
       <div class="lh-clearing__grid lh-reveal">
         <div>
-          <p class="lh-stamp" style="color:#e8ff6a;border-color:#e8ff6a">Open floor · <%= productCount %> lots</p>
+          <p class="lh-stamp" style="color:#e8ff6a;border-color:#e8ff6a">Open floor · <%= productTotal %> lots</p>
           <h1 class="lh-clearing__brand">Liquor<span>Hub</span></h1>
           <p class="lh-clearing__line">Not a pretty shop. A live desk for bottles with hard prices.</p>
           <p class="lh-clearing__sub">Scan the floor. Quote the lot. Sign in only when you bag or buy.</p>
@@ -270,12 +294,15 @@
         <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:end;justify-content:space-between">
           <div>
             <p class="lh-sec__kicker">Archive floor</p>
-            <h2 class="lh-sec__title">Lot cards. Hard INR.</h2>
-            <p class="lh-sec__lede">Index every bottle. Heart it. Bag it. Buy it. Guests hit the login desk first.</p>
+            <h2 class="lh-sec__title">Featured lots</h2>
+            <p class="lh-sec__lede">A short pull of <%= productCount %> bottles. Open the full floor for every lot.</p>
           </div>
-          <% if (loggedIn) { %>
-          <a href="<%= ctx %>/cart" class="lh-btn lh-btn--carbon">Open bag</a>
-          <% } %>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem">
+            <% if (loggedIn) { %>
+            <a href="<%= ctx %>/cart" class="lh-btn lh-btn--carbon">Open bag</a>
+            <% } %>
+            <a href="<%= ctx %>/catalog" class="lh-btn lh-btn--signal">See all <%= productTotal %></a>
+          </div>
         </div>
 
         <div id="productGrid" class="lh-archive lh-shelf">
@@ -286,7 +313,7 @@
                  String brand = p.getBrand() != null ? p.getBrand() : "";
                  String nameLower = (p.getProductName() + " " + brand).toLowerCase()
                      .replace("\"", "").replace("'", "").replace("<", "").replace(">", "");
-                 String img = ImageUrls.forProduct(p.getProductName(), brand);
+                 String img = ImageUrls.forProduct(p.getProductName(), brand, p.getCategoryId());
                  String safeName = p.getProductName() != null ? p.getProductName().replace("\"", "") : "Bottle";
                  String lotId = String.format("LH-%04d", p.getProductId() > 0 ? p.getProductId() : lotN);
                  boolean wished = wishlistIds.contains(Integer.valueOf(p.getProductId()));
@@ -344,6 +371,9 @@
           <% } %>
         </div>
         <p id="productEmpty" class="lh-panel hidden" style="margin-top:1rem;text-align:center">No lots match that scan.</p>
+        <div style="margin-top:1.5rem;text-align:center">
+          <a href="<%= ctx %>/catalog" class="lh-btn lh-btn--ghost" style="border-color:var(--carbon);color:var(--carbon)">See all products →</a>
+        </div>
       </div>
     </section>
 
@@ -617,6 +647,7 @@
 
   <jsp:include page="/WEB-INF/jspf/footer.jsp" />
   <script src="<%= ctx %>/js/gates.js" defer></script>
+  <script src="<%= ctx %>/js/toast.js" defer></script>
   <script src="<%= ctx %>/js/home.js" defer></script>
 </body>
 </html>

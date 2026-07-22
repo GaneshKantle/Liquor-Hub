@@ -21,9 +21,11 @@
         <div>
           <p class="lh-sec__kicker" style="margin:0">Floor</p>
           <ul style="list-style:none;margin:0.6rem 0 0;padding:0">
+            <li style="margin:0.35rem 0"><a href="<%= footCtx %>/catalog" style="font-size:0.88rem;font-weight:600">All products</a></li>
             <li style="margin:0.35rem 0"><a href="#categories" style="font-size:0.88rem;font-weight:600">Dossiers</a></li>
             <li style="margin:0.35rem 0"><a href="#collections" style="font-size:0.88rem;font-weight:600">Quote boards</a></li>
-            <li style="margin:0.35rem 0"><a href="#items" style="font-size:0.88rem;font-weight:600">Lots</a></li>
+            <li style="margin:0.35rem 0"><a href="<%= footCtx %>/catalog" style="font-size:0.88rem;font-weight:600">All products</a></li>
+            <li style="margin:0.35rem 0"><a href="#items" style="font-size:0.88rem;font-weight:600">Featured</a></li>
             <li style="margin:0.35rem 0"><a href="#contact" style="font-size:0.88rem;font-weight:600">Wire</a></li>
           </ul>
         </div>
