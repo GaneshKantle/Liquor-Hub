@@ -141,6 +141,19 @@
   min-height: 100%;
 }
 
+/* Teammate cards only (mentor sits outside the grid) */
+.lh-team__grid .lh-mate {
+  min-height: 22.5rem;
+  padding: 1.35rem 1.15rem 1.45rem;
+  justify-content: flex-start;
+}
+
+.lh-team__grid .lh-mate__face {
+  width: 7rem;
+  height: 7rem;
+  margin-bottom: 0.25rem;
+}
+
 .lh-mate__face {
   display: block;
   width: 5.5rem;

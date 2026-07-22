@@ -1,7 +1,7 @@
 <%--
   LiquorHub team
   Fields: name, email, role, linkedin, github, portfolio, avatarUrl
-  Avatar CDN: Icons8 male face icons (not DiceBear)
+  Avatars: modern young cartoon faces via jsDelivr (alohe/avatars toon set)
 --%>
 <%
   String mentorName = "Punith B";
@@ -9,9 +9,9 @@
   String mentorRole = "Spring Boot Trainer (All-Rounder)";
   String mentorLi = "https://www.linkedin.com/in/punith-b-644579218/";
   String mentorGh = "https://github.com/PunithB1601/";
-  String mentorAvatar = "https://img.icons8.com/color/200/man-face.png";
+  String mentorAvatar = "https://cdn.jsdelivr.net/gh/alohe/avatars/png/toon_2.png";
 
-  /* name, email, role, linkedin, github, portfolio, male-face CDN */
+  /* name, email, role, linkedin, github, portfolio, cartoon CDN — male young toons only */
   String[][] lhTeam = {
     {
       "Ganesh Kantle",
@@ -20,7 +20,7 @@
       "https://www.linkedin.com/in/ganeshkantle",
       "https://www.github.com/ganeshkantle",
       "https://ganesh-kantle.vercel.app/",
-      "https://img.icons8.com/color/200/circled-user-male-skin-type-3.png"
+      "https://cdn.jsdelivr.net/gh/alohe/avatars/png/toon_9.png"
     },
     {
       "Suraj S Atresh",
@@ -29,7 +29,7 @@
       "https://www.linkedin.com/in/surajatresh300/",
       "https://github.com/SurajAtresh",
       "",
-      "https://img.icons8.com/color/200/user-male-circle--v1.png"
+      "https://cdn.jsdelivr.net/gh/alohe/avatars/png/toon_4.png"
     },
     {
       "Manu Adiga",
@@ -38,7 +38,7 @@
       "https://www.linkedin.com/in/manu-adiga/",
       "https://github.com/M69u",
       "",
-      "https://img.icons8.com/color/200/user-male-circle--v2.png"
+      "https://cdn.jsdelivr.net/gh/alohe/avatars/png/toon_5.png"
     },
     {
       "Vishwas M R",
@@ -47,7 +47,7 @@
       "https://www.linkedin.com/in/mr-vishwas/",
       "https://github.com/Mrvishwass",
       "",
-      "https://img.icons8.com/color/200/administrator-male.png"
+      "https://cdn.jsdelivr.net/gh/alohe/avatars/png/toon_1.png"
     }
   };
 %>
@@ -82,7 +82,7 @@
          boolean hasLinks = (tLi != null && !tLi.isBlank()) || (tGh != null && !tGh.isBlank()) || (tPf != null && !tPf.isBlank());
     %>
     <article class="lh-mate">
-      <img class="lh-mate__face" src="<%= avatar %>" alt="<%= tName %>" width="112" height="112" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+      <img class="lh-mate__face" src="<%= avatar %>" alt="<%= tName %>" width="128" height="128" loading="lazy" decoding="async" referrerpolicy="no-referrer">
       <div>
         <p class="lh-mate__role"><%= tRole %></p>
         <h3><%= tName %></h3>
