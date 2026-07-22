@@ -78,6 +78,10 @@
         "Added to cart successfully",
         'Ready in your bag · <a href="' + ctx() + '/buy">Buy now</a>'
       );
+      return;
+    }
+    if (params.get("updated") === "1") {
+      show("Profile updated successfully", "Your account details were saved.");
     }
   }
 

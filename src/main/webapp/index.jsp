@@ -519,62 +519,6 @@
 
     <!-- Profile -->
     <section id="profile" class="scroll-mt-28 border-t border-black/[0.08] bg-white/50 py-12 sm:py-14 lg:py-16">
-      <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
-
-        <% if (loggedIn) {
-             String pName = customer.getName() != null ? customer.getName() : "Collector";
-             String pInitial = pName.isEmpty() ? "L" : pName.substring(0, 1).toUpperCase();
-        %>
-        <div class="mt-8 overflow-hidden rounded-[1.75rem] border border-black/[0.08] bg-white shadow-[0_16px_48px_rgba(38,34,29,0.06)]">
-          <div class="h-28 bg-[linear-gradient(135deg,#d96a3b,#a84822_50%,#13110d)] sm:h-32" aria-hidden="true"></div>
-          <div class="relative px-5 pb-6 sm:px-8 sm:pb-8">
-            <div class="-mt-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div class="flex items-end gap-4">
-                <div class="flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-accent-soft font-display text-2xl text-accent-strong shadow-md"><%= pInitial %></div>
-                <div class="pb-1">
-                  <h3 class="font-display text-2xl tracking-[-0.03em]"><%= pName %></h3>
-                  <p class="mt-1 text-sm text-ink-muted">CUST<%= customer.getCustomerId() %> · <%= customer.getEmail() %></p>
-                </div>
-              </div>
-              <div class="flex flex-wrap gap-2">
-                <a href="<%= ctx %>/profile" class="inline-flex min-h-10 items-center rounded-full bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-strong">Open profile</a>
-                <a href="<%= ctx %>/cart" class="inline-flex min-h-10 items-center rounded-full border border-black/10 bg-cream px-4 text-sm font-semibold text-ink hover:bg-white">Cart</a>
-              </div>
-            </div>
-            <div class="mt-6 grid gap-3 border-t border-black/[0.08] pt-5 sm:grid-cols-3">
-              <div>
-                <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Phone</p>
-                <p class="mt-1 font-semibold"><%= customer.getPhone() %></p>
-              </div>
-              <div class="sm:col-span-2">
-                <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Address</p>
-                <p class="mt-1 font-semibold"><%= customer.getAddress() %></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <% } else { %>
-        <div class="mt-8 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <div class="rounded-[1.75rem] border border-black/[0.08] bg-white/80 p-6 sm:p-8">
-            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">What you get</p>
-            <div class="mt-4 space-y-4">
-              <div class="border-b border-black/[0.06] pb-4">
-                <h4 class="font-display text-lg tracking-[-0.02em]">Profile dashboard</h4>
-                <p class="mt-1 text-sm text-ink-muted">Avatar, member ID, and editable account details.</p>
-              </div>
-              <div class="border-b border-black/[0.06] pb-4">
-                <h4 class="font-display text-lg tracking-[-0.02em]">Cart ready</h4>
-                <p class="mt-1 text-sm text-ink-muted">Add bottles once you are signed in.</p>
-              </div>
-              <div>
-                <h4 class="font-display text-lg tracking-[-0.02em]">Secure access</h4>
-                <p class="mt-1 text-sm text-ink-muted">Reset password and update contact info in one place.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <% } %>
-      </div>
     </section>
 
     <!-- Contact -->

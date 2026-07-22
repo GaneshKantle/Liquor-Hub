@@ -64,7 +64,7 @@
   <div id="mobileNav" class="lh-desk__mobile hidden" hidden>
     <form id="siteSearchFormMobile" role="search" action="<%= ctx %>/catalog" method="get">
       <label class="sr-only" for="siteSearchMobile">Search bottles</label>
-      <input id="siteSearchMobile" type="search" name="q" placeholder="Scan lot..." autocomplete="off">
+      <input id="siteSearchMobile" type="search" name="q"     autocomplete="off">
       <button type="submit">Scan</button>
     </form>
     <a href="<%= ctx %>/catalog">Catalogue</a>

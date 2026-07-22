@@ -36,7 +36,6 @@ public class update extends HttpServlet {
 		}
 		customerDAO.updateCustomer(customer);
 		session.setAttribute("Customer", customer);
-		req.setAttribute("success", "Updated Successfully");
-		req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
+		resp.sendRedirect(req.getContextPath() + "/profile?updated=1#edit");
 	}
 }
