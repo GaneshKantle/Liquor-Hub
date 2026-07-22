@@ -147,8 +147,56 @@
   height: 5.5rem;
   object-fit: cover;
   border: 1.5px solid var(--carbon, #0a0c10);
+  border-radius: 50%;
   background: #fff;
   box-shadow: 3px 3px 0 var(--signal, #ff2d1a);
+}
+
+.lh-mate--mentor {
+  flex-direction: row;
+  align-items: center;
+  gap: 1.1rem;
+  margin: 1.25rem 0 1.35rem;
+  padding: 1.15rem 1.2rem;
+  background: #fff;
+  border-color: var(--carbon, #0a0c10);
+  box-shadow: 6px 6px 0 var(--signal, #ff2d1a);
+}
+
+.lh-mate--mentor .lh-mate__face {
+  width: 6.5rem;
+  height: 6.5rem;
+  flex-shrink: 0;
+}
+
+.lh-mate__mentor-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.lh-mate__badge {
+  display: inline-flex;
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.2rem 0.5rem;
+  border: 1.5px solid var(--signal, #ff2d1a);
+  background: var(--signal, #ff2d1a);
+  color: #fff;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.lh-mate--mentor h3 {
+  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+}
+
+.lh-mate--mentor .lh-mate__links {
+  margin-top: 0.35rem;
+  padding-top: 0;
 }
 
 .lh-mate__role {

@@ -1,9 +1,17 @@
 <%--
   LiquorHub team
-  Fields: name, email, role, linkedin, github, portfolio, avatarSeed
-  Avatar CDN: DiceBear Avataaars (male cartoon)
+  Fields: name, email, role, linkedin, github, portfolio, avatarUrl
+  Avatar CDN: Icons8 male face icons (not DiceBear)
 --%>
 <%
+  String mentorName = "Punith B";
+  String mentorEmail = "punithbasavaraj16@gmail.com";
+  String mentorRole = "Spring Boot Trainer (All-Rounder)";
+  String mentorLi = "https://www.linkedin.com/in/punith-b-644579218/";
+  String mentorGh = "https://github.com/PunithB1601/";
+  String mentorAvatar = "https://img.icons8.com/color/200/man-face.png";
+
+  /* name, email, role, linkedin, github, portfolio, male-face CDN */
   String[][] lhTeam = {
     {
       "Ganesh Kantle",
@@ -12,7 +20,7 @@
       "https://www.linkedin.com/in/ganeshkantle",
       "https://www.github.com/ganeshkantle",
       "https://ganesh-kantle.vercel.app/",
-      "GaneshKantle"
+      "https://img.icons8.com/color/200/circled-user-male-skin-type-3.png"
     },
     {
       "Suraj S Atresh",
@@ -21,7 +29,7 @@
       "https://www.linkedin.com/in/surajatresh300/",
       "https://github.com/SurajAtresh",
       "",
-      "SurajAtresh"
+      "https://img.icons8.com/color/200/user-male-circle--v1.png"
     },
     {
       "Manu Adiga",
@@ -30,7 +38,7 @@
       "https://www.linkedin.com/in/manu-adiga/",
       "https://github.com/M69u",
       "",
-      "ManuAdiga"
+      "https://img.icons8.com/color/200/user-male-circle--v2.png"
     },
     {
       "Vishwas M R",
@@ -39,14 +47,29 @@
       "https://www.linkedin.com/in/mr-vishwas/",
       "https://github.com/Mrvishwass",
       "",
-      "VishwasMR"
+      "https://img.icons8.com/color/200/administrator-male.png"
     }
   };
 %>
 <div class="lh-team" id="team">
   <p class="lh-sec__kicker">Creators</p>
   <h2 class="lh-sec__title" style="font-size:clamp(1.35rem,3vw,1.85rem)">The team behind LiquorHub</h2>
-  <p class="lh-sec__lede">Four builders who shipped this clearing house — listed below.</p>
+  <p class="lh-sec__lede">Guided by our mentor, built by four teammates.</p>
+
+  <article class="lh-mate lh-mate--mentor">
+    <img class="lh-mate__face" src="<%= mentorAvatar %>" alt="<%= mentorName %>" width="128" height="128" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+    <div class="lh-mate__mentor-body">
+      <p class="lh-mate__badge">Mentor</p>
+      <p class="lh-mate__role"><%= mentorRole %></p>
+      <h3><%= mentorName %></h3>
+      <p class="lh-mate__email"><a href="mailto:<%= mentorEmail %>"><%= mentorEmail %></a></p>
+      <div class="lh-mate__links">
+        <a href="<%= mentorLi %>" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="<%= mentorGh %>" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </article>
+
   <div class="lh-team__grid">
     <% for (int ti = 0; ti < lhTeam.length; ti++) {
          String tName = lhTeam[ti][0];
@@ -55,14 +78,11 @@
          String tLi = lhTeam[ti][3];
          String tGh = lhTeam[ti][4];
          String tPf = lhTeam[ti][5];
-         String seed = lhTeam[ti][6];
-         String avatar = "https://api.dicebear.com/9.x/avataaars/png?seed="
-             + java.net.URLEncoder.encode(seed, "UTF-8")
-             + "&gender=male&size=256&backgroundColor=eef2f5";
+         String avatar = lhTeam[ti][6];
          boolean hasLinks = (tLi != null && !tLi.isBlank()) || (tGh != null && !tGh.isBlank()) || (tPf != null && !tPf.isBlank());
     %>
     <article class="lh-mate">
-      <img class="lh-mate__face" src="<%= avatar %>" alt="<%= tName %>" width="112" height="112" loading="lazy" decoding="async">
+      <img class="lh-mate__face" src="<%= avatar %>" alt="<%= tName %>" width="112" height="112" loading="lazy" decoding="async" referrerpolicy="no-referrer">
       <div>
         <p class="lh-mate__role"><%= tRole %></p>
         <h3><%= tName %></h3>

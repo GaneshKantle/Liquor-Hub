@@ -49,9 +49,9 @@
         </div>
         <aside class="lh-about__aside" aria-label="Project note">
           <p>Project</p>
-          <h3>Four builders. One floor.</h3>
+          <h3>Mentor + four builders.</h3>
           <p class="body">
-            LiquorHub is crafted by a four-person team — AI web, database, and backend — shipping a full marketplace experience from home to profile.
+            LiquorHub is guided by our Spring Boot mentor and shipped by a four-person team — from home floor to profile.
           </p>
           <a href="#team">Meet the team ↓</a>
         </aside>
