@@ -45,7 +45,7 @@
         </div>
       </div>
       <a href="<%= ctx %>/catalog">Catalogue</a>
-      <a href="<%= home %>#about">Manifest</a>
+      <a href="<%= home %>#about">About</a>
       <a href="<%= home %>#learn">Notes</a>
       <% if (navLoggedIn) { %>
       <a href="<%= ctx %>/profile">Profile</a>
@@ -67,7 +67,7 @@
       <button type="submit">Scan</button>
     </form>
     <a href="<%= ctx %>/catalog">Catalogue</a>
-    <a href="<%= home %>#about">Manifest</a>
+    <a href="<%= home %>#about">About</a>
     <a href="<%= home %>#learn">Notes</a>
     <% if (navLoggedIn) { %>
     <a href="<%= ctx %>/profile">Profile</a>
