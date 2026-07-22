@@ -1,0 +1,169 @@
+/* Category flip cards — origin / fame on hover */
+
+.lh-flip {
+  aspect-ratio: 4 / 5;
+  perspective: 1100px;
+  outline: none;
+}
+
+.lh-flip__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 1.5rem;
+  box-shadow: 0 14px 40px rgba(38, 34, 29, 0.08);
+}
+
+.lh-flip:hover .lh-flip__inner,
+.lh-flip:focus-within .lh-flip__inner,
+.lh-flip.is-flipped .lh-flip__inner {
+  transform: rotateY(180deg);
+}
+
+.lh-flip__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.lh-flip__front {
+  background: #13110d;
+}
+
+.lh-flip__front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.01);
+  transition: transform 0.7s ease;
+}
+
+.lh-flip:hover .lh-flip__front img {
+  transform: scale(1.06);
+}
+
+.lh-flip__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(19, 17, 13, 0.88) 100%);
+  pointer-events: none;
+}
+
+.lh-flip__front-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.1rem 1.15rem 1.25rem;
+  color: #fff;
+}
+
+.lh-flip__front-copy h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.lh-flip__front-copy p {
+  margin: 0.35rem 0 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  font-weight: 600;
+}
+
+.lh-flip__back {
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(217, 106, 59, 0.22), transparent 55%),
+    linear-gradient(165deg, #1d1d1f 0%, #13110d 100%);
+  color: #f5f5f7;
+  transform: rotateY(180deg);
+  padding: 1.15rem 1.15rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.lh-flip__eyebrow {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #d96a3b;
+}
+
+.lh-flip__back-title {
+  margin: 0.45rem 0 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.lh-flip__facts {
+  margin: 0.85rem 0 0;
+  display: grid;
+  gap: 0.7rem;
+  flex: 1;
+  overflow: auto;
+}
+
+.lh-flip__facts dt {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 247, 0.55);
+}
+
+.lh-flip__facts dd {
+  margin: 0.28rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: rgba(245, 245, 247, 0.92);
+}
+
+.lh-flip__shop {
+  margin-top: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  border-radius: 999px;
+  background: #d96a3b;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lh-flip__shop:hover {
+  background: #a84822;
+  transform: translateY(-1px);
+}
+
+@media (hover: none) {
+  /* Touch: tap toggles via .is-flipped (JS) */
+  .lh-flip:hover .lh-flip__inner {
+    transform: none;
+  }
+  .lh-flip.is-flipped .lh-flip__inner {
+    transform: rotateY(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lh-flip__inner,
+  .lh-flip__front img {
+    transition: none !important;
+  }
+}

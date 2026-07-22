@@ -1,4 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+  String ctx = request.getContextPath();
+  String next = request.getParameter("next");
+  if (next == null) next = "";
+  String reason = request.getParameter("reason");
+  if (reason == null) reason = "";
+  String loginQs = "";
+  if (!next.isBlank() || !reason.isBlank()) {
+    loginQs = "?";
+    if (!next.isBlank()) loginQs += "next=" + java.net.URLEncoder.encode(next, "UTF-8");
+    if (!reason.isBlank()) loginQs += (loginQs.length() > 1 ? "&" : "") + "reason=" + java.net.URLEncoder.encode(reason, "UTF-8");
+  }
+%>
 <!DOCTYPE html>
 <html lang="en" style="color-scheme: light;">
 <head>
@@ -6,11 +19,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light only">
   <title>Join | LiquorHub</title>
-  <link rel="icon" href="<%=request.getContextPath()%>/assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/beer-loader.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -22,8 +32,8 @@
             accent: { DEFAULT: '#d96a3b', soft: '#f4dcd1', strong: '#a84822' }
           },
           fontFamily: {
-            display: ['"Instrument Serif"', 'Georgia', 'serif'],
-            sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            display: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
           }
         }
       }
@@ -47,20 +57,23 @@
   <div class="pointer-events-none absolute -right-10 bottom-10 h-72 w-72 rounded-full bg-white/80 blur-3xl"></div>
 
   <header class="relative mb-8 text-center">
-    <a href="<%=request.getContextPath()%>/home" class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">LiquorHub</a>
-    <p class="mt-2 text-sm text-ink-muted">Collect. Trade. Discover rare pours.</p>
+    <a href="<%= ctx %>/home" class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">LiquorHub</a>
+    <p class="mt-2 text-sm text-ink-muted">Browse freely. Create an account to shop.</p>
   </header>
 
   <div class="glass-strong relative w-full max-w-md rounded-[2rem] p-6 sm:p-8">
     <h2 class="font-display text-2xl font-semibold tracking-tight">Create your account</h2>
-    <p class="mt-1 mb-5 text-sm text-ink-muted">Join the marketplace for rare and limited liquor.</p>
+    <p class="mt-1 mb-5 text-sm text-ink-muted">Sign up to add to cart, buy bottles, and save favourites.</p>
 
     <% String success = (String) request.getAttribute("success");
        if (success != null) { %>
     <p class="mb-4 rounded-2xl border border-green-700/15 bg-green-50/70 px-3 py-2.5 text-sm text-green-800"><%= success %></p>
     <% } %>
 
-    <form action="register" method="POST" class="space-y-4">
+    <form action="<%= ctx %>/register" method="POST" class="space-y-4">
+      <% if (!next.isBlank()) { %>
+      <input type="hidden" name="next" value="<%= next.replace("\"", "&quot;") %>">
+      <% } %>
       <div>
         <label for="name" class="mb-1.5 block text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted">Full name</label>
         <input id="name" type="text" name="name" required placeholder="Your name" class="w-full min-h-11 rounded-2xl border border-white/80 bg-white/50 px-3.5 text-sm outline-none backdrop-blur transition focus:border-accent/40 focus:bg-white/80 focus:ring-2 focus:ring-accent/15">
@@ -85,7 +98,9 @@
     </form>
 
     <div class="mt-5 text-center text-sm text-ink-muted">
-      Already a member? <a href="login" class="font-medium text-accent-strong hover:underline">Sign in</a>
+      Already a member? <a href="<%= ctx %>/login<%= loginQs %>" class="font-medium text-accent-strong hover:underline">Sign in</a>
+      <span> · </span>
+      <a href="<%= ctx %>/home" class="font-medium text-accent-strong hover:underline">Back to shop</a>
     </div>
   </div>
 </body>

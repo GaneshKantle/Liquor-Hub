@@ -2,20 +2,28 @@ package com.LiquorHub.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.LiquorHub.dao.CategoryDAO;
 import com.LiquorHub.dao.ProductDAO;
+import com.LiquorHub.dao.WishlistItemDAO;
 import com.LiquorHub.daoImpl.CategoryDAOImpl;
 import com.LiquorHub.daoImpl.ProductDAOImpl;
+import com.LiquorHub.daoImpl.WishlistItemDAOImpl;
 import com.LiquorHub.dto.CategoryDTO;
+import com.LiquorHub.dto.CustomerDTO;
 import com.LiquorHub.dto.ProductDTO;
+
+import com.LiquorHub.utility.CatalogSeeder;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/home")
 public class Home extends HttpServlet {
@@ -38,6 +46,7 @@ public class Home extends HttpServlet {
 		try {
 			CategoryDAO categoryDAO = new CategoryDAOImpl();
 			ProductDAO productDAO = new ProductDAOImpl();
+			CatalogSeeder.ensureExtraProducts(productDAO);
 			List<CategoryDTO> cats = categoryDAO.getAllCategories();
 			List<ProductDTO> prods = productDAO.getAllProducts();
 			if (cats != null) {
@@ -77,11 +86,24 @@ public class Home extends HttpServlet {
 			premiumPicks = takeFromEnd(products, 4);
 		}
 
+		Set<Integer> wishlistIds = new HashSet<>();
+		HttpSession session = req.getSession(false);
+		CustomerDTO customer = session != null ? (CustomerDTO) session.getAttribute("Customer") : null;
+		if (customer != null) {
+			try {
+				WishlistItemDAO wishDAO = new WishlistItemDAOImpl();
+				wishlistIds = wishDAO.getProductIdsByCustomer(customer.getCustomerId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		req.setAttribute("categories", categories);
 		req.setAttribute("products", products);
 		req.setAttribute("whiskyEssentials", whiskyEssentials);
 		req.setAttribute("housePour", housePour);
 		req.setAttribute("premiumPicks", premiumPicks);
+		req.setAttribute("wishlistIds", wishlistIds);
 	}
 
 	private static List<ProductDTO> take(List<ProductDTO> src, int n) {

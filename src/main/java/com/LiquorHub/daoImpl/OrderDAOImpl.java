@@ -27,14 +27,21 @@ public class OrderDAOImpl implements OrderDAO {
 
         try {
 
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, order.getCustomerId());
             ps.setString(2, order.getOrderDate());
             ps.setDouble(3, order.getTotalAmount());
             ps.setString(4, order.getStatus());
 
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                ResultSet keys = ps.getGeneratedKeys();
+                if (keys.next()) {
+                    order.setOrderId(keys.getInt(1));
+                }
+                return true;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,7 +109,7 @@ public class OrderDAOImpl implements OrderDAO {
 
         List<OrderDTO> orders = new ArrayList<>();
 
-        String sql = "SELECT * FROM Orders WHERE customer_id=?";
+        String sql = "SELECT * FROM Orders WHERE customer_id=? ORDER BY order_id DESC";
 
         try {
 

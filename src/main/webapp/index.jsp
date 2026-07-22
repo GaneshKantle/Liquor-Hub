@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
 <%@ page import="com.LiquorHub.dto.CategoryDTO" %>
 <%@ page import="com.LiquorHub.dto.ProductDTO" %>
 <%@ page import="com.LiquorHub.dto.CustomerDTO" %>
 <%@ page import="com.LiquorHub.utility.ImageUrls" %>
+<%@ page import="com.LiquorHub.utility.CategoryFacts" %>
 <%
   if (request.getAttribute("products") == null) {
     request.getRequestDispatcher("/home").forward(request, response);
@@ -18,6 +21,8 @@
   List<ProductDTO> premiumPicks = (List<ProductDTO>) request.getAttribute("premiumPicks");
   CustomerDTO customer = (CustomerDTO) session.getAttribute("Customer");
   boolean loggedIn = customer != null;
+  Set<Integer> wishlistIds = (Set<Integer>) request.getAttribute("wishlistIds");
+  if (wishlistIds == null) wishlistIds = new HashSet<>();
 
   java.text.NumberFormat inr = java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("en", "IN"));
   inr.setMaximumFractionDigits(0);
@@ -26,7 +31,7 @@
   String contactErr = (String) request.getAttribute("contactError");
   int productCount = products != null ? products.size() : 0;
   int categoryCount = categories != null ? categories.size() : 0;
-  String accountHref = loggedIn ? ctx + "/dashboard" : ctx + "/login";
+  String accountHref = loggedIn ? ctx + "/profile" : ctx + "/login";
   String accountLabel = loggedIn ? "Profile" : "Sign in";
 %>
 <!DOCTYPE html>
@@ -34,70 +39,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LiquorHub - Curated bottles. Clear prices. Trusted exchange.</title>
-  <meta name="description" content="LiquorHub is a curated liquor marketplace. Browse whisky, wine, gin and more with clear INR prices. Shop freely; sign in only to add to cart.">
+  <title>LiquorHub — Bottle clearing house</title>
+  <meta name="description" content="LiquorHub is a live bottle clearing house. Scan the desk, quote the lot, sign in only when you trade.">
   <meta name="color-scheme" content="light only">
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/cart-shelf.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            cream: { DEFAULT: '#f8f5ef', soft: '#fffcf7', strong: '#f1ece4' },
-            ink: { DEFAULT: '#13110d', muted: '#6a655d', subtle: '#89847b' },
-            accent: { DEFAULT: '#d96a3b', soft: '#f4dcd1', strong: '#a84822' }
+            cream: { DEFAULT: '#d9e0e6', soft: '#eef2f5', strong: '#c5cdd4' },
+            ink: { DEFAULT: '#0a0c10', muted: '#3a424c', subtle: '#6a7380' },
+            accent: { DEFAULT: '#ff2d1a', soft: '#ffd4ce', strong: '#b0180c' }
           },
           fontFamily: {
-            display: ['"Instrument Serif"', 'Georgia', 'serif'],
-            sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            display: ['Syne', 'system-ui', 'sans-serif'],
+            sans: ['Space Grotesk', 'system-ui', 'sans-serif']
           },
-          maxWidth: { shell: '72rem', measure: '36rem' }
+          maxWidth: { shell: '78rem', measure: '36rem' },
+          borderRadius: { full: '2px', '2xl': '2px', '3xl': '2px', '[1.25rem]': '2px', '[1.35rem]': '2px', '[1.5rem]': '2px', '[1.75rem]': '2px' }
         }
       }
     };
   </script>
-  <style type="text/css">
-    body {
-      font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
-      background-color: #f8f5ef;
-      color: #13110d;
-      background-image:
-        radial-gradient(circle at top left, rgba(217, 106, 59, 0.08), transparent 24%),
-        radial-gradient(circle at right 20%, rgba(255, 255, 255, 0.72), transparent 30%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(248, 245, 239, 0.95));
-      background-attachment: fixed;
-    }
-    .font-display { font-family: "Instrument Serif", Georgia, serif; }
-    .lh-reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
-    .lh-reveal.is-in { opacity: 1; transform: none; }
-    .lh-marquee-wrap {
-      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-    }
-    .lh-marquee { animation: lh-marquee 40s linear infinite; }
-    .lh-marquee-rev { animation: lh-marquee-rev 46s linear infinite; }
-    .lh-marquee-wrap:hover .lh-marquee,
-    .lh-marquee-wrap:hover .lh-marquee-rev { animation-play-state: paused; }
-    @keyframes lh-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    @keyframes lh-marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-    #siteHeader.is-scrolled #navBar { box-shadow: 0 12px 40px rgba(38, 34, 29, 0.1); }
-    html.lh-quiz-lock, html.lh-quiz-lock body { overflow: hidden !important; }
-    #lhQuizGate:not([hidden]):not(.hidden) { display: flex; }
-    #lhQuizGate.is-done { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .4s ease; }
-    #lhLoginModal:not([hidden]):not(.hidden) { display: flex; }
-    @media (prefers-reduced-motion: reduce) {
-      .lh-marquee, .lh-marquee-rev { animation: none !important; flex-wrap: wrap; width: 100%; justify-content: center; }
-      .lh-reveal { opacity: 1; transform: none; }
-    }
+  <style>
+    .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0 }
+    .rounded-full, .rounded-2xl, .rounded-xl, .rounded-\[1\.25rem\], .rounded-\[1\.35rem\], .rounded-\[1\.5rem\], .rounded-\[1\.75rem\] { border-radius: 2px !important; }
   </style>
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
-<body class="min-h-screen overflow-x-clip font-sans text-ink antialiased" data-logged-in="<%= loggedIn ? "1" : "0" %>">
+<body class="lh-body overflow-x-clip antialiased" data-logged-in="<%= loggedIn ? "1" : "0" %>" data-ctx="<%= ctx %>">
   <jsp:include page="/WEB-INF/jspf/loader.jsp" />
 
   <!-- First-visit liquor quiz -->
@@ -143,14 +118,14 @@
     </div>
   </div>
 
-  <!-- Guest cart login prompt -->
+  <!-- Guest cart login prompt (fallback) -->
   <div id="lhLoginModal" class="fixed inset-0 z-[2147483644] hidden items-center justify-center bg-ink/50 p-4 backdrop-blur-sm" hidden role="dialog" aria-modal="true" aria-labelledby="lhLoginModalTitle">
     <div class="w-full max-w-sm rounded-[1.5rem] border border-white/80 bg-white p-6 shadow-2xl">
-      <h2 id="lhLoginModalTitle" class="font-display text-2xl tracking-[-0.03em]">Sign in to add to cart</h2>
-      <p class="mt-2 text-sm text-ink-muted">Browse freely. Cart needs an account.</p>
+      <h2 id="lhLoginModalTitle" class="font-display text-2xl tracking-[-0.03em]">Sign in to continue</h2>
+      <p class="mt-2 text-sm text-ink-muted">Browse freely. Sign in or create an account to add to cart or buy.</p>
       <div class="mt-5 flex flex-col gap-2">
-        <a href="<%= ctx %>/login" class="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-white hover:bg-accent-strong">Sign in</a>
-        <a href="<%= ctx %>/register.jsp" class="inline-flex min-h-11 items-center justify-center rounded-full border border-black/10 bg-cream px-5 text-sm font-semibold text-ink hover:bg-white">Create account</a>
+        <a href="<%= ctx %>/login?reason=cart&amp;next=<%= java.net.URLEncoder.encode(ctx + "/home#items", "UTF-8") %>" class="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-white hover:bg-accent-strong">Sign in</a>
+        <a href="<%= ctx %>/register?reason=cart&amp;next=<%= java.net.URLEncoder.encode(ctx + "/home#items", "UTF-8") %>" class="inline-flex min-h-11 items-center justify-center rounded-full border border-black/10 bg-cream px-5 text-sm font-semibold text-ink hover:bg-white">Create account</a>
         <button type="button" id="lhLoginModalClose" class="mt-1 text-sm font-semibold text-ink-muted hover:text-ink">Keep browsing</button>
       </div>
     </div>
@@ -159,152 +134,130 @@
   <jsp:include page="/WEB-INF/jspf/header.jsp" />
 
   <main>
-    <section class="relative flex min-h-[100svh] items-end overflow-hidden text-white lg:items-center" aria-label="Hero">
-      <video class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="metadata">
-        <source src="<%= ctx %>/assets/video/hero.mp4" type="video/mp4">
-      </video>
-      <div class="absolute inset-0 bg-gradient-to-b from-ink/45 via-ink/55 to-ink/80" aria-hidden="true"></div>
-      <div class="relative z-[1] mx-auto flex min-h-[100svh] w-full max-w-shell flex-col justify-end px-4 pb-12 pt-32 sm:px-6 sm:pb-16 md:pt-36 lg:justify-center lg:pb-20">
-        <div class="lh-reveal max-w-measure space-y-5 text-left">
-          <div class="space-y-3">
-            <p class="font-display text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.92] tracking-[-0.04em] text-white">LiquorHub</p>
-            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-white/65">Curated liquor marketplace</p>
-          </div>
-          <div class="space-y-3">
-            <h1 class="max-w-[20ch] text-[clamp(1.65rem,3.8vw,2.65rem)] font-semibold leading-[1.12] tracking-[-0.04em] text-white">
-              Shop rare and everyday bottles with <span class="text-accent">clear prices</span> - no guesswork.
-            </h1>
-            <p class="max-w-md text-pretty text-base text-white/78 sm:text-lg">Browse whisky, wine, gin and more from the live catalogue. Sign in only when you add to cart.</p>
-          </div>
-          <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <a href="#items" class="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold tracking-[-0.02em] text-white transition hover:bg-accent-strong sm:w-auto">Browse bottles</a>
-            <a href="#categories" class="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-white/55 bg-white/20 px-6 text-sm font-semibold tracking-[-0.02em] text-white transition hover:border-white/40 hover:bg-white/12 sm:w-auto">Explore categories</a>
+    <section class="lh-clearing" aria-label="Clearing house">
+      <div class="lh-clearing__media" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata">
+          <source src="<%= ctx %>/assets/video/hero.mp4" type="video/mp4">
+        </video>
+        <div class="lh-clearing__veil"></div>
+      </div>
+      <div class="lh-clearing__grid lh-reveal">
+        <div>
+          <p class="lh-stamp" style="color:#e8ff6a;border-color:#e8ff6a">Open floor · <%= productCount %> lots</p>
+          <h1 class="lh-clearing__brand">Liquor<span>Hub</span></h1>
+          <p class="lh-clearing__line">Not a pretty shop. A live desk for bottles with hard prices.</p>
+          <p class="lh-clearing__sub">Scan the floor. Quote the lot. Sign in only when you bag or buy.</p>
+          <div class="lh-clearing__actions">
+            <a href="#items" class="lh-btn lh-btn--signal">Open the floor</a>
+            <a href="#categories" class="lh-btn lh-btn--ghost" style="color:#fff;border-color:rgba(255,255,255,0.55)">Spirit dossiers</a>
           </div>
         </div>
+        <aside class="lh-clearing__ticket" aria-label="Desk ticket">
+          <dl>
+            <dt>Session</dt>
+            <dd><%= loggedIn ? "Member desk" : "Guest browse" %></dd>
+            <dt>Spirit lines</dt>
+            <dd><%= categoryCount %> active</dd>
+            <dt>Trade rule</dt>
+            <dd>Login on cart</dd>
+          </dl>
+        </aside>
       </div>
     </section>
 
-    <section class="border-b border-black/[0.08] pt-10 sm:pt-12">
-      <div class="lh-reveal mx-auto max-w-shell space-y-7 px-4 pb-10 sm:space-y-8 sm:px-6 sm:pb-12">
-        <div class="flex flex-col gap-5 sm:gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div class="max-w-xl text-left">
-            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">What we do</p>
-            <h2 class="mt-2 font-display text-[clamp(1.75rem,3.5vw,2.35rem)] font-normal leading-tight tracking-[-0.03em]">Live catalogue. Honest INR. Trusted exchange.</h2>
-          </div>
-          <div class="flex flex-wrap items-center gap-3 sm:gap-4">
-            <div class="min-w-[4.5rem] border-l border-black/[0.12] pl-3">
-              <div class="text-sm font-semibold tracking-[-0.03em]"><%= categoryCount %></div>
-              <div class="mt-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Categories</div>
-            </div>
-            <div class="min-w-[4.5rem] border-l border-black/[0.12] pl-3">
-              <div class="text-sm font-semibold tracking-[-0.03em]"><%= productCount %>+</div>
-              <div class="mt-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Bottles</div>
-            </div>
-            <div class="min-w-[4.5rem] border-l border-black/[0.12] pl-3">
-              <div class="text-sm font-semibold tracking-[-0.03em]">Free browse</div>
-              <div class="mt-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Login for cart</div>
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col gap-3 border-y border-black/[0.08] py-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:py-5" role="list">
-          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Spirits we stock</p>
-          <span class="hidden h-4 w-px shrink-0 bg-black/10 sm:block" aria-hidden="true"></span>
-          <div class="flex flex-wrap items-center gap-x-4 gap-y-2.5">
-            <% if (categories != null) {
-                 for (CategoryDTO cat : categories) { %>
-            <a href="#items" data-filter-cat="<%= cat.getCategoryId() %>" role="listitem" class="text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-ink transition hover:text-accent"><%= cat.getCategoryName() %></a>
-            <%   }
-               } %>
-          </div>
-        </div>
+    <div class="lh-ticker" aria-hidden="true">
+      <div class="lh-ticker__track">
+        <% String ticker = "";
+           if (products != null) {
+             for (int ti = 0; ti < products.size() && ti < 12; ti++) {
+               ProductDTO tp = products.get(ti);
+               ticker += "<span><b>" + (tp.getProductName() != null ? tp.getProductName() : "LOT") + "</b> · <em>" + inr.format(tp.getPrice()) + "</em></span>";
+             }
+           }
+           if (ticker.isEmpty()) ticker = "<span><b>LiquorHub</b> · <em>DESK OPEN</em></span>";
+        %>
+        <%= ticker + ticker %>
+      </div>
+    </div>
+
+    <section class="lh-sec" id="about">
+      <div class="lh-shell lh-reveal">
+        <p class="lh-sec__kicker">Manifest</p>
+        <h2 class="lh-sec__title">Prices on the board. Stories in the dossier.</h2>
+        <p class="lh-sec__lede">LiquorHub runs like a clearing house — cold paper, live lots, no boutique fluff. Browse free. Trade after you sign in.</p>
       </div>
     </section>
 
-    <!-- Categories - magazine tiles -->
-    <section id="categories" class="scroll-mt-28 py-12 sm:py-14 lg:py-16">
-      <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
-        <div class="max-w-3xl text-left">
-          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Categories</p>
-          <h2 class="mt-2 font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Pick a spirit. Jump to bottles.</h2>
-          <p class="mt-3 max-w-xl text-ink-muted">Image-led shelves from the live catalogue.</p>
-        </div>
-        <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <section id="categories" class="lh-sec scroll-mt-28" style="padding-top:0">
+      <div class="lh-shell lh-reveal">
+        <p class="lh-sec__kicker">Spirit dossiers</p>
+        <h2 class="lh-sec__title">Pick a line. Read the stamp.</h2>
+        <p class="lh-sec__lede">Each dossier is a working note — origin, fame, how to choose — then jump to matching lots.</p>
+        <div class="lh-dossiers">
           <% if (categories != null && !categories.isEmpty()) {
                for (CategoryDTO cat : categories) {
                  String catImg = ImageUrls.forCategory(cat.getCategoryName());
+                 String origin = CategoryFacts.origin(cat.getCategoryName());
           %>
-          <a href="#items" data-filter-cat="<%= cat.getCategoryId() %>"
-            class="group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-black/[0.08] bg-ink">
-            <img src="<%= catImg %>" alt="" loading="lazy" decoding="async" width="800" height="1000"
-              class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
-            <div class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent"></div>
-            <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-              <h3 class="font-display text-[1.35rem] tracking-[-0.02em] text-white sm:text-[1.5rem]"><%= cat.getCategoryName() %></h3>
-              <p class="mt-1 text-sm text-white/70">Shop <%= cat.getCategoryName().toLowerCase() %></p>
+          <article class="lh-dossier">
+            <img src="<%= catImg %>" alt="" loading="lazy" decoding="async" width="800" height="1000">
+            <div class="lh-dossier__shade"></div>
+            <div class="lh-dossier__body">
+              <h3><%= cat.getCategoryName() %></h3>
+              <p class="lh-dossier__meta"><%= origin %></p>
+              <a href="#items" data-filter-cat="<%= cat.getCategoryId() %>" class="lh-dossier__link">Shop <%= cat.getCategoryName() %></a>
             </div>
-          </a>
+          </article>
           <%   }
              } else { %>
-          <p class="col-span-full rounded-[1.25rem] border border-dashed border-black/10 p-5 text-ink-muted">Categories will appear when the catalogue is loaded.</p>
+          <p class="lh-panel">Categories load with the catalogue.</p>
           <% } %>
         </div>
       </div>
     </section>
 
-    <!-- Collections -->
-    <section id="collections" class="scroll-mt-28 border-y border-black/[0.08] bg-white/50 py-12 sm:py-14 lg:py-16">
-      <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
-        <div class="max-w-3xl text-left">
-          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Collections</p>
-          <h2 class="mt-2 font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Edited for how you pour</h2>
-          <p class="mt-3 max-w-xl text-ink-muted">Three starter sets pulled live from the catalogue.</p>
-        </div>
-        <div class="mt-8 grid gap-3 md:grid-cols-3">
-          <article class="rounded-[1.25rem] border border-black/[0.08] bg-white/80 p-5 transition hover:bg-white">
-            <h3 class="font-display text-[1.35rem] tracking-[-0.03em]">Whisky Essentials</h3>
-            <p class="mt-1.5 text-sm text-ink-muted">Core whisky picks from the shelf.</p>
-            <ul class="mt-4 space-y-0">
+    <section id="collections" class="lh-sec scroll-mt-28" style="background:rgba(238,242,245,0.55);border-block:1.5px solid var(--carbon)">
+      <div class="lh-shell lh-reveal">
+        <p class="lh-sec__kicker">Quote boards</p>
+        <h2 class="lh-sec__title">Three boards. Live lots.</h2>
+        <p class="lh-sec__lede">Starter sets pulled straight from the desk — essentials, house pour, premium.</p>
+        <div class="lh-boards">
+          <article class="lh-board">
+            <h3>Whisky Essentials</h3>
+            <p>Core whisky picks from the shelf.</p>
+            <ul>
               <% if (whiskyEssentials != null && !whiskyEssentials.isEmpty()) {
                    for (ProductDTO p : whiskyEssentials) { %>
-              <li class="flex items-baseline justify-between gap-3 border-b border-black/[0.06] py-2.5 text-sm last:border-0">
-                <strong class="font-semibold tracking-[-0.02em]"><%= p.getProductName() %></strong>
-                <span class="shrink-0 tabular-nums text-ink-muted"><%= inr.format(p.getPrice()) %></span>
-              </li>
+              <li><strong><%= p.getProductName() %></strong><span><%= inr.format(p.getPrice()) %></span></li>
               <%   }
                  } else { %>
-              <li class="py-2.5 text-sm text-ink-muted">No bottles in this set yet.</li>
+              <li><strong>Empty board</strong><span>—</span></li>
               <% } %>
             </ul>
           </article>
-          <article class="rounded-[1.25rem] border border-black/[0.08] bg-white/80 p-5 transition hover:bg-white">
-            <h3 class="font-display text-[1.35rem] tracking-[-0.03em]">House Pour</h3>
-            <p class="mt-1.5 text-sm text-ink-muted">Everyday bottles under Rs 1,500.</p>
-            <ul class="mt-4 space-y-0">
+          <article class="lh-board">
+            <h3>House Pour</h3>
+            <p>Everyday bottles under Rs 1,500.</p>
+            <ul>
               <% if (housePour != null && !housePour.isEmpty()) {
                    for (ProductDTO p : housePour) { %>
-              <li class="flex items-baseline justify-between gap-3 border-b border-black/[0.06] py-2.5 text-sm last:border-0">
-                <strong class="font-semibold tracking-[-0.02em]"><%= p.getProductName() %></strong>
-                <span class="shrink-0 tabular-nums text-ink-muted"><%= inr.format(p.getPrice()) %></span>
-              </li>
+              <li><strong><%= p.getProductName() %></strong><span><%= inr.format(p.getPrice()) %></span></li>
               <%   }
                  } else { %>
-              <li class="py-2.5 text-sm text-ink-muted">No bottles in this set yet.</li>
+              <li><strong>Empty board</strong><span>—</span></li>
               <% } %>
             </ul>
           </article>
-          <article class="rounded-[1.25rem] border border-black/[0.08] bg-white/80 p-5 transition hover:bg-white">
-            <h3 class="font-display text-[1.35rem] tracking-[-0.03em]">Premium Picks</h3>
-            <p class="mt-1.5 text-sm text-ink-muted">Special bottles from Rs 4,000 up.</p>
-            <ul class="mt-4 space-y-0">
+          <article class="lh-board">
+            <h3>Premium Picks</h3>
+            <p>Special bottles from Rs 4,000 up.</p>
+            <ul>
               <% if (premiumPicks != null && !premiumPicks.isEmpty()) {
                    for (ProductDTO p : premiumPicks) { %>
-              <li class="flex items-baseline justify-between gap-3 border-b border-black/[0.06] py-2.5 text-sm last:border-0">
-                <strong class="font-semibold tracking-[-0.02em]"><%= p.getProductName() %></strong>
-                <span class="shrink-0 tabular-nums text-ink-muted"><%= inr.format(p.getPrice()) %></span>
-              </li>
+              <li><strong><%= p.getProductName() %></strong><span><%= inr.format(p.getPrice()) %></span></li>
               <%   }
                  } else { %>
-              <li class="py-2.5 text-sm text-ink-muted">No bottles in this set yet.</li>
+              <li><strong>Empty board</strong><span>—</span></li>
               <% } %>
             </ul>
           </article>
@@ -312,50 +265,103 @@
       </div>
     </section>
 
-    <!-- Products -->
-    <section id="items" class="scroll-mt-28 py-12 sm:py-14 lg:py-16">
-      <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
-        <div class="max-w-3xl text-left">
-          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Catalogue</p>
-          <h2 class="mt-2 font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Bottles with a clear price</h2>
-          <p class="mt-3 max-w-xl text-ink-muted">Search or pick a category. Add to cart when you are ready (login required).</p>
+    <section id="items" class="lh-sec scroll-mt-28">
+      <div class="lh-shell lh-reveal">
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:end;justify-content:space-between">
+          <div>
+            <p class="lh-sec__kicker">Archive floor</p>
+            <h2 class="lh-sec__title">Lot cards. Hard INR.</h2>
+            <p class="lh-sec__lede">Index every bottle. Heart it. Bag it. Buy it. Guests hit the login desk first.</p>
+          </div>
+          <% if (loggedIn) { %>
+          <a href="<%= ctx %>/cart" class="lh-btn lh-btn--carbon">Open bag</a>
+          <% } %>
         </div>
-        <div id="productGrid" class="mt-8 grid grid-cols-2 gap-3 sm:gap-3 md:grid-cols-3 xl:grid-cols-4">
+
+        <div id="productGrid" class="lh-archive lh-shelf">
           <% if (products != null && !products.isEmpty()) {
+               int lotN = 0;
                for (ProductDTO p : products) {
+                 lotN++;
                  String brand = p.getBrand() != null ? p.getBrand() : "";
-                 String nameLower = (p.getProductName() + " " + brand).toLowerCase().replace("\"", "");
+                 String nameLower = (p.getProductName() + " " + brand).toLowerCase()
+                     .replace("\"", "").replace("'", "").replace("<", "").replace(">", "");
                  String img = ImageUrls.forProduct(p.getProductName(), brand);
+                 String safeName = p.getProductName() != null ? p.getProductName().replace("\"", "") : "Bottle";
+                 String lotId = String.format("LH-%04d", p.getProductId() > 0 ? p.getProductId() : lotN);
+                 boolean wished = wishlistIds.contains(Integer.valueOf(p.getProductId()));
           %>
-          <article class="lh-prod group overflow-hidden rounded-[1.25rem] border border-black/[0.08] bg-white/80 transition duration-300 hover:bg-white hover:shadow-[0_10px_40px_rgba(38,34,29,0.06)]"
+          <article class="lh-lot lh-prod lh-prod-3d"
             data-cat="<%= p.getCategoryId() %>"
-            data-search="<%= nameLower %>">
-            <div class="relative aspect-[4/3] overflow-hidden bg-cream">
-              <img src="<%= img %>" alt="" loading="lazy" decoding="async" width="640" height="480"
-                class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]">
-            </div>
-            <div class="space-y-1 p-4">
-              <span class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted"><%= brand %></span>
-              <h3 class="text-[0.95rem] font-semibold leading-snug tracking-[-0.02em] sm:text-base"><%= p.getProductName() %></h3>
-              <div class="pt-1 text-sm font-semibold tabular-nums tracking-[-0.02em] text-accent-strong"><%= inr.format(p.getPrice()) %></div>
+            data-search="<%= nameLower %>"
+            data-name="<%= safeName %>">
+            <span class="lh-lot__index"><%= lotId %></span>
+            <div class="lh-lot__media lh-prod__media">
+              <img src="<%= img %>" alt="<%= safeName %>" loading="lazy" decoding="async" width="640" height="800">
               <% if (loggedIn) { %>
-              <form action="<%= ctx %>/add-to-cart" method="post" class="pt-2">
-                <input type="hidden" name="productId" value="<%= p.getProductId() %>">
-                <button type="submit" class="inline-flex min-h-9 w-full items-center justify-center rounded-full bg-accent px-3 text-xs font-semibold text-white hover:bg-accent-strong">Add to cart</button>
-              </form>
-              <% } else { %>
-              <button type="button" class="lh-add-cart mt-2 inline-flex min-h-9 w-full items-center justify-center rounded-full border border-black/10 bg-cream px-3 text-xs font-semibold text-ink hover:bg-white" data-product-id="<%= p.getProductId() %>">Add to cart</button>
+              <button type="button" class="lh-wish<%= wished ? " is-active" : "" %>" data-product-id="<%= p.getProductId() %>"
+                aria-label="<%= wished ? "Remove from wishlist" : "Add to wishlist" %>" aria-pressed="<%= wished ? "true" : "false" %>">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.2-4.35-9.6-8.4C.7 9.6 2.1 6 5.4 6c1.8 0 3.15 1.05 3.9 2.1C10.05 7.05 11.4 6 13.2 6c3.3 0 4.7 3.6 3 6.6C19.2 16.65 12 21 12 21z"/></svg>
+              </button>
+              <% } else {
+                   String nextWish = java.net.URLEncoder.encode(ctx + "/home#items", "UTF-8");
+              %>
+              <a href="<%= ctx %>/login?reason=wishlist&amp;next=<%= nextWish %>" class="lh-wish lh-wish-guest" aria-label="Sign in to save favourite">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.2-4.35-9.6-8.4C.7 9.6 2.1 6 5.4 6c1.8 0 3.15 1.05 3.9 2.1C10.05 7.05 11.4 6 13.2 6c3.3 0 4.7 3.6 3 6.6C19.2 16.65 12 21 12 21z"/></svg>
+              </a>
               <% } %>
+            </div>
+            <div class="lh-lot__body lh-prod__body">
+              <span class="lh-lot__brand"><%= brand.isEmpty() ? "LiquorHub" : brand %></span>
+              <h3 class="lh-lot__name"><%= p.getProductName() %></h3>
+              <div class="lh-lot__price">
+                <strong><%= inr.format(p.getPrice()) %></strong>
+                <span>INR</span>
+              </div>
+              <div class="lh-lot__actions">
+              <% if (loggedIn) { %>
+                <form action="<%= ctx %>/add-to-cart" method="post" class="lh-atc-form">
+                  <input type="hidden" name="productId" value="<%= p.getProductId() %>">
+                  <button type="submit" class="lh-btn lh-btn--signal lh-atc" style="width:100%">
+                    <span class="lh-atc__label-add">Bag lot</span>
+                    <span class="lh-atc__label-done">Bagged</span>
+                  </button>
+                </form>
+                <a href="<%= ctx %>/buy-now?productId=<%= p.getProductId() %>" class="lh-btn lh-btn--chalk">Buy now</a>
+              <% } else {
+                   String nextHome = java.net.URLEncoder.encode(ctx + "/home#items", "UTF-8");
+                   String nextBuy = java.net.URLEncoder.encode(ctx + "/buy-now?productId=" + p.getProductId(), "UTF-8");
+              %>
+                <a href="<%= ctx %>/login?reason=cart&amp;next=<%= nextHome %>" class="lh-btn lh-btn--chalk">Bag lot</a>
+                <a href="<%= ctx %>/login?reason=buy&amp;next=<%= nextBuy %>" class="lh-btn lh-btn--carbon">Buy now</a>
+              <% } %>
+              </div>
             </div>
           </article>
           <%   }
              } else { %>
-          <p class="col-span-full rounded-[1.25rem] border border-dashed border-black/10 p-5 text-center text-ink-muted">No bottles in the catalogue yet.</p>
+          <p class="lh-panel" style="grid-column:1/-1">No lots on the floor yet.</p>
           <% } %>
         </div>
-        <p id="productEmpty" class="mt-6 hidden rounded-[1.25rem] border border-dashed border-black/[0.12] p-5 text-center text-ink-muted">No bottles match that search.</p>
+        <p id="productEmpty" class="lh-panel hidden" style="margin-top:1rem;text-align:center">No lots match that scan.</p>
       </div>
     </section>
+
+    <% if (loggedIn) { %>
+    <a id="lhCartDock" href="<%= ctx %>/cart" class="lh-cart-dock" aria-label="Open cart">
+      <span class="lh-cart-dock__icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+      </span>
+      <span class="lh-cart-dock__meta">
+        <span class="lh-cart-dock__title">Bag</span>
+        <span class="lh-cart-dock__count"><span id="lhCartCountLabel">Ready</span></span>
+      </span>
+    </a>
+    <% } %>
+    <div id="lhToast" class="lh-toast" role="status" aria-live="polite" hidden>
+      <p class="lh-toast__title" id="lhToastTitle">Bagged</p>
+      <p class="lh-toast__sub" id="lhToastSub"><a href="<%= ctx %>/cart">View bag</a></p>
+    </div>
 
     <!-- Know your pour -->
     <section id="learn" class="scroll-mt-28 border-y border-black/[0.08] bg-cream-strong/40 py-12 sm:py-14 lg:py-16">
@@ -387,12 +393,12 @@
     </section>
 
     <!-- Occasions -->
-    <section id="about" class="scroll-mt-28 py-12 sm:py-14 lg:py-16">
+    <section id="occasions" class="scroll-mt-28 py-12 sm:py-14 lg:py-16">
       <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
         <div class="max-w-3xl text-left">
-          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Occasions</p>
-          <h2 class="mt-2 font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">What LiquorHub is for</h2>
-          <p class="mt-3 max-w-xl text-ink-muted">A clear path from occasion to bottle.</p>
+          <p class="lh-sec__kicker">Occasions</p>
+          <h2 class="lh-sec__title" style="font-size:clamp(1.85rem,4vw,2.65rem)">What LiquorHub is for</h2>
+          <p class="lh-sec__lede">A clear path from occasion to bottle.</p>
         </div>
         <div class="mt-8 grid gap-0 border-t border-black/[0.08]">
           <a href="#items" class="group grid gap-3 border-b border-black/[0.08] py-6 transition-colors duration-300 hover:bg-white/50 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_auto] sm:items-center sm:gap-8 sm:py-7">
@@ -481,6 +487,84 @@
           </article>
           <%   } } %>
         </div>
+      </div>
+    </section>
+
+    <!-- Profile -->
+    <section id="profile" class="scroll-mt-28 border-t border-black/[0.08] bg-white/50 py-12 sm:py-14 lg:py-16">
+      <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
+        <div class="max-w-3xl text-left">
+          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Profile</p>
+          <h2 class="mt-2 font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Your collector space</h2>
+          <p class="mt-3 max-w-xl text-ink-muted">One place for your details, cart, and the bottles you care about.</p>
+        </div>
+
+        <% if (loggedIn) {
+             String pName = customer.getName() != null ? customer.getName() : "Collector";
+             String pInitial = pName.isEmpty() ? "L" : pName.substring(0, 1).toUpperCase();
+        %>
+        <div class="mt-8 overflow-hidden rounded-[1.75rem] border border-black/[0.08] bg-white shadow-[0_16px_48px_rgba(38,34,29,0.06)]">
+          <div class="h-28 bg-[linear-gradient(135deg,#d96a3b,#a84822_50%,#13110d)] sm:h-32" aria-hidden="true"></div>
+          <div class="relative px-5 pb-6 sm:px-8 sm:pb-8">
+            <div class="-mt-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div class="flex items-end gap-4">
+                <div class="flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-accent-soft font-display text-2xl text-accent-strong shadow-md"><%= pInitial %></div>
+                <div class="pb-1">
+                  <h3 class="font-display text-2xl tracking-[-0.03em]"><%= pName %></h3>
+                  <p class="mt-1 text-sm text-ink-muted">CUST<%= customer.getCustomerId() %> · <%= customer.getEmail() %></p>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <a href="<%= ctx %>/profile" class="inline-flex min-h-10 items-center rounded-full bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-strong">Open profile</a>
+                <a href="<%= ctx %>/cart" class="inline-flex min-h-10 items-center rounded-full border border-black/10 bg-cream px-4 text-sm font-semibold text-ink hover:bg-white">Cart</a>
+              </div>
+            </div>
+            <div class="mt-6 grid gap-3 border-t border-black/[0.08] pt-5 sm:grid-cols-3">
+              <div>
+                <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Phone</p>
+                <p class="mt-1 font-semibold"><%= customer.getPhone() %></p>
+              </div>
+              <div class="sm:col-span-2">
+                <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Address</p>
+                <p class="mt-1 font-semibold"><%= customer.getAddress() %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } else { %>
+        <div class="mt-8 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+          <div class="rounded-[1.75rem] border border-black/[0.08] bg-[linear-gradient(165deg,rgba(217,106,59,0.12),rgba(255,255,255,0.95)_42%)] p-6 sm:p-8">
+            <h3 class="font-display text-[clamp(1.5rem,3vw,2rem)] tracking-[-0.03em]">Build your collector profile</h3>
+            <p class="mt-3 max-w-md text-sm text-ink-muted sm:text-base">Browse freely. Create an account when you are ready to add bottles to cart, save your details, and manage your LiquorHub profile.</p>
+            <ul class="mt-5 space-y-2 text-sm text-ink">
+              <li class="flex gap-2"><span class="text-accent font-semibold">01</span> Clear INR prices on every bottle</li>
+              <li class="flex gap-2"><span class="text-accent font-semibold">02</span> Cart only after you sign in</li>
+              <li class="flex gap-2"><span class="text-accent font-semibold">03</span> Update name, email, phone, and address anytime</li>
+            </ul>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="<%= ctx %>/register" class="inline-flex min-h-11 items-center rounded-full bg-accent px-5 text-sm font-semibold text-white hover:bg-accent-strong">Create account</a>
+              <a href="<%= ctx %>/login" class="inline-flex min-h-11 items-center rounded-full border border-black/10 bg-white/80 px-5 text-sm font-semibold text-ink hover:bg-white">Sign in</a>
+            </div>
+          </div>
+          <div class="rounded-[1.75rem] border border-black/[0.08] bg-white/80 p-6 sm:p-8">
+            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">What you get</p>
+            <div class="mt-4 space-y-4">
+              <div class="border-b border-black/[0.06] pb-4">
+                <h4 class="font-display text-lg tracking-[-0.02em]">Profile dashboard</h4>
+                <p class="mt-1 text-sm text-ink-muted">Avatar, member ID, and editable account details.</p>
+              </div>
+              <div class="border-b border-black/[0.06] pb-4">
+                <h4 class="font-display text-lg tracking-[-0.02em]">Cart ready</h4>
+                <p class="mt-1 text-sm text-ink-muted">Add bottles once you are signed in.</p>
+              </div>
+              <div>
+                <h4 class="font-display text-lg tracking-[-0.02em]">Secure access</h4>
+                <p class="mt-1 text-sm text-ink-muted">Reset password and update contact info in one place.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
       </div>
     </section>
 

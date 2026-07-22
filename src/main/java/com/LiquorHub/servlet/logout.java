@@ -2,8 +2,6 @@ package com.LiquorHub.servlet;
 
 import java.io.IOException;
 
-import com.LiquorHub.dto.CustomerDTO;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,16 +16,8 @@ public class logout extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
-			CustomerDTO customer = (CustomerDTO) session.getAttribute("Customer");
 			session.invalidate();
-			if (customer != null) {
-				req.setAttribute("success", "logged Out Successfully");
-			} else {
-				req.setAttribute("error", "session Already Expired");
-			}
-		} else {
-			req.setAttribute("error", "session Already Expired");
 		}
-		req.getRequestDispatcher("/login.jsp").forward(req, resp);
+		resp.sendRedirect(req.getContextPath() + "/home");
 	}
 }

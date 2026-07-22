@@ -1,6 +1,7 @@
 package com.LiquorHub.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.LiquorHub.dao.CartDAO;
 import com.LiquorHub.dao.CartItemDAO;
@@ -27,7 +28,7 @@ public class AddToCart extends HttpServlet {
 		String ctx = req.getContextPath();
 
 		if (customer == null) {
-			resp.sendRedirect(ctx + "/login");
+			resp.sendRedirect(ctx + "/login?reason=cart&next=" + Login.encodeNext(ctx + "/cart"));
 			return;
 		}
 
@@ -56,11 +57,31 @@ public class AddToCart extends HttpServlet {
 			return;
 		}
 
-		CartItemDTO item = new CartItemDTO();
-		item.setCartId(cart.getCartId());
-		item.setProductId(productId);
-		item.setQuantity(1);
-		itemDAO.addItem(item);
+		// Persist like Flipkart/Amazon: bump qty if already in saved cart
+		boolean merged = false;
+		List<CartItemDTO> existing = itemDAO.getCartItems(cart.getCartId());
+		if (existing != null) {
+			for (CartItemDTO it : existing) {
+				if (it.getProductId() == productId) {
+					itemDAO.updateQuantity(it.getCartItemId(), Math.max(1, it.getQuantity()) + 1);
+					merged = true;
+					break;
+				}
+			}
+		}
+		if (!merged) {
+			CartItemDTO item = new CartItemDTO();
+			item.setCartId(cart.getCartId());
+			item.setProductId(productId);
+			item.setQuantity(1);
+			itemDAO.addItem(item);
+		}
+
+		if ("1".equals(req.getParameter("ajax"))) {
+			resp.setContentType("application/json;charset=UTF-8");
+			resp.getWriter().write("{\"ok\":true,\"productId\":" + productId + ",\"merged\":" + merged + "}");
+			return;
+		}
 
 		resp.sendRedirect(ctx + "/cart?added=1");
 	}

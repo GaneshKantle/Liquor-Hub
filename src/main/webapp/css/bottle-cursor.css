@@ -1,0 +1,56 @@
+/* Custom liquor-bottle cursor (desktop fine pointers only) */
+
+@media (pointer: fine) {
+  html,
+  body,
+  .lh-body {
+    cursor: url("../assets/cursor-bottle.png") 10 2, url("../assets/cursor-bottle.svg") 10 2, auto;
+  }
+
+  a,
+  button,
+  [role="button"],
+  [type="submit"],
+  [type="button"],
+  .lh-btn,
+  .lh-wish,
+  .lh-desk__cta,
+  .lh-desk__burger,
+  .lh-dossier,
+  .lh-lot,
+  .lh-flip,
+  label[for],
+  select,
+  summary,
+  .lh-cart-dock {
+    cursor: url("../assets/cursor-bottle-active.png") 10 4, url("../assets/cursor-bottle-active.svg") 10 4, pointer;
+  }
+
+  /* Keep usability for typing */
+  input,
+  textarea,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="number"],
+  [contenteditable="true"] {
+    cursor: text;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="range"],
+  input[type="file"] {
+    cursor: url("../assets/cursor-bottle-active.png") 10 4, url("../assets/cursor-bottle-active.svg") 10 4, pointer;
+  }
+}
+
+@media (pointer: coarse) {
+  html,
+  body {
+    cursor: auto;
+  }
+}

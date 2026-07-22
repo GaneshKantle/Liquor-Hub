@@ -1,8 +1,19 @@
 package com.LiquorHub.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.LiquorHub.dao.OrderDAO;
+import com.LiquorHub.dao.ProductDAO;
+import com.LiquorHub.dao.WishlistItemDAO;
+import com.LiquorHub.daoImpl.OrderDAOImpl;
+import com.LiquorHub.daoImpl.ProductDAOImpl;
+import com.LiquorHub.daoImpl.WishlistItemDAOImpl;
 import com.LiquorHub.dto.CustomerDTO;
+import com.LiquorHub.dto.OrderDTO;
+import com.LiquorHub.dto.ProductDTO;
+import com.LiquorHub.dto.WishlistItemDTO;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,7 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/dashboard")
+@WebServlet({ "/dashboard", "/profile" })
 public class Dashboard extends HttpServlet {
 
 	@Override
@@ -23,6 +34,32 @@ public class Dashboard extends HttpServlet {
 			req.getRequestDispatcher("/login.jsp").forward(req, resp);
 			return;
 		}
+
+		try {
+			OrderDAO orderDAO = new OrderDAOImpl();
+			List<OrderDTO> orders = orderDAO.getOrdersByCustomer(customer.getCustomerId());
+			req.setAttribute("orders", orders);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			WishlistItemDAO wishDAO = new WishlistItemDAOImpl();
+			ProductDAO productDAO = new ProductDAOImpl();
+			List<WishlistItemDTO> wishItems = wishDAO.getItemsByCustomer(customer.getCustomerId());
+			List<ProductDTO> wishProducts = new ArrayList<>();
+			if (wishItems != null) {
+				for (WishlistItemDTO w : wishItems) {
+					ProductDTO p = productDAO.getProductById(w.getProductId());
+					wishProducts.add(p);
+				}
+			}
+			req.setAttribute("wishlistItems", wishItems);
+			req.setAttribute("wishlistProducts", wishProducts);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
 	}
 }

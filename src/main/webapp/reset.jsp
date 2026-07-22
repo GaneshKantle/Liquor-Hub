@@ -9,9 +9,6 @@
   <title>Reset password | LiquorHub</title>
   <link rel="icon" href="<%=request.getContextPath()%>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%=request.getContextPath()%>/css/beer-loader.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -23,8 +20,8 @@
             accent: { DEFAULT: '#d96a3b', strong: '#a84822' }
           },
           fontFamily: {
-            display: ['"Instrument Serif"', 'Georgia', 'serif'],
-            sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            display: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
           }
         }
       }

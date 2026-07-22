@@ -1,28 +1,15 @@
-<%-- Beer pour page loader — markup + dismiss script. Styles: /css/beer-loader.css --%>
-<div id="lhLoader" class="lh-loader" aria-live="polite" aria-busy="true" role="status"
-  style="position:fixed;inset:0;z-index:2147483646;display:flex;align-items:center;justify-content:center;margin:0;padding:1.25rem;background:linear-gradient(165deg,#fffbf7,#f8f5ef 45%,#f4dcd1);">
-  <div class="lh-loader__panel">
-    <div class="lh-loader__scene">
-      <div class="lh-g">
-        <div class="lh-g__rim"></div>
-        <div class="lh-g__body">
-          <div class="lh-g__beer">
-            <div class="lh-g__foam"></div>
-          </div>
-          <div class="lh-g__shine"></div>
-        </div>
-        <div class="lh-g__base"></div>
-      </div>
-      <div class="lh-stream"></div>
-      <div class="lh-b">
-        <div class="lh-b__neck"></div>
-        <div class="lh-b__body">
-          <div class="lh-b__label"></div>
-        </div>
-      </div>
+<%-- Refined page loader — Apple-quiet. Styles: /css/beer-loader.css --%>
+<div id="lhLoader" class="lh-loader" aria-live="polite" aria-busy="true" role="status">
+  <div class="lh-loader__core">
+    <div class="lh-loader__mark" aria-hidden="true">
+      <svg class="lh-loader__ring" viewBox="0 0 48 48" width="40" height="40">
+        <circle class="lh-loader__ring-track" cx="24" cy="24" r="20" fill="none" stroke-width="1.5"/>
+        <circle class="lh-loader__ring-arc" cx="24" cy="24" r="20" fill="none" stroke-width="1.5"
+          stroke-linecap="round" pathLength="100"/>
+      </svg>
     </div>
     <p class="lh-loader__brand">LiquorHub</p>
-    <p class="lh-loader__tag">Pouring your pour...</p>
+    <div class="lh-loader__bar" aria-hidden="true"><span></span></div>
   </div>
 </div>
 
@@ -34,7 +21,7 @@
 
   html.classList.add("lh-loading");
 
-  var MIN_MS = 2600;
+  var MIN_MS = 900;
   var started = Date.now();
   var finished = false;
 
@@ -48,16 +35,16 @@
       html.classList.remove("lh-loading");
       setTimeout(function () {
         if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-      }, 500);
+      }, 520);
     }, left);
   }
 
-  // Don't wait for hero video / fonts — DOM ready is enough so the pour plays once then exits
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", finish);
   } else {
     finish();
   }
-  setTimeout(finish, 5000);
+  window.addEventListener("load", finish, { once: true });
+  setTimeout(finish, 2800);
 })();
 </script>

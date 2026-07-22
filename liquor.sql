@@ -84,6 +84,15 @@ CREATE TABLE Payment (
     REFERENCES Orders(order_id)
 );
 
+CREATE TABLE WishlistItem (
+    wishlist_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    product_id INT NOT NULL,
+    UNIQUE KEY uk_wishlist_customer_product (customer_id, product_id),
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+);
+
 
 
 INSERT INTO Category (category_name) VALUES

@@ -1,4 +1,6 @@
-/* Beer pour page loader — glass left, bottle right */
+/* LiquorHub page loader — quiet, Apple-level motion */
+@import url("bottle-cursor.css");
+
 html.lh-loading,
 html.lh-loading body {
   overflow: hidden !important;
@@ -12,231 +14,143 @@ html.lh-loading body {
   align-items: center;
   justify-content: center;
   margin: 0;
-  padding: 1.25rem;
-  background:
-    radial-gradient(ellipse 60% 50% at 15% 15%, rgba(217, 106, 59, 0.18), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 90% 90%, rgba(255, 255, 255, 0.95), transparent 50%),
-    linear-gradient(165deg, #fffbf7 0%, #f8f5ef 45%, #f4dcd1 100%);
-  transition: opacity 0.45s ease, visibility 0.45s ease;
+  padding: 1.5rem;
+  background: #f5f5f7;
+  transition:
+    opacity 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 #lhLoader.lh-loader.is-done {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transform: scale(1.015);
 }
 
-.lh-loader__panel {
-  width: min(22rem, 92vw);
-  padding: 1.75rem 1.5rem 1.5rem;
-  border-radius: 1.75rem;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 24px 64px rgba(38, 34, 29, 0.12), inset 0 1px 0 #fff;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  text-align: center;
+.lh-loader__core {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.15rem;
+  animation: lhLoaderIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.lh-loader__scene {
-  position: relative;
-  height: 11.5rem;
-  margin: 0 auto 0.25rem;
-  width: 100%;
-  max-width: 18rem;
+.lh-loader__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
 }
 
-/* Glass (left) */
-.lh-g {
-  position: absolute;
-  left: 12%;
-  bottom: 0.4rem;
-  width: 4.6rem;
-  z-index: 2;
+.lh-loader__ring {
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  transform: rotate(-90deg);
 }
 
-.lh-g__rim {
-  height: 0.45rem;
-  margin: 0 auto;
-  width: 92%;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1.5px solid rgba(19, 17, 13, 0.2);
-  position: relative;
-  z-index: 3;
+.lh-loader__ring-track {
+  stroke: rgba(0, 0, 0, 0.08);
 }
 
-.lh-g__body {
-  position: relative;
-  height: 7.2rem;
-  margin: -0.15rem 0.35rem 0;
-  border: 2px solid rgba(19, 17, 13, 0.22);
-  border-top: none;
-  border-radius: 0 0 1.1rem 1.1rem;
-  background: rgba(255, 255, 255, 0.28);
-  overflow: hidden;
-}
-
-.lh-g__beer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 78%;
-  background: linear-gradient(180deg, #e8c45a 0%, #c4a035 45%, #8a5520 100%);
-  transform: scaleY(0);
-  transform-origin: bottom center;
-  animation: lhBeerFill 1.7s cubic-bezier(0.4, 0, 0.2, 1) 0.45s forwards;
-}
-
-.lh-g__foam {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -0.45rem;
-  height: 0.9rem;
-  border-radius: 50%;
-  background: #fff8ee;
-  box-shadow: 0 0 0 2px rgba(255, 248, 238, 0.5);
-  opacity: 0;
-  transform: scaleX(0.65);
-  animation: lhFoamIn 0.4s ease 1.9s forwards;
-}
-
-.lh-g__shine {
-  position: absolute;
-  top: 12%;
-  left: 18%;
-  width: 0.28rem;
-  height: 55%;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.lh-g__base {
-  height: 0.35rem;
-  margin: 0 0.15rem;
-  border-radius: 0 0 0.5rem 0.5rem;
-  background: rgba(19, 17, 13, 0.12);
-}
-
-/* Pour stream */
-.lh-stream {
-  position: absolute;
-  z-index: 3;
-  top: 1.1rem;
-  left: 42%;
-  width: 0.38rem;
-  height: 4.8rem;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #e8c45a, #c4a035);
-  transform: rotate(28deg) scaleY(0);
-  transform-origin: top center;
-  opacity: 0;
-  animation: lhStream 1.4s ease-out 0.3s forwards;
-}
-
-/* Bottle (right) */
-.lh-b {
-  position: absolute;
-  right: 8%;
-  top: 0.2rem;
-  width: 3.1rem;
-  z-index: 2;
-  transform-origin: 30% 15%;
-  transform: rotate(-32deg);
-  animation: lhBottleTilt 1.8s ease-in-out 0.15s infinite;
-}
-
-.lh-b__neck {
-  width: 1rem;
-  height: 1.6rem;
-  margin: 0 auto;
-  border-radius: 0.3rem 0.3rem 0 0;
-  background: #6b3f18;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-.lh-b__body {
-  position: relative;
-  width: 2.6rem;
-  height: 5.4rem;
-  margin: -0.15rem auto 0;
-  border-radius: 0.55rem 0.55rem 0.85rem 0.85rem;
-  background: linear-gradient(160deg, #d96a3b 0%, #a84822 55%, #6b3f18 100%);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
-}
-
-.lh-b__label {
-  position: absolute;
-  left: 12%;
-  right: 12%;
-  top: 28%;
-  height: 1.6rem;
-  border-radius: 0.25rem;
-  background: rgba(255, 248, 238, 0.35);
+.lh-loader__ring-arc {
+  stroke: #1d1d1f;
+  stroke-dasharray: 28 72;
+  animation: lhRingSpin 1s cubic-bezier(0.55, 0.15, 0.35, 0.85) infinite;
 }
 
 .lh-loader__brand {
-  margin: 1.1rem 0 0;
-    font-family: "Instrument Serif", Georgia, serif;
-    font-size: clamp(1.7rem, 5vw, 2.2rem);
-    font-weight: 400;
-  letter-spacing: -0.03em;
-  color: #13110d;
-}
-
-.lh-loader__tag {
-  margin: 0.35rem 0 0;
-    font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.7rem;
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.35rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #d96a3b;
+  letter-spacing: -0.035em;
+  color: #1d1d1f;
+  line-height: 1;
 }
 
-@keyframes lhBeerFill {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
+.lh-loader__bar {
+  width: 7.5rem;
+  height: 1.5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
-@keyframes lhFoamIn {
-  from { opacity: 0; transform: scaleX(0.65); }
-  to { opacity: 1; transform: scaleX(1); }
+.lh-loader__bar span {
+  display: block;
+  width: 40%;
+  height: 100%;
+  border-radius: inherit;
+  background: #1d1d1f;
+  transform-origin: left center;
+  animation: lhBarSweep 1.15s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes lhStream {
-  0% { transform: rotate(28deg) scaleY(0); opacity: 0; }
-  12% { opacity: 1; }
-  65% { transform: rotate(28deg) scaleY(1); opacity: 1; }
-  100% { transform: rotate(28deg) scaleY(1); opacity: 0; }
+@keyframes lhLoaderIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes lhBottleTilt {
-  0%, 100% { transform: rotate(-28deg); }
-  50% { transform: rotate(-36deg); }
+@keyframes lhRingSpin {
+  0% {
+    stroke-dasharray: 8 92;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 42 58;
+    stroke-dashoffset: -28;
+  }
+  100% {
+    stroke-dasharray: 8 92;
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes lhBarSweep {
+  0% {
+    transform: translateX(-120%) scaleX(0.55);
+  }
+  50% {
+    transform: translateX(40%) scaleX(1);
+  }
+  100% {
+    transform: translateX(220%) scaleX(0.45);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lh-g__beer {
+  .lh-loader__core {
     animation: none;
-    transform: scaleY(1);
   }
-  .lh-g__foam {
+
+  .lh-loader__ring-arc,
+  .lh-loader__bar span {
     animation: none;
-    opacity: 1;
+  }
+
+  .lh-loader__ring-arc {
+    stroke-dasharray: 70 30;
+    opacity: 0.55;
+  }
+
+  .lh-loader__bar span {
+    width: 55%;
     transform: none;
   }
-  .lh-stream {
-    animation: none;
-    transform: rotate(28deg) scaleY(1);
-    opacity: 0.65;
-  }
-  .lh-b {
-    animation: none;
+
+  #lhLoader.lh-loader.is-done {
+    transform: none;
   }
 }

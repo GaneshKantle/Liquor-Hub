@@ -1,4 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+  String ctx = request.getContextPath();
+  String next = request.getParameter("next");
+  if (next == null || next.isBlank()) {
+    Object nextAttr = request.getAttribute("next");
+    next = nextAttr != null ? String.valueOf(nextAttr) : "";
+  }
+  String reason = request.getParameter("reason");
+  String reasonMsg = "Sign in to continue shopping on LiquorHub.";
+  if ("cart".equals(reason)) reasonMsg = "Sign in or create an account to add bottles to your cart.";
+  else if ("buy".equals(reason)) reasonMsg = "Sign in or create an account to buy this bottle.";
+  else if ("wishlist".equals(reason) || "favourite".equals(reason)) reasonMsg = "Sign in or create an account to save favourites.";
+  String nextQs = (next != null && !next.isBlank())
+      ? ("?next=" + java.net.URLEncoder.encode(next, "UTF-8") + (reason != null ? "&reason=" + java.net.URLEncoder.encode(reason, "UTF-8") : ""))
+      : (reason != null ? ("?reason=" + java.net.URLEncoder.encode(reason, "UTF-8")) : "");
+%>
 <!DOCTYPE html>
 <html lang="en" style="color-scheme: light;">
 <head>
@@ -6,54 +22,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light only">
   <title>Sign in | LiquorHub</title>
-  <link rel="icon" href="<%=request.getContextPath()%>/assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/beer-loader.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            cream: { DEFAULT: '#f8f5ef', soft: '#fffbf7' },
-            ink: { DEFAULT: '#13110d', muted: '#6a655d' },
-            accent: { DEFAULT: '#d96a3b', soft: '#f4dcd1', strong: '#a84822' }
+            cream: { DEFAULT: '#d9e0e6', soft: '#eef2f5' },
+            ink: { DEFAULT: '#0a0c10', muted: '#3a424c' },
+            accent: { DEFAULT: '#ff2d1a', soft: '#ffd4ce', strong: '#b0180c' }
           },
           fontFamily: {
-            display: ['"Instrument Serif"', 'Georgia', 'serif'],
-            sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            display: ['Syne', 'system-ui', 'sans-serif'],
+            sans: ['Space Grotesk', 'system-ui', 'sans-serif']
           }
         }
       }
     };
   </script>
   <style>
+    .rounded-full, .rounded-2xl { border-radius: 2px !important; }
     .glass-strong {
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(255,255,255,0.75);
-      box-shadow: 0 20px 60px rgba(38,34,29,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: rgba(238,242,245,0.92);
+      border: 1.5px solid #0a0c10;
+      box-shadow: 6px 6px 0 #ff2d1a;
+      backdrop-filter: blur(10px);
     }
   </style>
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
-<body class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-10 font-sans text-ink antialiased"
-  style="background-color:#f8f5ef; background-image: radial-gradient(ellipse 70% 50% at 10% 0%, rgba(217,106,59,0.16), transparent 50%), radial-gradient(ellipse 50% 40% at 100% 100%, rgba(243,228,212,0.8), transparent 50%), linear-gradient(165deg, #fff, #f8f5ef);">
+<body class="lh-body relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-10 antialiased">
   <jsp:include page="/WEB-INF/jspf/loader.jsp" />
   <div class="pointer-events-none absolute -left-20 top-20 h-64 w-64 rounded-full bg-accent/15 blur-3xl"></div>
   <div class="pointer-events-none absolute -right-10 bottom-10 h-72 w-72 rounded-full bg-white/80 blur-3xl"></div>
 
   <header class="relative mb-8 text-center">
-    <a href="<%=request.getContextPath()%>/home" class="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">LiquorHub</a>
-    <p class="mt-2 text-sm tracking-wide text-ink-muted">Rare bottles. Trusted exchange.</p>
+    <a href="<%= ctx %>/home" class="lh-display text-4xl uppercase tracking-tight text-ink sm:text-5xl">LiquorHub</a>
+    <p class="mt-2 text-sm tracking-wide text-ink-muted">Browse the floor. Sign in to trade.</p>
   </header>
 
   <div class="glass-strong relative w-full max-w-md rounded-[2rem] p-6 sm:p-8">
     <h2 class="font-display text-2xl font-semibold tracking-tight">Welcome back</h2>
-    <p class="mt-1 mb-5 text-sm text-ink-muted">Sign in to buy or list rare liquor on our platform.</p>
+    <p class="mt-1 mb-5 text-sm text-ink-muted"><%= reasonMsg %></p>
 
     <% String success = (String) request.getAttribute("success");
        if (success != null) { %>
@@ -68,7 +81,13 @@
     <p class="mb-4 rounded-2xl border border-green-700/15 bg-green-50/70 px-3 py-2.5 text-sm text-green-800"><%= success1 %></p>
     <% } %>
 
-    <form action="login" method="POST" class="space-y-4">
+    <form action="<%= ctx %>/login" method="POST" class="space-y-4">
+      <% if (next != null && !next.isBlank()) { %>
+      <input type="hidden" name="next" value="<%= next.replace("\"", "&quot;") %>">
+      <% } %>
+      <% if (reason != null && !reason.isBlank()) { %>
+      <input type="hidden" name="reason" value="<%= reason.replace("\"", "") %>">
+      <% } %>
       <div>
         <label for="mail" class="mb-1.5 block text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted">Email</label>
         <input id="mail" type="email" name="mail" required placeholder="you@email.com" autocomplete="email"
@@ -83,11 +102,11 @@
     </form>
 
     <div class="mt-5 text-center text-sm text-ink-muted">
-      <a href="forgetPassword" class="font-medium text-accent-strong hover:underline">Forgot password?</a>
+      <a href="<%= ctx %>/forgetPassword" class="font-medium text-accent-strong hover:underline">Forgot password?</a>
       <span> · </span>
-      <a href="register.jsp" class="font-medium text-accent-strong hover:underline">Create account</a>
+      <a href="<%= ctx %>/register<%= nextQs %>" class="font-medium text-accent-strong hover:underline">Create account</a>
       <span> · </span>
-      <a href="<%=request.getContextPath()%>/home" class="font-medium text-accent-strong hover:underline">Back to shop</a>
+      <a href="<%= ctx %>/home" class="font-medium text-accent-strong hover:underline">Back to shop</a>
     </div>
   </div>
 </body>

@@ -30,10 +30,51 @@ public class Cart extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		CustomerDTO customer = session != null ? (CustomerDTO) session.getAttribute("Customer") : null;
 		if (customer == null) {
-			resp.sendRedirect(req.getContextPath() + "/login");
+			String ctx = req.getContextPath();
+			resp.sendRedirect(ctx + "/login?reason=cart&next=" + Login.encodeNext(ctx + "/cart"));
 			return;
 		}
 
+		loadCart(req, customer);
+		req.getRequestDispatcher("/cart.jsp").forward(req, resp);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession(false);
+		CustomerDTO customer = session != null ? (CustomerDTO) session.getAttribute("Customer") : null;
+		if (customer == null) {
+			String ctx = req.getContextPath();
+			resp.sendRedirect(ctx + "/login?reason=cart&next=" + Login.encodeNext(ctx + "/cart"));
+			return;
+		}
+
+		String action = req.getParameter("action");
+		String itemIdStr = req.getParameter("cartItemId");
+		CartItemDAO itemDAO = new CartItemDAOImpl();
+
+		if (itemIdStr != null) {
+			try {
+				int cartItemId = Integer.parseInt(itemIdStr);
+				if ("remove".equals(action)) {
+					itemDAO.removeItem(cartItemId);
+				} else if ("qty".equals(action)) {
+					int qty = Integer.parseInt(req.getParameter("quantity"));
+					if (qty <= 0) {
+						itemDAO.removeItem(cartItemId);
+					} else {
+						itemDAO.updateQuantity(cartItemId, qty);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		resp.sendRedirect(req.getContextPath() + "/cart");
+	}
+
+	static void loadCart(HttpServletRequest req, CustomerDTO customer) {
 		CartDAO cartDAO = new CartDAOImpl();
 		CartItemDAO itemDAO = new CartItemDAOImpl();
 		ProductDAO productDAO = new ProductDAOImpl();
@@ -47,8 +88,7 @@ public class Cart extends HttpServlet {
 			if (raw != null) {
 				items = raw;
 				for (CartItemDTO it : items) {
-					ProductDTO p = productDAO.getProductById(it.getProductId());
-					products.add(p);
+					products.add(productDAO.getProductById(it.getProductId()));
 				}
 			}
 		}
@@ -56,29 +96,5 @@ public class Cart extends HttpServlet {
 		req.setAttribute("cart", cart);
 		req.setAttribute("cartItems", items);
 		req.setAttribute("cartProducts", products);
-		req.getRequestDispatcher("/cart.jsp").forward(req, resp);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession(false);
-		CustomerDTO customer = session != null ? (CustomerDTO) session.getAttribute("Customer") : null;
-		if (customer == null) {
-			resp.sendRedirect(req.getContextPath() + "/login");
-			return;
-		}
-
-		String action = req.getParameter("action");
-		String itemIdStr = req.getParameter("cartItemId");
-		if ("remove".equals(action) && itemIdStr != null) {
-			try {
-				int cartItemId = Integer.parseInt(itemIdStr);
-				new CartItemDAOImpl().removeItem(cartItemId);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		resp.sendRedirect(req.getContextPath() + "/cart");
 	}
 }
