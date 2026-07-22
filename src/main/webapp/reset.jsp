@@ -39,15 +39,33 @@
       <form action="<%= ctx %>/resetPassword" method="POST" class="lh-auth__form">
         <div>
           <label for="currentPassword">Current password</label>
-          <input id="currentPassword" type="password" name="currentPassword" required placeholder="Current password" autocomplete="current-password">
+          <div class="lh-pw">
+            <input id="currentPassword" type="password" name="currentPassword" required placeholder="Current password" autocomplete="current-password">
+            <button type="button" class="lh-pw__toggle" data-target="currentPassword" aria-label="Show password" aria-pressed="false">
+              <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 004.2 4.2"/><path d="M9.9 5.2A10.4 10.4 0 0112 5c6.5 0 10 7 10 7a17.6 17.6 0 01-3.1 3.9"/><path d="M6.1 6.1A17.3 17.3 0 002 12s3.5 7 10 7c1.3 0 2.5-.3 3.6-.7"/></svg>
+            </button>
+          </div>
         </div>
         <div>
           <label for="newPassword">New password</label>
-          <input id="newPassword" type="password" name="newPassword" required placeholder="New password" minlength="6" autocomplete="new-password">
+          <div class="lh-pw">
+            <input id="newPassword" type="password" name="newPassword" required placeholder="New password" minlength="6" autocomplete="new-password">
+            <button type="button" class="lh-pw__toggle" data-target="newPassword" aria-label="Show password" aria-pressed="false">
+              <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 004.2 4.2"/><path d="M9.9 5.2A10.4 10.4 0 0112 5c6.5 0 10 7 10 7a17.6 17.6 0 01-3.1 3.9"/><path d="M6.1 6.1A17.3 17.3 0 002 12s3.5 7 10 7c1.3 0 2.5-.3 3.6-.7"/></svg>
+            </button>
+          </div>
         </div>
         <div>
           <label for="confirmPassword">Confirm new password</label>
-          <input id="confirmPassword" type="password" name="confirmPassword" required placeholder="Confirm new password" autocomplete="new-password">
+          <div class="lh-pw">
+            <input id="confirmPassword" type="password" name="confirmPassword" required placeholder="Confirm new password" autocomplete="new-password">
+            <button type="button" class="lh-pw__toggle" data-target="confirmPassword" aria-label="Show password" aria-pressed="false">
+              <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 004.2 4.2"/><path d="M9.9 5.2A10.4 10.4 0 0112 5c6.5 0 10 7 10 7a17.6 17.6 0 01-3.1 3.9"/><path d="M6.1 6.1A17.3 17.3 0 002 12s3.5 7 10 7c1.3 0 2.5-.3 3.6-.7"/></svg>
+            </button>
+          </div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:0.5rem">
           <button type="submit" class="lh-btn lh-btn--signal" style="flex:1;justify-content:center">Save password</button>
@@ -59,5 +77,19 @@
 
   <jsp:include page="/WEB-INF/jspf/footer.jsp" />
   <script src="<%= ctx %>/js/home.js" defer></script>
+  <script>
+    document.querySelectorAll(".lh-pw__toggle").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-target");
+        var input = id ? document.getElementById(id) : null;
+        if (!input) return;
+        var show = input.type === "password";
+        input.type = show ? "text" : "password";
+        btn.classList.toggle("is-shown", show);
+        btn.setAttribute("aria-pressed", show ? "true" : "false");
+        btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+      });
+    });
+  </script>
 </body>
 </html>

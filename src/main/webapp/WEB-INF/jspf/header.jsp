@@ -28,7 +28,6 @@
 
     <div class="lh-desk__search">
       <form id="siteSearchForm" role="search" action="<%= ctx %>/catalog" method="get">
-        <label class="sr-only" for="siteSearch">Search bottles</label>
         <input id="siteSearch" type="search" name="q"  autocomplete="off">
         <button type="submit" id="siteSearchBtn">Scan</button>
       </form>
