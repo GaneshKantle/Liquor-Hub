@@ -26,28 +26,10 @@
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/auth.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
   <style>
-    .lh-pw { position: relative; }
-    .lh-pw input { padding-right: 2.75rem; }
-    .lh-pw__toggle {
-      position: absolute; right: 0.35rem; top: 50%; transform: translateY(-50%);
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 2.25rem; height: 2.25rem; border: 0; background: transparent;
-      color: var(--smoke); cursor: pointer;
-    }
-    .lh-pw__toggle:hover { color: var(--carbon); }
-    .lh-pw__toggle svg { width: 1.15rem; height: 1.15rem; }
-    .lh-pw__toggle .eye-off { display: none; }
-    .lh-pw__toggle.is-shown .eye-on { display: none; }
-    .lh-pw__toggle.is-shown .eye-off { display: block; }
-    .lh-field-error {
-      margin: 0.4rem 0 0; font-size: 0.78rem; font-weight: 600; color: var(--signal-ink);
-    }
-    .lh-field-error[hidden] { display: none !important; }
-    input.is-invalid {
-      border-color: rgba(176, 24, 12, 0.55) !important;
-      box-shadow: 0 0 0 2px rgba(255, 45, 26, 0.12);
-    }
+    /* register-specific extras live in auth.css */
   </style>
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
@@ -113,7 +95,7 @@
           <label for="address">Address</label>
           <input id="address" type="text" name="address" required placeholder="Delivery / pickup address" autocomplete="street-address">
         </div>
-        <button type="submit" id="registerSubmit" class="lh-btn lh-btn--signal" style="width:100%;justify-content:center">Join LiquorHub</button>
+        <button type="submit" id="registerSubmit" class="lh-btn lh-btn--signal lh-auth__submit">Join LiquorHub</button>
       </form>
 
       <div class="lh-auth__links">

@@ -18,8 +18,9 @@
   String footAccountLabel = footCustomer != null ? "Desk" : "Sign in";
   String footHome = footCtx + "/home";
 %>
+<link rel="stylesheet" href="<%= footCtx %>/css/footer.css">
 <footer class="lh-site-footer">
-  <div class="lh-shell lh-site-footer__inner">
+  <div class="lh-site-footer__inner">
     <div class="lh-site-footer__top">
       <div class="lh-site-footer__brand">
         <a href="<%= footHome %>" class="lh-display">LiquorHub</a>

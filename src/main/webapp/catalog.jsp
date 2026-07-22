@@ -33,6 +33,7 @@
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
   <link rel="stylesheet" href="<%= ctx %>/css/cart-shelf.css">
   <style>
     .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0 }

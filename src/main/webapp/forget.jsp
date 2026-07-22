@@ -12,6 +12,8 @@
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/auth.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
 <body class="lh-body overflow-x-clip antialiased" data-ctx="<%= ctx %>">
@@ -41,7 +43,7 @@
           <label for="cpassword">Confirm password</label>
           <input id="cpassword" type="password" name="cpassword" required placeholder="Confirm password" autocomplete="new-password">
         </div>
-        <button type="submit" class="lh-btn lh-btn--signal" style="width:100%;justify-content:center">Update password</button>
+        <button type="submit" class="lh-btn lh-btn--signal lh-auth__submit">Update password</button>
       </form>
 
       <div class="lh-auth__links">

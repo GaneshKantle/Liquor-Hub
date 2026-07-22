@@ -3,6 +3,9 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap");
 @import url("toast.css");
+@import url("auth.css");
+@import url("footer.css");
+@import url("account.css");
 
 :root {
   --paper: #d9e0e6;
@@ -558,6 +561,98 @@ img, video { max-width: 100%; display: block; }
 @keyframes lh-ticker {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+/* Social proof — two-line opposing marquees */
+.lh-marquee-wrap {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.lh-marquee,
+.lh-marquee-rev {
+  display: flex;
+  width: max-content;
+  gap: 0.85rem;
+  will-change: transform;
+}
+
+.lh-marquee {
+  animation: lh-marquee-left 48s linear infinite;
+}
+
+.lh-marquee-rev {
+  margin-top: 0.85rem;
+  animation: lh-marquee-right 52s linear infinite;
+}
+
+@keyframes lh-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes lh-marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.lh-marquee-wrap:hover .lh-marquee,
+.lh-marquee-wrap:hover .lh-marquee-rev {
+  animation-play-state: paused;
+}
+
+.lh-proof-card {
+  flex: 0 0 auto;
+  width: min(22rem, 78vw);
+  padding: 1.1rem 1.15rem;
+  border: 1.5px solid var(--carbon);
+  background: var(--chalk);
+  border-radius: var(--r);
+}
+
+.lh-proof-card__quote {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+
+.lh-proof-card__stat {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.lh-proof-card__meta {
+  margin: 0.7rem 0 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--smoke);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lh-marquee,
+  .lh-marquee-rev {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: var(--max);
+    margin-inline: auto;
+    justify-content: center;
+    transform: none !important;
+  }
+  .lh-marquee-wrap {
+    mask-image: none;
+    -webkit-mask-image: none;
+    padding-inline: 1rem;
+  }
 }
 
 /* —— Section chrome —— */
@@ -1160,7 +1255,9 @@ html.lh-quiz-lock body { overflow: hidden !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .lh-ticker__track,
-  .lh-desk__live::before { animation: none !important; }
+  .lh-desk__live::before,
+  .lh-marquee,
+  .lh-marquee-rev { animation: none !important; }
   .lh-reveal,
   .lh-reveal.lh-pending { opacity: 1; transform: none; transition: none; }
 }
@@ -1329,39 +1426,7 @@ html.lh-quiz-lock body { overflow: hidden !important; }
 }
 .lh-btn--danger:hover { background: rgba(255,45,26,0.08); }
 
-/* Shared site footer */
-.lh-site-footer {
-  margin-top: 2rem;
-  border-top: 1.5px solid var(--carbon);
-  background: var(--chalk);
-  padding: 2rem 0 1.5rem;
-}
-.lh-site-footer__inner { display: grid; gap: 1.5rem; }
-.lh-site-footer__top {
-  display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;
-}
-.lh-site-footer__brand { max-width: 18rem; }
-.lh-site-footer__brand .lh-display {
-  font-size: 1.25rem; text-transform: uppercase;
-}
-.lh-site-footer__brand p {
-  margin: 0.65rem 0 0; color: var(--smoke); font-size: 0.88rem; line-height: 1.45;
-}
-.lh-site-footer__nav {
-  display: flex; flex-wrap: wrap; gap: 2rem;
-}
-.lh-site-footer__nav .lh-sec__kicker { margin: 0; }
-.lh-site-footer__nav ul {
-  list-style: none; margin: 0.6rem 0 0; padding: 0;
-}
-.lh-site-footer__nav li { margin: 0.35rem 0; }
-.lh-site-footer__nav a {
-  font-size: 0.88rem; font-weight: 600;
-}
-.lh-site-footer__copy {
-  margin: 0; padding-top: 1rem; border-top: 1px dashed var(--line);
-  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke);
-}
+/* Shared site footer — see footer.css (linked from footer.jsp) */
 
 /* Auth pages under shared nav */
 .lh-auth {

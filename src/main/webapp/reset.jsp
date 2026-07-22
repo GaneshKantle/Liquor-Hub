@@ -14,6 +14,8 @@
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/auth.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
 <body class="lh-body overflow-x-clip antialiased" data-ctx="<%= ctx %>">

@@ -31,41 +31,8 @@
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
-  <style>
-    .lh-pay { position: absolute; opacity: 0; pointer-events: none; }
-    .lh-pay + label {
-      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
-      padding: 0.85rem 1rem; margin-top: 0.5rem; cursor: pointer;
-      border: 1.5px solid var(--carbon); background: var(--paper);
-    }
-    .lh-pay + label span:last-child { font-size: 0.78rem; color: var(--smoke); }
-    .lh-pay:checked + label {
-      background: rgba(255, 45, 26, 0.08);
-      box-shadow: 3px 3px 0 var(--signal);
-    }
-    .lh-buy-grid {
-      display: grid; gap: 1.25rem; margin-top: 1.5rem;
-    }
-    @media (min-width: 900px) {
-      .lh-buy-grid { grid-template-columns: 1.15fr 0.85fr; align-items: start; }
-    }
-    .lh-buy-aside { position: sticky; top: 5.5rem; }
-    .lh-buy-meta {
-      display: grid; gap: 0.65rem; margin-top: 1rem;
-    }
-    @media (min-width: 560px) {
-      .lh-buy-meta { grid-template-columns: 1fr 1fr; }
-    }
-    .lh-buy-meta > div {
-      padding: 0.85rem; border: 1.5px solid var(--carbon); background: var(--paper);
-    }
-    .lh-buy-meta > div.wide { grid-column: 1 / -1; }
-    .lh-buy-meta p {
-      margin: 0; font-size: 0.62rem; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase; color: var(--smoke);
-    }
-    .lh-buy-meta strong { display: block; margin-top: 0.35rem; font-size: 0.95rem; }
-  </style>
+  <link rel="stylesheet" href="<%= ctx %>/css/account.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
 <body class="lh-body overflow-x-clip antialiased" data-ctx="<%= ctx %>">

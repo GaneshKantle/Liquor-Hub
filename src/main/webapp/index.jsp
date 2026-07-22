@@ -45,6 +45,7 @@
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
   <link rel="stylesheet" href="<%= ctx %>/css/cart-shelf.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -464,16 +465,14 @@
     </section>
 
     <!-- Testimonials -->
-    <section id="testimonials" class="py-12 sm:py-14 lg:py-16">
-      <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
-        <div class="max-w-3xl text-left">
-          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Social proof</p>
-          <h2 class="mt-2 font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Collectors keep coming back</h2>
-          <p class="mt-3 max-w-xl text-ink-muted">Notes from hosts and buyers.</p>
-        </div>
+    <section id="testimonials" class="lh-sec scroll-mt-28">
+      <div class="lh-shell lh-reveal">
+        <p class="lh-sec__kicker">Social proof</p>
+        <h2 class="lh-sec__title">Collectors keep coming back</h2>
+        <p class="lh-sec__lede">Notes from hosts and buyers — scrolling the desk.</p>
       </div>
-      <div class="lh-marquee-wrap mt-8 overflow-hidden" aria-label="Testimonials">
-        <div class="lh-marquee flex w-max gap-4">
+      <div class="lh-marquee-wrap" style="margin-top:1.75rem" aria-label="Testimonials">
+        <div class="lh-marquee">
           <% String[] row1 = {
                "q|Found a Chivas 18 for a client dinner in minutes. Price was clear, no noise.|Aarav - Mumbai",
                "s|8 categories|On the shelf",
@@ -487,14 +486,14 @@
                  String[] parts = chip.split("\\|");
                  boolean isStat = "s".equals(parts[0]);
           %>
-          <article class="w-[min(22rem,78vw)] shrink-0 rounded-[1.25rem] border border-black/[0.08] bg-white/80 p-5" <%= pass == 1 ? "aria-hidden=\"true\"" : "" %>>
-            <% if (isStat) { %><p class="font-display text-2xl tracking-[-0.03em]"><%= parts[1] %></p>
-            <% } else { %><p class="text-sm leading-relaxed tracking-[-0.01em]">"<%= parts[1] %>"</p><% } %>
-            <p class="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted"><%= parts[2] %></p>
+          <article class="lh-proof-card" <%= pass == 1 ? "aria-hidden=\"true\"" : "" %>>
+            <% if (isStat) { %><p class="lh-proof-card__stat"><%= parts[1] %></p>
+            <% } else { %><p class="lh-proof-card__quote">"<%= parts[1] %>"</p><% } %>
+            <p class="lh-proof-card__meta"><%= parts[2] %></p>
           </article>
           <%   } } %>
         </div>
-        <div class="lh-marquee-rev mt-4 flex w-max gap-4">
+        <div class="lh-marquee-rev">
           <% String[] row2 = {
                "s|Trusted exchange|Buyer + seller ready",
                "q|Finally a liquor site that tells you the story in the first scroll.|Isha - Pune",
@@ -508,10 +507,10 @@
                  String[] parts = chip.split("\\|");
                  boolean isStat = "s".equals(parts[0]);
           %>
-          <article class="w-[min(22rem,78vw)] shrink-0 rounded-[1.25rem] border border-black/[0.08] bg-white/80 p-5" <%= pass == 1 ? "aria-hidden=\"true\"" : "" %>>
-            <% if (isStat) { %><p class="font-display text-2xl tracking-[-0.03em]"><%= parts[1] %></p>
-            <% } else { %><p class="text-sm leading-relaxed tracking-[-0.01em]">"<%= parts[1] %>"</p><% } %>
-            <p class="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted"><%= parts[2] %></p>
+          <article class="lh-proof-card" <%= pass == 1 ? "aria-hidden=\"true\"" : "" %>>
+            <% if (isStat) { %><p class="lh-proof-card__stat"><%= parts[1] %></p>
+            <% } else { %><p class="lh-proof-card__quote">"<%= parts[1] %>"</p><% } %>
+            <p class="lh-proof-card__meta"><%= parts[2] %></p>
           </article>
           <%   } } %>
         </div>
@@ -556,19 +555,6 @@
         </div>
         <% } else { %>
         <div class="mt-8 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <div class="rounded-[1.75rem] border border-black/[0.08] bg-[linear-gradient(165deg,rgba(217,106,59,0.12),rgba(255,255,255,0.95)_42%)] p-6 sm:p-8">
-            <h3 class="font-display text-[clamp(1.5rem,3vw,2rem)] tracking-[-0.03em]">Build your collector profile</h3>
-            <p class="mt-3 max-w-md text-sm text-ink-muted sm:text-base">Browse freely. Create an account when you are ready to add bottles to cart, save your details, and manage your LiquorHub profile.</p>
-            <ul class="mt-5 space-y-2 text-sm text-ink">
-              <li class="flex gap-2"><span class="text-accent font-semibold">01</span> Clear INR prices on every bottle</li>
-              <li class="flex gap-2"><span class="text-accent font-semibold">02</span> Cart only after you sign in</li>
-              <li class="flex gap-2"><span class="text-accent font-semibold">03</span> Update name, email, phone, and address anytime</li>
-            </ul>
-            <div class="mt-6 flex flex-wrap gap-3">
-              <a href="<%= ctx %>/register" class="inline-flex min-h-11 items-center rounded-full bg-accent px-5 text-sm font-semibold text-white hover:bg-accent-strong">Create account</a>
-              <a href="<%= ctx %>/login" class="inline-flex min-h-11 items-center rounded-full border border-black/10 bg-white/80 px-5 text-sm font-semibold text-ink hover:bg-white">Sign in</a>
-            </div>
-          </div>
           <div class="rounded-[1.75rem] border border-black/[0.08] bg-white/80 p-6 sm:p-8">
             <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">What you get</p>
             <div class="mt-4 space-y-4">
