@@ -78,6 +78,12 @@
   }
 
   function runSearch(value) {
+    var q = (value || "").trim();
+    if (!products.length) {
+      var ctx = document.body.getAttribute("data-ctx") || "";
+      window.location.href = ctx + "/catalog" + (q ? ("?q=" + encodeURIComponent(q)) : "");
+      return;
+    }
     applyQuery(value, { clearCat: true, scroll: true });
   }
 
@@ -164,26 +170,59 @@
     });
   }
 
+  try {
+    var bootQ = new URLSearchParams(window.location.search).get("q");
+    if (bootQ && products.length) {
+      applyQuery(bootQ, { clearCat: true, scroll: false });
+    }
+  } catch (err) {}
+
+
   document.querySelectorAll('#mobileNav a[href^="#"]').forEach(function (a) {
     a.addEventListener("click", closeMobile);
   });
 
-  /* ---- Apple-style 3D tilt (CSS transforms only) ---- */
+  /* ---- Mild 3D tilt (cached rect — avoids hover swing feedback) ---- */
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var finePointer = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var cards = document.querySelectorAll(".lh-prod-3d");
-  if (!reduceMotion && cards.length) {
+  if (!reduceMotion && finePointer && cards.length) {
     for (var c = 0; c < cards.length; c++) {
       (function (card) {
-        card.addEventListener("pointermove", function (e) {
-          var rect = card.getBoundingClientRect();
-          var x = (e.clientX - rect.left) / rect.width;
-          var y = (e.clientY - rect.top) / rect.height;
-          var rotY = (x - 0.5) * 14;
-          var rotX = (0.5 - y) * 10;
+        var baseRect = null;
+        var raf = 0;
+        var nextX = 0;
+        var nextY = 0;
+
+        function applyTilt() {
+          raf = 0;
+          if (!baseRect) return;
+          var x = (nextX - baseRect.left) / baseRect.width;
+          var y = (nextY - baseRect.top) / baseRect.height;
+          x = Math.max(0, Math.min(1, x));
+          y = Math.max(0, Math.min(1, y));
+          var rotY = (x - 0.5) * 6;
+          var rotX = (0.5 - y) * 4;
           card.classList.add("is-tilting");
-          card.style.transform = "rotateX(" + rotX.toFixed(2) + "deg) rotateY(" + rotY.toFixed(2) + "deg) translateZ(0)";
+          card.style.transform =
+            "perspective(900px) rotateX(" + rotX.toFixed(2) + "deg) rotateY(" + rotY.toFixed(2) + "deg)";
+        }
+
+        card.addEventListener("pointerenter", function () {
+          baseRect = card.getBoundingClientRect();
+        });
+        card.addEventListener("pointermove", function (e) {
+          nextX = e.clientX;
+          nextY = e.clientY;
+          if (!baseRect) baseRect = card.getBoundingClientRect();
+          if (!raf) raf = requestAnimationFrame(applyTilt);
         });
         card.addEventListener("pointerleave", function () {
+          baseRect = null;
+          if (raf) {
+            cancelAnimationFrame(raf);
+            raf = 0;
+          }
           card.classList.remove("is-tilting");
           card.style.transform = "";
         });

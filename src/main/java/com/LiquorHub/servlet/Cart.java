@@ -36,6 +36,12 @@ public class Cart extends HttpServlet {
 		}
 
 		loadCart(req, customer);
+		try {
+			com.LiquorHub.dao.CategoryDAO categoryDAO = new com.LiquorHub.daoImpl.CategoryDAOImpl();
+			req.setAttribute("categories", categoryDAO.getAllCategories());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		req.getRequestDispatcher("/cart.jsp").forward(req, resp);
 	}
 

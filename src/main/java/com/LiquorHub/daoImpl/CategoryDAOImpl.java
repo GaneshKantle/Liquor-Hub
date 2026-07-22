@@ -115,7 +115,8 @@ public class CategoryDAOImpl implements com.LiquorHub.dao.CategoryDAO {
 
         List<CategoryDTO> categories = new ArrayList<>();
 
-        String sql = "SELECT * FROM Category";
+        String sql = "SELECT MIN(category_id) AS category_id, category_name "
+                + "FROM Category GROUP BY category_name ORDER BY MIN(category_id)";
 
         try {
 

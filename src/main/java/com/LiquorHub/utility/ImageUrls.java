@@ -7,6 +7,15 @@ package com.LiquorHub.utility;
 public final class ImageUrls {
 
 	private static final String Q = "?auto=format&fit=crop&w=%d&q=80";
+	private static final String BANNER_Q = "?auto=format&fit=crop&w=%d&h=%d&q=80";
+
+	/** Default landscape profile cover (liquor bar / shelf). */
+	private static final String PROFILE_BANNER =
+			"https://images.unsplash.com/photo-1470337458703-46ad1756a187";
+
+	public static String profileBanner() {
+		return PROFILE_BANNER + String.format(BANNER_Q, 1600, 480);
+	}
 
 	/* Verified Unsplash CDN photo pools per spirit */
 	private static final String[] WHISKY = {

@@ -37,11 +37,24 @@ public class Register extends HttpServlet {
 			return;
 		}
 
+		String password = req.getParameter("password");
+		String confirm = req.getParameter("cpassword");
+		if (password == null || password.isBlank()) {
+			req.setAttribute("error", "Password is required.");
+			req.getRequestDispatcher("/register.jsp").forward(req, resp);
+			return;
+		}
+		if (confirm == null || !password.equals(confirm)) {
+			req.setAttribute("error", "Passwords do not match.");
+			req.getRequestDispatcher("/register.jsp").forward(req, resp);
+			return;
+		}
+
 		CustomerDAO customerDAO = new CustomerDAOImpl();
 		CustomerDTO customer = new CustomerDTO();
 		customer.setName(req.getParameter("name"));
 		customer.setEmail(req.getParameter("mail"));
-		customer.setPassword(req.getParameter("password"));
+		customer.setPassword(password);
 		customer.setPhone(req.getParameter("phone"));
 		customer.setAddress(req.getParameter("address"));
 		customerDAO.insertCustomer(customer);

@@ -1,24 +1,33 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.LiquorHub.dto.CategoryDTO" %>
 <%@ page import="com.LiquorHub.dto.CustomerDTO" %>
+<%@ page import="com.LiquorHub.daoImpl.CategoryDAOImpl" %>
 <%
   String ctx = request.getContextPath();
   List<CategoryDTO> navCategories = (List<CategoryDTO>) request.getAttribute("categories");
+  if (navCategories == null) {
+    try {
+      navCategories = new CategoryDAOImpl().getAllCategories();
+      request.setAttribute("categories", navCategories);
+    } catch (Exception ignored) {
+      navCategories = null;
+    }
+  }
   CustomerDTO navCustomer = (CustomerDTO) session.getAttribute("Customer");
   boolean navLoggedIn = navCustomer != null;
   String profileHref = navLoggedIn ? ctx + "/profile" : ctx + "/login";
   String profileLabel = navLoggedIn ? "Desk" : "Sign in";
-  String midProfileHref = navLoggedIn ? ctx + "/profile" : "#profile";
+  String home = ctx + "/home";
 %>
 <header id="siteHeader" class="lh-desk">
   <div id="navBar" class="lh-desk__bar">
-    <a href="<%= ctx %>/home" class="lh-desk__brand" aria-label="LiquorHub home">
+    <a href="<%= home %>" class="lh-desk__brand" aria-label="LiquorHub home">
       <img src="<%= ctx %>/assets/logo.png" alt="LiquorHub" width="152" height="52" decoding="async">
     </a>
     <span class="lh-desk__live" aria-hidden="true">Live desk</span>
 
     <div class="lh-desk__search">
-      <form id="siteSearchForm" role="search">
+      <form id="siteSearchForm" role="search" action="<%= ctx %>/catalog" method="get">
         <label class="sr-only" for="siteSearch">Search bottles</label>
         <input id="siteSearch" type="search" name="q" placeholder="Scan lot..." autocomplete="off">
         <button type="submit" id="siteSearchBtn">Scan</button>
@@ -37,13 +46,13 @@
         </div>
       </div>
       <a href="<%= ctx %>/catalog">Catalogue</a>
-      <a href="#about">Manifest</a>
-      <a href="#learn">Notes</a>
-      <a href="<%= midProfileHref %>"><%= navLoggedIn ? "Desk" : "Profile" %></a>
-      <a href="#contact">Wire</a>
+      <a href="<%= home %>#about">Manifest</a>
+      <a href="<%= home %>#learn">Notes</a>
       <% if (navLoggedIn) { %>
+      <a href="<%= ctx %>/profile">Desk</a>
       <a href="<%= ctx %>/cart">Bag</a>
       <% } %>
+      <a href="<%= home %>#contact">Wire</a>
       <a href="<%= profileHref %>" class="lh-desk__cta"><%= profileLabel %></a>
     </nav>
 
@@ -53,19 +62,19 @@
   </div>
 
   <div id="mobileNav" class="lh-desk__mobile hidden" hidden>
-    <form id="siteSearchFormMobile" role="search">
+    <form id="siteSearchFormMobile" role="search" action="<%= ctx %>/catalog" method="get">
       <label class="sr-only" for="siteSearchMobile">Search bottles</label>
       <input id="siteSearchMobile" type="search" name="q" placeholder="Scan lot..." autocomplete="off">
       <button type="submit">Scan</button>
     </form>
     <a href="<%= ctx %>/catalog">Catalogue</a>
-    <a href="#about">Manifest</a>
-    <a href="#learn">Notes</a>
-    <a href="<%= midProfileHref %>"><%= navLoggedIn ? "Desk" : "Profile" %></a>
-    <a href="#contact">Wire</a>
+    <a href="<%= home %>#about">Manifest</a>
+    <a href="<%= home %>#learn">Notes</a>
     <% if (navLoggedIn) { %>
+    <a href="<%= ctx %>/profile">Desk</a>
     <a href="<%= ctx %>/cart">Bag</a>
     <% } %>
+    <a href="<%= home %>#contact">Wire</a>
     <a href="<%= profileHref %>"><%= profileLabel %></a>
     <button type="button" id="mobileCatToggle">Spirits</button>
     <div id="mobileCats" class="hidden" hidden>

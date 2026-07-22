@@ -59,6 +59,12 @@ public class Buy extends HttpServlet {
 		}
 
 		loadCheckout(req, customer);
+		try {
+			com.LiquorHub.dao.CategoryDAO categoryDAO = new com.LiquorHub.daoImpl.CategoryDAOImpl();
+			req.setAttribute("categories", categoryDAO.getAllCategories());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		List<?> items = (List<?>) req.getAttribute("cartItems");
 		if (items == null || items.isEmpty()) {
 			resp.sendRedirect(ctx + "/cart");
@@ -121,6 +127,12 @@ public class Buy extends HttpServlet {
 		if (!ok || order.getOrderId() <= 0) {
 			req.setAttribute("buyError", "Could not place order. Please try again.");
 			loadCheckout(req, customer);
+			try {
+				com.LiquorHub.dao.CategoryDAO categoryDAO = new com.LiquorHub.daoImpl.CategoryDAOImpl();
+				req.setAttribute("categories", categoryDAO.getAllCategories());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			req.getRequestDispatcher("/buy.jsp").forward(req, resp);
 			return;
 		}

@@ -521,11 +521,6 @@
     <!-- Profile -->
     <section id="profile" class="scroll-mt-28 border-t border-black/[0.08] bg-white/50 py-12 sm:py-14 lg:py-16">
       <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
-        <div class="max-w-3xl text-left">
-          <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Profile</p>
-          <h2 class="mt-2 font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Your collector space</h2>
-          <p class="mt-3 max-w-xl text-ink-muted">One place for your details, cart, and the bottles you care about.</p>
-        </div>
 
         <% if (loggedIn) {
              String pName = customer.getName() != null ? customer.getName() : "Collector";

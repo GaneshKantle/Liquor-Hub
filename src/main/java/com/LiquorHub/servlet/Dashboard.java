@@ -44,6 +44,13 @@ public class Dashboard extends HttpServlet {
 		}
 
 		try {
+			com.LiquorHub.dao.CategoryDAO categoryDAO = new com.LiquorHub.daoImpl.CategoryDAOImpl();
+			req.setAttribute("categories", categoryDAO.getAllCategories());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
 			WishlistItemDAO wishDAO = new WishlistItemDAOImpl();
 			ProductDAO productDAO = new ProductDAOImpl();
 			List<WishlistItemDTO> wishItems = wishDAO.getItemsByCustomer(customer.getCustomerId());

@@ -26,113 +26,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light only">
   <title>Buy Now | LiquorHub</title>
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            cream: { DEFAULT: '#f8f5ef' },
-            ink: { DEFAULT: '#13110d', muted: '#6a655d' },
-            accent: { DEFAULT: '#d96a3b', soft: '#f4dcd1', strong: '#a84822' }
-          },
-          fontFamily: {
-            display: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
-          }
-        }
-      }
-    };
-  </script>
+  <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      background: #f5f5f7;
+    .lh-pay { position: absolute; opacity: 0; pointer-events: none; }
+    .lh-pay + label {
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      padding: 0.85rem 1rem; margin-top: 0.5rem; cursor: pointer;
+      border: 1.5px solid var(--carbon); background: var(--paper);
     }
-    .font-display { font-weight: 600; letter-spacing: -0.02em; }
+    .lh-pay + label span:last-child { font-size: 0.78rem; color: var(--smoke); }
     .lh-pay:checked + label {
-      border-color: #d96a3b;
-      background: rgba(217,106,59,0.08);
-      box-shadow: 0 0 0 1px #d96a3b;
+      background: rgba(255, 45, 26, 0.08);
+      box-shadow: 3px 3px 0 var(--signal);
     }
+    .lh-buy-grid {
+      display: grid; gap: 1.25rem; margin-top: 1.5rem;
+    }
+    @media (min-width: 900px) {
+      .lh-buy-grid { grid-template-columns: 1.15fr 0.85fr; align-items: start; }
+    }
+    .lh-buy-aside { position: sticky; top: 5.5rem; }
+    .lh-buy-meta {
+      display: grid; gap: 0.65rem; margin-top: 1rem;
+    }
+    @media (min-width: 560px) {
+      .lh-buy-meta { grid-template-columns: 1fr 1fr; }
+    }
+    .lh-buy-meta > div {
+      padding: 0.85rem; border: 1.5px solid var(--carbon); background: var(--paper);
+    }
+    .lh-buy-meta > div.wide { grid-column: 1 / -1; }
+    .lh-buy-meta p {
+      margin: 0; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--smoke);
+    }
+    .lh-buy-meta strong { display: block; margin-top: 0.35rem; font-size: 0.95rem; }
   </style>
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
-<body class="min-h-screen text-ink antialiased">
+<body class="lh-body overflow-x-clip antialiased" data-ctx="<%= ctx %>">
   <jsp:include page="/WEB-INF/jspf/loader.jsp" />
+  <jsp:include page="/WEB-INF/jspf/header.jsp" />
 
-  <header class="sticky top-0 z-20 px-4 pt-3 sm:px-6">
-    <div class="mx-auto flex max-w-5xl flex-wrap items-center gap-2 rounded-full border border-black/8 bg-white/90 px-3 py-2 shadow-[0_10px_40px_rgba(0,0,0,0.06)] backdrop-blur-xl sm:px-4">
-      <a href="<%= ctx %>/home" class="mr-auto font-display text-xl tracking-tight sm:text-2xl">LiquorHub</a>
-      <a href="<%= ctx %>/cart" class="inline-flex min-h-10 items-center rounded-full px-3 text-sm font-semibold text-ink-muted hover:text-ink">Cart</a>
-      <a href="<%= ctx %>/profile" class="inline-flex min-h-10 items-center rounded-full bg-[#1d1d1f] px-4 text-sm font-semibold text-white">Profile</a>
-    </div>
-  </header>
+  <main class="lh-account">
+    <div class="lh-shell">
+      <p class="lh-sec__kicker">Checkout</p>
+      <h1 class="lh-sec__title" style="margin:0.25rem 0 0">Buy now</h1>
+      <p class="lh-sec__lede" style="margin:0.45rem 0 0">Confirm delivery, pick payment, and place the order.</p>
 
-  <main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
-    <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Checkout</p>
-    <h1 class="mt-2 font-display text-[clamp(1.9rem,5vw,2.75rem)] tracking-[-0.03em] text-[#1d1d1f]">Buy Now</h1>
-    <p class="mt-2 max-w-xl text-sm text-ink-muted">Confirm delivery, pick a payment method, and place your order. Cart items stay saved until you buy.</p>
+      <% if (buyError != null) { %>
+      <p class="lh-account__flash" style="margin-top:1rem;border-color:#b0180c;background:#ffe8e5;color:#b0180c"><%= buyError %></p>
+      <% } %>
 
-    <% if (buyError != null) { %>
-    <p class="mt-4 rounded-2xl border border-red-700/15 bg-red-50 px-4 py-3 text-sm text-red-800"><%= buyError %></p>
-    <% } %>
+      <form action="<%= ctx %>/buy" method="post" class="lh-buy-grid">
+        <div>
+          <section class="lh-account__block">
+            <p class="lh-sec__kicker">Delivering to</p>
+            <h2 class="lh-sec__title">Desk details</h2>
+            <div class="lh-buy-meta">
+              <div>
+                <p>Name</p>
+                <strong><%= customer.getName() %></strong>
+              </div>
+              <div>
+                <p>Phone</p>
+                <strong><%= phone %></strong>
+              </div>
+              <div class="wide">
+                <p>Address</p>
+                <strong><%= addr %></strong>
+                <a href="<%= ctx %>/profile#edit" style="display:inline-block;margin-top:0.5rem;font-size:0.8rem;font-weight:700;text-decoration:underline">Edit in profile</a>
+              </div>
+            </div>
+          </section>
 
-    <form action="<%= ctx %>/buy" method="post" class="mt-8 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-      <div class="space-y-4">
-        <section class="rounded-[1.5rem] border border-black/8 bg-white p-5 sm:p-6">
-          <h2 class="font-display text-xl tracking-[-0.02em] text-[#1d1d1f]">Delivering to</h2>
-          <div class="mt-4 grid gap-3 sm:grid-cols-2">
-            <div class="rounded-2xl bg-[#f5f5f7] p-4">
-              <p class="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Name</p>
-              <p class="mt-1 font-semibold"><%= customer.getName() %></p>
+          <section class="lh-account__block">
+            <p class="lh-sec__kicker">Payment</p>
+            <h2 class="lh-sec__title">Method</h2>
+            <div style="margin-top:0.75rem">
+              <input class="lh-pay" type="radio" name="paymentMethod" id="payUpi" value="UPI" checked>
+              <label for="payUpi"><span>UPI</span><span>GPay / PhonePe / Paytm</span></label>
+              <input class="lh-pay" type="radio" name="paymentMethod" id="payCard" value="Card">
+              <label for="payCard"><span>Card</span><span>Debit / Credit</span></label>
+              <input class="lh-pay" type="radio" name="paymentMethod" id="payCod" value="COD">
+              <label for="payCod"><span>Cash on delivery</span><span>Pay at door</span></label>
             </div>
-            <div class="rounded-2xl bg-[#f5f5f7] p-4">
-              <p class="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Phone</p>
-              <p class="mt-1 font-semibold"><%= phone %></p>
-            </div>
-            <div class="rounded-2xl bg-[#f5f5f7] p-4 sm:col-span-2">
-              <p class="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Address</p>
-              <p class="mt-1 font-semibold"><%= addr %></p>
-              <a href="<%= ctx %>/profile#edit" class="mt-2 inline-block text-xs font-semibold text-accent-strong hover:underline">Edit in profile</a>
-            </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="rounded-[1.5rem] border border-black/8 bg-white p-5 sm:p-6">
-          <h2 class="font-display text-xl tracking-[-0.02em] text-[#1d1d1f]">Payment method</h2>
-          <div class="mt-4 grid gap-2">
-            <div>
-              <input class="lh-pay peer sr-only" type="radio" name="paymentMethod" id="payUpi" value="UPI" checked>
-              <label for="payUpi" class="flex cursor-pointer items-center justify-between rounded-2xl border border-black/10 bg-[#fbfbfd] px-4 py-3.5 transition">
-                <span class="font-semibold">UPI</span>
-                <span class="text-xs text-ink-muted">GPay / PhonePe / Paytm</span>
-              </label>
-            </div>
-            <div>
-              <input class="lh-pay peer sr-only" type="radio" name="paymentMethod" id="payCard" value="Card">
-              <label for="payCard" class="flex cursor-pointer items-center justify-between rounded-2xl border border-black/10 bg-[#fbfbfd] px-4 py-3.5 transition">
-                <span class="font-semibold">Card</span>
-                <span class="text-xs text-ink-muted">Debit / Credit</span>
-              </label>
-            </div>
-            <div>
-              <input class="lh-pay peer sr-only" type="radio" name="paymentMethod" id="payCod" value="COD">
-              <label for="payCod" class="flex cursor-pointer items-center justify-between rounded-2xl border border-black/10 bg-[#fbfbfd] px-4 py-3.5 transition">
-                <span class="font-semibold">Cash on delivery</span>
-                <span class="text-xs text-ink-muted">Pay at door</span>
-              </label>
-            </div>
-          </div>
-        </section>
-
-        <section class="rounded-[1.5rem] border border-black/8 bg-white p-5 sm:p-6">
-          <h2 class="font-display text-xl tracking-[-0.02em] text-[#1d1d1f]">Order items</h2>
-          <div class="mt-4 space-y-3">
+          <section class="lh-account__block">
+            <p class="lh-sec__kicker">Lots</p>
+            <h2 class="lh-sec__title">Order items</h2>
             <%
               if (cartItems != null && cartProducts != null) {
                 for (int i = 0; i < cartItems.size(); i++) {
@@ -141,37 +128,38 @@
                   if (p == null) continue;
                   String img = ImageUrls.forProduct(p.getProductName(), p.getBrand(), p.getCategoryId());
             %>
-            <article class="flex gap-3 rounded-2xl bg-[#f5f5f7] p-3">
-              <img src="<%= img %>" alt="" class="h-16 w-14 rounded-xl object-cover" width="56" height="64" loading="lazy">
-              <div class="min-w-0 flex-1">
-                <p class="truncate font-semibold tracking-[-0.02em]"><%= p.getProductName() %></p>
-                <p class="text-xs text-ink-muted"><%= p.getBrand() %> · Qty <%= item.getQuantity() %></p>
-                <p class="mt-1 text-sm font-semibold tabular-nums"><%= inr.format(p.getPrice() * item.getQuantity()) %></p>
+            <article class="lh-account__row">
+              <div class="lh-account__row-media">
+                <img src="<%= img %>" alt="" width="56" height="64" loading="lazy">
+              </div>
+              <div class="lh-account__row-body">
+                <h3><%= p.getProductName() %></h3>
+                <p class="meta"><%= p.getBrand() %> · Qty <%= item.getQuantity() %></p>
+                <p class="price"><%= inr.format(p.getPrice() * item.getQuantity()) %></p>
               </div>
             </article>
             <%   }
               } %>
-          </div>
-        </section>
-      </div>
-
-      <aside class="h-fit rounded-[1.5rem] border border-black/8 bg-[#1d1d1f] p-5 text-white shadow-[0_24px_60px_rgba(0,0,0,0.18)] sm:p-6 lg:sticky lg:top-24">
-        <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-white/55">Order summary</p>
-        <div class="mt-4 flex items-end justify-between gap-3 border-b border-white/10 pb-4">
-          <span class="text-sm text-white/70">Total payable</span>
-          <strong class="font-display text-3xl tracking-[-0.03em]"><%= inr.format(total) %></strong>
+          </section>
         </div>
-        <ul class="mt-4 space-y-2 text-sm text-white/65">
-          <li>Saved cart converted to an order</li>
-          <li>Shown later in Profile → Buying history</li>
-          <li>Demo payment marked as Paid</li>
-        </ul>
-        <button type="submit" class="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-accent text-sm font-semibold text-white transition hover:bg-accent-strong">
-          Place order
-        </button>
-        <a href="<%= ctx %>/cart" class="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-white/20 text-sm font-semibold text-white/90 transition hover:bg-white/10">Back to cart</a>
-      </aside>
-    </form>
+
+        <aside class="lh-account__total lh-buy-aside">
+          <p class="label">Order summary</p>
+          <div class="row" style="margin-top:0.75rem">
+            <span class="label" style="opacity:0.7">Total payable</span>
+            <strong><%= inr.format(total) %></strong>
+          </div>
+          <p class="note">Saved cart becomes an order · Shown in Desk → Buying history · Demo payment marked Paid</p>
+          <div class="actions">
+            <button type="submit" class="lh-btn lh-btn--signal">Place order</button>
+            <a href="<%= ctx %>/cart" class="lh-btn lh-btn--ghost">Back to bag</a>
+          </div>
+        </aside>
+      </form>
+    </div>
   </main>
+
+  <jsp:include page="/WEB-INF/jspf/footer.jsp" />
+  <script src="<%= ctx %>/js/home.js" defer></script>
 </body>
 </html>

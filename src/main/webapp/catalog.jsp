@@ -97,7 +97,7 @@
                  String lotId = String.format("LH-%04d", p.getProductId() > 0 ? p.getProductId() : lotN);
                  boolean wished = wishlistIds.contains(Integer.valueOf(p.getProductId()));
           %>
-          <article class="lh-lot lh-prod lh-prod-3d"
+          <article class="lh-lot lh-prod"
             data-cat="<%= p.getCategoryId() %>"
             data-search="<%= nameLower %>"
             data-name="<%= safeName %>">

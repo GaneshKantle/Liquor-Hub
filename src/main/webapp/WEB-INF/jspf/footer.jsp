@@ -1,59 +1,67 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.LiquorHub.dto.CategoryDTO" %>
 <%@ page import="com.LiquorHub.dto.CustomerDTO" %>
+<%@ page import="com.LiquorHub.daoImpl.CategoryDAOImpl" %>
 <%
   String footCtx = request.getContextPath();
   List<CategoryDTO> footCategories = (List<CategoryDTO>) request.getAttribute("categories");
+  if (footCategories == null) {
+    try {
+      footCategories = new CategoryDAOImpl().getAllCategories();
+      request.setAttribute("categories", footCategories);
+    } catch (Exception ignored) {
+      footCategories = null;
+    }
+  }
   CustomerDTO footCustomer = (CustomerDTO) session.getAttribute("Customer");
   String footAccountHref = footCustomer != null ? footCtx + "/profile" : footCtx + "/login";
   String footAccountLabel = footCustomer != null ? "Desk" : "Sign in";
+  String footHome = footCtx + "/home";
 %>
-<footer style="margin-top:2rem;border-top:1.5px solid var(--carbon,#0a0c10);background:var(--chalk,#eef2f5);padding:2rem 0 1.5rem">
-  <div class="lh-shell" style="display:grid;gap:1.5rem">
-    <div style="display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between">
-      <div style="max-width:18rem">
-        <a href="<%= footCtx %>/home" class="lh-display" style="font-size:1.25rem;text-transform:uppercase">LiquorHub</a>
-        <p style="margin:0.65rem 0 0;color:var(--smoke,#3a424c);font-size:0.88rem;line-height:1.45">
-          Bottle clearing house. Live lots. Hard INR. Sign in when you trade.
-        </p>
+<footer class="lh-site-footer">
+  <div class="lh-shell lh-site-footer__inner">
+    <div class="lh-site-footer__top">
+      <div class="lh-site-footer__brand">
+        <a href="<%= footHome %>" class="lh-display">LiquorHub</a>
+        <p>Bottle clearing house. Live lots. Hard INR. Sign in when you trade.</p>
       </div>
-      <nav aria-label="Footer" style="display:flex;flex-wrap:wrap;gap:2rem">
+      <nav aria-label="Footer" class="lh-site-footer__nav">
         <div>
-          <p class="lh-sec__kicker" style="margin:0">Floor</p>
-          <ul style="list-style:none;margin:0.6rem 0 0;padding:0">
-            <li style="margin:0.35rem 0"><a href="<%= footCtx %>/catalog" style="font-size:0.88rem;font-weight:600">All products</a></li>
-            <li style="margin:0.35rem 0"><a href="#categories" style="font-size:0.88rem;font-weight:600">Dossiers</a></li>
-            <li style="margin:0.35rem 0"><a href="#collections" style="font-size:0.88rem;font-weight:600">Quote boards</a></li>
-            <li style="margin:0.35rem 0"><a href="<%= footCtx %>/catalog" style="font-size:0.88rem;font-weight:600">All products</a></li>
-            <li style="margin:0.35rem 0"><a href="#items" style="font-size:0.88rem;font-weight:600">Featured</a></li>
-            <li style="margin:0.35rem 0"><a href="#contact" style="font-size:0.88rem;font-weight:600">Wire</a></li>
+          <p class="lh-sec__kicker">Floor</p>
+          <ul>
+            <li><a href="<%= footCtx %>/catalog">All products</a></li>
+            <li><a href="<%= footHome %>#categories">Dossiers</a></li>
+            <li><a href="<%= footHome %>#collections">Quote boards</a></li>
+            <li><a href="<%= footHome %>#items">Featured</a></li>
+            <li><a href="<%= footHome %>#contact">Wire</a></li>
           </ul>
         </div>
         <div>
-          <p class="lh-sec__kicker" style="margin:0">Spirits</p>
-          <ul style="list-style:none;margin:0.6rem 0 0;padding:0">
+          <p class="lh-sec__kicker">Spirits</p>
+          <ul>
             <% if (footCategories != null) {
                  int n = 0;
                  for (CategoryDTO cat : footCategories) {
                    if (n++ >= 5) break; %>
-            <li style="margin:0.35rem 0"><a href="#items" data-filter-cat="<%= cat.getCategoryId() %>" style="font-size:0.88rem;font-weight:600;color:var(--smoke)"><%= cat.getCategoryName() %></a></li>
+            <li><a href="<%= footCtx %>/catalog?cat=<%= cat.getCategoryId() %>"><%= cat.getCategoryName() %></a></li>
             <%   }
                } %>
           </ul>
         </div>
         <div>
-          <p class="lh-sec__kicker" style="margin:0">Desk</p>
-          <ul style="list-style:none;margin:0.6rem 0 0;padding:0">
-            <li style="margin:0.35rem 0"><a href="<%= footAccountHref %>" style="font-size:0.88rem;font-weight:600"><%= footAccountLabel %></a></li>
-            <li style="margin:0.35rem 0"><a href="<%= footCtx %>/login" style="font-size:0.88rem;font-weight:600">Sign in</a></li>
-            <li style="margin:0.35rem 0"><a href="<%= footCtx %>/register" style="font-size:0.88rem;font-weight:600">Join</a></li>
-            <li style="margin:0.35rem 0"><a href="mailto:contact.liqourhub@gmail.com" style="font-size:0.88rem;font-weight:600">contact.liqourhub@gmail.com</a></li>
+          <p class="lh-sec__kicker">Desk</p>
+          <ul>
+            <li><a href="<%= footAccountHref %>"><%= footAccountLabel %></a></li>
+            <% if (footCustomer == null) { %>
+            <li><a href="<%= footCtx %>/register">Join</a></li>
+            <% } else { %>
+            <li><a href="<%= footCtx %>/logout">Logout</a></li>
+            <% } %>
+            <li><a href="mailto:contact.liqourhub@gmail.com">contact.liqourhub@gmail.com</a></li>
           </ul>
         </div>
       </nav>
     </div>
-    <p style="margin:0;padding-top:1rem;border-top:1px dashed var(--line,#ccc);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--smoke)">
-      LiquorHub clearing desk · drink responsibly
-    </p>
+    <p class="lh-site-footer__copy">LiquorHub clearing desk · drink responsibly</p>
   </div>
 </footer>

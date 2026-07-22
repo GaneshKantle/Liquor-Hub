@@ -1,5 +1,9 @@
 <%@page import="com.LiquorHub.dto.CustomerDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+  String ctx = request.getContextPath();
+  CustomerDTO customer = (CustomerDTO) session.getAttribute("Customer");
+%>
 <!DOCTYPE html>
 <html lang="en" style="color-scheme: light;">
 <head>
@@ -7,80 +11,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light only">
   <title>Reset password | LiquorHub</title>
-  <link rel="icon" href="<%=request.getContextPath()%>/assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/beer-loader.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            cream: { DEFAULT: '#f8f5ef' },
-            ink: { DEFAULT: '#13110d', muted: '#6a655d' },
-            accent: { DEFAULT: '#d96a3b', strong: '#a84822' }
-          },
-          fontFamily: {
-            display: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
-          }
-        }
-      }
-    };
-  </script>
-  <style>
-    .glass-strong {
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(255,255,255,0.75);
-      box-shadow: 0 20px 60px rgba(38,34,29,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-    }
-  </style>
+  <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
-<body class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-10 font-sans text-ink antialiased"
-  style="background-color:#f8f5ef; background-image: radial-gradient(ellipse 70% 50% at 10% 0%, rgba(217,106,59,0.16), transparent 50%), linear-gradient(165deg, #fff, #f8f5ef);">
-<% CustomerDTO customer = (CustomerDTO) session.getAttribute("Customer"); %>
+<body class="lh-body overflow-x-clip antialiased" data-ctx="<%= ctx %>">
   <jsp:include page="/WEB-INF/jspf/loader.jsp" />
-  <div class="pointer-events-none absolute -left-20 top-20 h-64 w-64 rounded-full bg-accent/15 blur-3xl"></div>
+  <jsp:include page="/WEB-INF/jspf/header.jsp" />
 
-  <header class="relative mb-8 text-center">
-    <a href="<%=request.getContextPath()%>/home" class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">LiquorHub</a>
-    <p class="mt-2 text-sm text-ink-muted">Keep your cellar account secure.</p>
-  </header>
+  <main class="lh-auth">
+    <div class="lh-auth__card">
+      <h1>Reset password</h1>
+      <p class="lede">Change the password for your LiquorHub account<% if (customer != null && customer.getName() != null) { %> (<%= customer.getName() %>)<% } %>.</p>
 
-  <div class="glass-strong relative w-full max-w-md rounded-[2rem] p-6 sm:p-8">
-    <h2 class="font-display text-2xl font-semibold tracking-tight">Reset password</h2>
-    <p class="mt-1 mb-5 text-sm text-ink-muted">Change the password for your LiquorHub account.</p>
+      <% String success = (String) request.getAttribute("success");
+         if (success != null) { %>
+      <p class="lh-auth__flash"><%= success %></p>
+      <% } %>
+      <% String error = (String) request.getAttribute("error");
+         if (error != null) { %>
+      <p class="lh-auth__flash lh-auth__flash--err"><%= error %></p>
+      <% } %>
 
-    <% String success = (String) request.getAttribute("success");
-       if (success != null) { %>
-    <p class="mb-4 rounded-2xl border border-green-700/15 bg-green-50/70 px-3 py-2.5 text-sm text-green-800"><%= success %></p>
-    <% } %>
-    <% String error = (String) request.getAttribute("error");
-       if (error != null) { %>
-    <p class="mb-4 rounded-2xl border border-red-700/15 bg-red-50/70 px-3 py-2.5 text-sm text-red-800"><%= error %></p>
-    <% } %>
+      <form action="<%= ctx %>/resetPassword" method="POST" class="lh-auth__form">
+        <div>
+          <label for="currentPassword">Current password</label>
+          <input id="currentPassword" type="password" name="currentPassword" required placeholder="Current password" autocomplete="current-password">
+        </div>
+        <div>
+          <label for="newPassword">New password</label>
+          <input id="newPassword" type="password" name="newPassword" required placeholder="New password" minlength="6" autocomplete="new-password">
+        </div>
+        <div>
+          <label for="confirmPassword">Confirm new password</label>
+          <input id="confirmPassword" type="password" name="confirmPassword" required placeholder="Confirm new password" autocomplete="new-password">
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem">
+          <button type="submit" class="lh-btn lh-btn--signal" style="flex:1;justify-content:center">Save password</button>
+          <a href="<%= ctx %>/profile" class="lh-btn lh-btn--chalk">Back to desk</a>
+        </div>
+      </form>
+    </div>
+  </main>
 
-    <form action="resetPassword" method="POST" class="space-y-4">
-      <div>
-        <label for="currentPassword" class="mb-1.5 block text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted">Current password</label>
-        <input id="currentPassword" type="password" name="currentPassword" required placeholder="Current password" class="w-full min-h-11 rounded-2xl border border-white/80 bg-white/50 px-3.5 text-sm outline-none backdrop-blur transition focus:border-accent/40 focus:bg-white/80 focus:ring-2 focus:ring-accent/15">
-      </div>
-      <div>
-        <label for="newPassword" class="mb-1.5 block text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted">New password</label>
-        <input id="newPassword" type="password" name="newPassword" required placeholder="New password" minlength="6" class="w-full min-h-11 rounded-2xl border border-white/80 bg-white/50 px-3.5 text-sm outline-none backdrop-blur transition focus:border-accent/40 focus:bg-white/80 focus:ring-2 focus:ring-accent/15">
-        <p class="mt-1 text-xs text-ink-muted">At least 6 characters</p>
-      </div>
-      <div>
-        <label for="confirmPassword" class="mb-1.5 block text-[0.72rem] font-bold uppercase tracking-wider text-ink-muted">Confirm new password</label>
-        <input id="confirmPassword" type="password" name="confirmPassword" required placeholder="Confirm new password" class="w-full min-h-11 rounded-2xl border border-white/80 bg-white/50 px-3.5 text-sm outline-none backdrop-blur transition focus:border-accent/40 focus:bg-white/80 focus:ring-2 focus:ring-accent/15">
-      </div>
-      <div class="flex flex-wrap gap-3 pt-1">
-        <button type="submit" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-white shadow-md transition hover:bg-accent-strong">Save password</button>
-        <a href="dashboard" class="inline-flex min-h-11 items-center justify-center rounded-full border border-white/80 bg-white/40 px-5 text-sm font-semibold text-ink backdrop-blur transition hover:bg-white/70">Back</a>
-      </div>
-    </form>
-  </div>
+  <jsp:include page="/WEB-INF/jspf/footer.jsp" />
+  <script src="<%= ctx %>/js/home.js" defer></script>
 </body>
 </html>

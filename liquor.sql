@@ -13,7 +13,7 @@ CREATE TABLE Customer (
 
 CREATE TABLE Category (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
-    category_name VARCHAR(50) NOT NULL
+    category_name VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE Product (
@@ -95,7 +95,7 @@ CREATE TABLE WishlistItem (
 
 
 
-INSERT INTO Category (category_name) VALUES
+INSERT IGNORE INTO Category (category_name) VALUES
 ('Whisky'),
 ('Vodka'),
 ('Rum'),

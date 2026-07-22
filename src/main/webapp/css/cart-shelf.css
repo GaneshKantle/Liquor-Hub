@@ -1,49 +1,41 @@
 /* Apple-style product shelf + add-to-cart motion (CSS only, light) */
 
 .lh-shelf {
-  perspective: 1200px;
+  perspective: none;
 }
 
 .lh-prod-3d {
   position: relative;
-  transform-style: preserve-3d;
-  transform: rotateX(0) rotateY(0) translateZ(0);
+  transform: none;
   transition:
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
     border-color 0.3s ease;
-  will-change: transform;
+  will-change: auto;
   backface-visibility: hidden;
 }
 
 .lh-prod-3d.is-tilting {
-  transition: transform 0.08s linear, box-shadow 0.2s ease;
+  transition: transform 0.12s linear, box-shadow 0.2s ease;
+  z-index: 2;
 }
 
 .lh-prod-3d:hover,
 .lh-prod-3d:focus-within {
-  box-shadow:
-    0 28px 60px rgba(0, 0, 0, 0.12),
-    0 8px 20px rgba(0, 0, 0, 0.06);
-  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 4px 4px 0 var(--carbon, #0a0c10);
   z-index: 2;
 }
 
-.lh-prod-3d .lh-prod__media {
-  transform: translateZ(28px);
-  transform-style: preserve-3d;
+.lh-prod-3d .lh-prod__media,
+.lh-prod-3d .lh-prod__body {
+  transform: none;
 }
 
 .lh-prod-3d .lh-prod__media img {
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.45s ease;
 }
 
 .lh-prod-3d:hover .lh-prod__media img {
-  transform: scale(1.06) translateZ(12px);
-}
-
-.lh-prod-3d .lh-prod__body {
-  transform: translateZ(18px);
+  transform: scale(1.04);
 }
 
 .lh-atc {
