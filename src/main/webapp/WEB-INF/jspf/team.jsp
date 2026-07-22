@@ -14,7 +14,7 @@
       "https://ganesh-kantle.vercel.app/"
     },
     {
-      "Suraj S Atresh"",
+      "Suraj S Atresh",
       "surajatresh30@gmail.com",
       "Database Administrator",
       "https://www.linkedin.com/in/surajatresh300/",
@@ -24,16 +24,16 @@
     {
       "Manu Adiga",
       "adigamanu4002@gmail.com",
-      "https://www.linkedin.com/in/manu-adiga/",
       "Backend developer",
+      "https://www.linkedin.com/in/manu-adiga/",
       "https://github.com/M69u",
       ""
     },
     {
       "Vishwas M R",
       "mrvishwas285@gmail.com",
-      "https://www.linkedin.com/in/mr-vishwas/",
       "Backend developer",
+      "https://www.linkedin.com/in/mr-vishwas/",
       "https://github.com/Mrvishwass",
       ""
     }
