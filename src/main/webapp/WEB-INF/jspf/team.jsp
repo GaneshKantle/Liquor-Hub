@@ -1,7 +1,7 @@
 <%--
-  LiquorHub team — fill real details below.
-  Fields per row: name, email, role, linkedin, github, portfolio
-  Leave a URL blank ("") to hide that link.
+  LiquorHub team
+  Fields: name, email, role, linkedin, github, portfolio, avatarSeed
+  Avatar CDN: DiceBear Avataaars (male cartoon)
 --%>
 <%
   String[][] lhTeam = {
@@ -11,7 +11,8 @@
       "AI Web Developer",
       "https://www.linkedin.com/in/ganeshkantle",
       "https://www.github.com/ganeshkantle",
-      "https://ganesh-kantle.vercel.app/"
+      "https://ganesh-kantle.vercel.app/",
+      "GaneshKantle"
     },
     {
       "Suraj S Atresh",
@@ -19,7 +20,8 @@
       "Database Administrator",
       "https://www.linkedin.com/in/surajatresh300/",
       "https://github.com/SurajAtresh",
-      ""
+      "",
+      "SurajAtresh"
     },
     {
       "Manu Adiga",
@@ -27,7 +29,8 @@
       "Backend developer",
       "https://www.linkedin.com/in/manu-adiga/",
       "https://github.com/M69u",
-      ""
+      "",
+      "ManuAdiga"
     },
     {
       "Vishwas M R",
@@ -35,14 +38,15 @@
       "Backend developer",
       "https://www.linkedin.com/in/mr-vishwas/",
       "https://github.com/Mrvishwass",
-      ""
+      "",
+      "VishwasMR"
     }
   };
 %>
 <div class="lh-team" id="team">
   <p class="lh-sec__kicker">Creators</p>
   <h2 class="lh-sec__title" style="font-size:clamp(1.35rem,3vw,1.85rem)">The team behind LiquorHub</h2>
-  <p class="lh-sec__lede">Developers, designers, and builders who shipped this clearing house.</p>
+  <p class="lh-sec__lede">Four builders who shipped this clearing house — listed below.</p>
   <div class="lh-team__grid">
     <% for (int ti = 0; ti < lhTeam.length; ti++) {
          String tName = lhTeam[ti][0];
@@ -51,11 +55,14 @@
          String tLi = lhTeam[ti][3];
          String tGh = lhTeam[ti][4];
          String tPf = lhTeam[ti][5];
-         String initial = (tName != null && !tName.isBlank()) ? tName.substring(0, 1).toUpperCase() : "?";
+         String seed = lhTeam[ti][6];
+         String avatar = "https://api.dicebear.com/9.x/avataaars/png?seed="
+             + java.net.URLEncoder.encode(seed, "UTF-8")
+             + "&gender=male&size=256&backgroundColor=eef2f5";
          boolean hasLinks = (tLi != null && !tLi.isBlank()) || (tGh != null && !tGh.isBlank()) || (tPf != null && !tPf.isBlank());
     %>
     <article class="lh-mate">
-      <div class="lh-mate__mark" aria-hidden="true"><%= initial %></div>
+      <img class="lh-mate__face" src="<%= avatar %>" alt="<%= tName %>" width="112" height="112" loading="lazy" decoding="async">
       <div>
         <p class="lh-mate__role"><%= tRole %></p>
         <h3><%= tName %></h3>

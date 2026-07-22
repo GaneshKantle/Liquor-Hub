@@ -46,6 +46,7 @@
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
   <link rel="stylesheet" href="<%= ctx %>/css/about.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/home.css">
   <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
   <link rel="stylesheet" href="<%= ctx %>/css/cart-shelf.css">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -74,7 +75,7 @@
   </style>
   <script>document.documentElement.classList.add("lh-loading");</script>
 </head>
-<body class="lh-body overflow-x-clip antialiased" data-logged-in="<%= loggedIn ? "1" : "0" %>" data-ctx="<%= ctx %>">
+<body class="lh-body lh-home overflow-x-clip antialiased" data-logged-in="<%= loggedIn ? "1" : "0" %>" data-ctx="<%= ctx %>">
   <jsp:include page="/WEB-INF/jspf/loader.jsp" />
 
   <!-- First-visit liquor quiz — compact stepper -->
@@ -215,40 +216,15 @@
 
     <section class="lh-sec scroll-mt-28" id="about">
       <div class="lh-shell lh-reveal">
-        <div class="lh-about">
-          <div class="lh-about__copy">
-            <p class="lh-sec__kicker">About</p>
-            <h2 class="lh-sec__title">LiquorHub is a live bottle clearing house.</h2>
-            <p class="lh-sec__lede">
-              We built LiquorHub for people who want clear INR prices, honest product notes, and a shop that stays out of the way until you are ready to buy.
-              Browse the floor as a guest. Sign in only when you add to bag, save favourites, or place an order.
-            </p>
-            <ul class="lh-about__points">
-              <li>
-                <strong>What we sell</strong>
-                <span>Whisky, gin, rum, vodka, wine, beer, and more — organised as dossiers with origin notes and live lots.</span>
-              </li>
-              <li>
-                <strong>How it works</strong>
-                <span>Scan the catalogue, quote a board, bag what you want. Checkout is simple demo-payment for now — orders land in your profile history.</span>
-              </li>
-              <li>
-                <strong>How we trade</strong>
-                <span>No boutique fluff. Hard prices, steel UI, drink responsibly. Built as a student project team for a real shopping flow on Jakarta + MySQL.</span>
-              </li>
-            </ul>
-          </div>
-          <aside class="lh-about__aside" aria-label="Project note">
-            <p>Project</p>
-            <h3>Four builders. One floor.</h3>
-            <p class="body">
-              LiquorHub is crafted by a four-person team — design, backend, frontend, and product — shipping a full marketplace experience from home to profile.
-            </p>
-            <a href="#team">Meet the team ↓</a>
-          </aside>
-        </div>
-
-        <jsp:include page="/WEB-INF/jspf/team.jsp" />
+        <p class="lh-sec__kicker">About</p>
+        <h2 class="lh-sec__title">Prices on the board. Stories in the dossier.</h2>
+        <p class="lh-sec__lede">
+          LiquorHub runs like a clearing house — clear INR, live lots, no boutique fluff.
+          Browse free. Trade after you sign in.
+        </p>
+        <p style="margin:1rem 0 0">
+          <a href="<%= ctx %>/about" class="lh-btn lh-btn--signal">About &amp; team</a>
+        </p>
       </div>
     </section>
 
@@ -438,24 +414,24 @@
       <div class="lh-reveal mx-auto max-w-shell px-4 sm:px-6">
         <div class="max-w-3xl text-left">
           <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Know your pour</p>
-          <h2 class="mt-2 font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Liquor basics, short and clear</h2>
+          <h2 class="mt-2 font-display text-[clamp(1.4rem,3.2vw,2.1rem)] font-normal leading-tight tracking-[-0.03em]">Liquor basics, short and clear</h2>
           <p class="mt-3 max-w-xl text-ink-muted">A little knowledge makes the shelf easier to read.</p>
         </div>
         <div class="mt-8 grid gap-0 border-t border-black/[0.08]">
           <div class="grid gap-3 border-b border-black/[0.08] py-6 sm:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] sm:gap-8 sm:py-7">
-            <h3 class="font-display text-[1.25rem] tracking-[-0.02em] sm:text-[1.4rem]">Whisky vs wine</h3>
+            <h3 class="font-display text-[1.1rem] tracking-[-0.02em] sm:text-[1.2rem]">Whisky vs wine</h3>
             <p class="text-sm text-ink-muted sm:text-base">Whisky is distilled grain spirit, usually aged in oak. Wine is fermented grape juice. Different strength, different glass, different night.</p>
           </div>
           <div class="grid gap-3 border-b border-black/[0.08] py-6 sm:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] sm:gap-8 sm:py-7">
-            <h3 class="font-display text-[1.25rem] tracking-[-0.02em] sm:text-[1.4rem]">Gin and juniper</h3>
+            <h3 class="font-display text-[1.1rem] tracking-[-0.02em] sm:text-[1.2rem]">Gin and juniper</h3>
             <p class="text-sm text-ink-muted sm:text-base">Gin must taste of juniper. That botanical spine is why gin and tonic works - bright, dry, and built for mixing.</p>
           </div>
           <div class="grid gap-3 border-b border-black/[0.08] py-6 sm:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] sm:gap-8 sm:py-7">
-            <h3 class="font-display text-[1.25rem] tracking-[-0.02em] sm:text-[1.4rem]">ABV and pour size</h3>
+            <h3 class="font-display text-[1.1rem] tracking-[-0.02em] sm:text-[1.2rem]">ABV and pour size</h3>
             <p class="text-sm text-ink-muted sm:text-base">ABV is alcohol by volume. Higher ABV means a smaller pour goes further. Read the label before you host.</p>
           </div>
           <div class="grid gap-3 border-b border-black/[0.08] py-6 sm:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] sm:gap-8 sm:py-7">
-            <h3 class="font-display text-[1.25rem] tracking-[-0.02em] sm:text-[1.4rem]">Glass tips</h3>
+            <h3 class="font-display text-[1.1rem] tracking-[-0.02em] sm:text-[1.2rem]">Glass tips</h3>
             <p class="text-sm text-ink-muted sm:text-base">Tulip for whisky aroma, stemware for wine, highball for long drinks. The right glass is half the experience.</p>
           </div>
         </div>
@@ -474,7 +450,7 @@
           <a href="#items" class="group grid gap-3 border-b border-black/[0.08] py-6 transition-colors duration-300 hover:bg-white/50 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_auto] sm:items-center sm:gap-8 sm:py-7">
             <div>
               <div class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink-muted">01</div>
-              <h3 class="mt-2 font-display text-[1.25rem] tracking-[-0.02em] sm:text-[1.4rem]">Celebrate</h3>
+              <h3 class="mt-2 font-display text-[1.1rem] tracking-[-0.02em] sm:text-[1.2rem]">Celebrate</h3>
             </div>
             <p class="max-w-xl text-sm text-ink-muted sm:text-base">Mark the night with a bottle that feels intentional - whisky, sparkling, or something rare.</p>
             <span class="inline-flex h-10 w-10 items-center justify-center justify-self-start rounded-full border border-black/[0.1] bg-white text-ink transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:border-accent/30 group-hover:text-accent sm:justify-self-end" aria-hidden="true">
@@ -484,7 +460,7 @@
           <a href="#collections" class="group grid gap-3 border-b border-black/[0.08] py-6 transition-colors duration-300 hover:bg-white/50 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_auto] sm:items-center sm:gap-8 sm:py-7">
             <div>
               <div class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink-muted">02</div>
-              <h3 class="mt-2 font-display text-[1.25rem] tracking-[-0.02em] sm:text-[1.4rem]">Gift</h3>
+              <h3 class="mt-2 font-display text-[1.1rem] tracking-[-0.02em] sm:text-[1.2rem]">Gift</h3>
             </div>
             <p class="max-w-xl text-sm text-ink-muted sm:text-base">Premium picks with clear pricing - easy to choose, easy to explain.</p>
             <span class="inline-flex h-10 w-10 items-center justify-center justify-self-start rounded-full border border-black/[0.1] bg-white text-ink transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:border-accent/30 group-hover:text-accent sm:justify-self-end" aria-hidden="true">
@@ -494,7 +470,7 @@
           <a href="#categories" class="group grid gap-3 border-b border-black/[0.08] py-6 transition-colors duration-300 hover:bg-white/50 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)_auto] sm:items-center sm:gap-8 sm:py-7">
             <div>
               <div class="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-ink-muted">03</div>
-              <h3 class="mt-2 font-display text-[1.25rem] tracking-[-0.02em] sm:text-[1.4rem]">Host</h3>
+              <h3 class="mt-2 font-display text-[1.1rem] tracking-[-0.02em] sm:text-[1.2rem]">Host</h3>
             </div>
             <p class="max-w-xl text-sm text-ink-muted sm:text-base">Stock the bar by category - gin for cocktails, wine for dinner, beer for the crowd.</p>
             <span class="inline-flex h-10 w-10 items-center justify-center justify-self-start rounded-full border border-black/[0.1] bg-white text-ink transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:border-accent/30 group-hover:text-accent sm:justify-self-end" aria-hidden="true">
@@ -569,7 +545,7 @@
           <div class="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
             <div>
               <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">Contact</p>
-              <h2 class="mt-2 max-w-[14ch] font-display text-[clamp(1.85rem,4vw,2.65rem)] font-normal leading-tight tracking-[-0.03em]">Talk to LiquorHub</h2>
+              <h2 class="mt-2 max-w-[14ch] font-display text-[clamp(1.4rem,3.2vw,2.1rem)] font-normal leading-tight tracking-[-0.03em]">Talk to LiquorHub</h2>
               <p class="mt-3 max-w-md text-ink-muted">Questions on a bottle, a collection, or your collector profile? Email us directly or send a short note below.</p>
               <p class="mt-4">
                 <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-muted">Direct email</span>

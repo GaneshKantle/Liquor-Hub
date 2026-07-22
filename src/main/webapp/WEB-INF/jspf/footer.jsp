@@ -34,7 +34,8 @@
             <li><a href="<%= footHome %>#categories">Dossiers</a></li>
             <li><a href="<%= footHome %>#collections">Quote boards</a></li>
             <li><a href="<%= footHome %>#items">Featured</a></li>
-            <li><a href="<%= footHome %>#contact">Wire</a></li>
+            <li><a href="<%= footCtx %>/about">About &amp; team</a></li>
+            <li><a href="<%= footHome %>#contact">Contact</a></li>
           </ul>
         </div>
         <div>
@@ -63,6 +64,6 @@
         </div>
       </nav>
     </div>
-    <p class="lh-site-footer__copy">LiquorHub · drink responsibly</p>
+    <p class="lh-site-footer__copy">LiquorHub - Drink Responsibly.</p>
   </div>
 </footer>

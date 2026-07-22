@@ -34,6 +34,7 @@
     </div>
 
     <nav class="lh-desk__nav" aria-label="Primary">
+      <a href="<%= ctx %>/catalog">Catalogue</a>
       <div class="lh-desk__dropdown">
         <button type="button" id="catToggle" aria-expanded="false" aria-controls="catMenu">Spirits</button>
         <div id="catMenu" role="menu" class="lh-desk__menu-panel hidden">
@@ -44,14 +45,12 @@
              } %>
         </div>
       </div>
-      <a href="<%= ctx %>/catalog">Catalogue</a>
-      <a href="<%= home %>#about">About</a>
+      <a href="<%= ctx %>/about">About</a>
       <a href="<%= home %>#learn">Notes</a>
+      <a href="<%= home %>#contact">Contact</a>
       <% if (navLoggedIn) { %>
-      <a href="<%= ctx %>/profile">Profile</a>
       <a href="<%= ctx %>/cart">Bag</a>
       <% } %>
-      <a href="<%= home %>#contact">Wire</a>
       <a href="<%= profileHref %>" class="lh-desk__cta"><%= profileLabel %></a>
     </nav>
 
@@ -67,14 +66,6 @@
       <button type="submit">Scan</button>
     </form>
     <a href="<%= ctx %>/catalog">Catalogue</a>
-    <a href="<%= home %>#about">About</a>
-    <a href="<%= home %>#learn">Notes</a>
-    <% if (navLoggedIn) { %>
-    <a href="<%= ctx %>/profile">Profile</a>
-    <a href="<%= ctx %>/cart">Bag</a>
-    <% } %>
-    <a href="<%= home %>#contact">Wire</a>
-    <a href="<%= profileHref %>"><%= profileLabel %></a>
     <button type="button" id="mobileCatToggle">Spirits</button>
     <div id="mobileCats" class="hidden" hidden>
       <% if (navCategories != null) {
@@ -83,5 +74,12 @@
       <%   }
          } %>
     </div>
+    <a href="<%= ctx %>/about">About</a>
+    <a href="<%= home %>#learn">Notes</a>
+    <a href="<%= home %>#contact">Contact</a>
+    <% if (navLoggedIn) { %>
+    <a href="<%= ctx %>/cart">Bag</a>
+    <% } %>
+    <a href="<%= profileHref %>"><%= profileLabel %></a>
   </div>
 </header>

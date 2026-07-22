@@ -1,4 +1,22 @@
-/* About + team — home #about */
+/* About + team — home teaser + /about page */
+.lh-about-page {
+  padding: 5.5rem 0 3rem;
+}
+
+.lh-about-page__lede {
+  max-width: 52ch;
+  margin-bottom: 1.5rem;
+}
+
+.lh-about-page__back {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1.5px solid rgba(10, 12, 16, 0.14);
+}
+
 .lh-about {
   display: grid;
   gap: 1.35rem;
@@ -18,7 +36,7 @@
 
 .lh-about__points {
   list-style: none;
-  margin: 1.15rem 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
   gap: 0.65rem;
@@ -123,18 +141,14 @@
   min-height: 100%;
 }
 
-.lh-mate__mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.65rem;
-  height: 2.65rem;
+.lh-mate__face {
+  display: block;
+  width: 5.5rem;
+  height: 5.5rem;
+  object-fit: cover;
   border: 1.5px solid var(--carbon, #0a0c10);
-  background: var(--carbon, #0a0c10);
-  color: #e8ff6a;
-  font-family: var(--font-display, "Syne", system-ui, sans-serif);
-  font-size: 1rem;
-  font-weight: 800;
+  background: #fff;
+  box-shadow: 3px 3px 0 var(--signal, #ff2d1a);
 }
 
 .lh-mate__role {
