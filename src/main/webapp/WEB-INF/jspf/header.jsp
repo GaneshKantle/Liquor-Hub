@@ -35,6 +35,7 @@
 
     <nav class="lh-desk__nav" aria-label="Primary">
       <a href="<%= ctx %>/catalog">Catalogue</a>
+      <a href="<%= ctx %>/rare">Rare Collection</a>
       <div class="lh-desk__dropdown">
         <button type="button" id="catToggle" aria-expanded="false" aria-controls="catMenu">Spirits</button>
         <div id="catMenu" role="menu" class="lh-desk__menu-panel hidden">
@@ -66,6 +67,7 @@
       <button type="submit">Scan</button>
     </form>
     <a href="<%= ctx %>/catalog">Catalogue</a>
+    <a href="<%= ctx %>/rare">Rare Collection</a>
     <button type="button" id="mobileCatToggle">Spirits</button>
     <div id="mobileCats" class="hidden" hidden>
       <% if (navCategories != null) {

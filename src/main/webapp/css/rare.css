@@ -1,0 +1,232 @@
+/* Rare Collection — dossier floor */
+.lh-rare {
+  padding: 5.5rem 0 3rem;
+}
+
+.lh-rare__hero {
+  margin-bottom: 1.75rem;
+  padding: 1.5rem 1.25rem 1.6rem;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: var(--carbon, #0a0c10);
+  color: #f5f5f7;
+  box-shadow: 6px 6px 0 var(--signal, #ff2d1a);
+}
+
+.lh-rare__hero .lh-sec__kicker {
+  color: #e8ff6a;
+}
+
+.lh-rare__hero .lh-sec__title {
+  color: #fff;
+  font-size: clamp(1.55rem, 3.5vw, 2.35rem);
+  margin-top: 0.35rem;
+}
+
+.lh-rare__hero .lh-sec__lede {
+  color: rgba(245, 245, 247, 0.72);
+  max-width: 48ch;
+  margin-top: 0.55rem;
+  font-size: 0.9rem;
+}
+
+.lh-rare__hero .lh-btn {
+  margin-top: 1rem;
+}
+
+.lh-rare__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .lh-rare__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .lh-rare__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.lh-rare-lot {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: #eef2f5;
+  min-height: 100%;
+}
+
+.lh-rare-lot__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-bottom: 1.5px solid var(--carbon, #0a0c10);
+  background: #1a2228;
+}
+
+.lh-rare-lot__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.05) saturate(0.92);
+}
+
+.lh-rare-lot__stamp {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  padding: 0.25rem 0.45rem;
+  border: 1.5px solid #fff;
+  background: rgba(10, 12, 16, 0.72);
+  color: #e8ff6a;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lh-rare-lot__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.95rem 1rem 1.05rem;
+  flex: 1;
+}
+
+.lh-rare-lot__brand {
+  margin: 0;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--signal-ink, #b0180c);
+}
+
+.lh-rare-lot h3 {
+  margin: 0;
+  font-family: var(--font-display, "Syne", system-ui, sans-serif);
+  font-size: 1.05rem;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.lh-rare-lot__meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--smoke, #3a424c);
+  line-height: 1.4;
+}
+
+.lh-rare-lot__price {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display, "Syne", system-ui, sans-serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--pool, #0b3d38);
+}
+
+.lh-rare-lot__limited {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--smoke, #3a424c);
+}
+
+.lh-rare-lot__toggle {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 0.65rem;
+  border: 0;
+  background: transparent;
+  color: var(--signal-ink, #b0180c);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.lh-rare-lot__toggle:hover {
+  color: var(--signal, #ff2d1a);
+}
+
+.lh-rare-lot__detail {
+  margin: 0;
+  padding: 0 1rem 1.05rem;
+  border-top: 1px dashed rgba(10, 12, 16, 0.18);
+}
+
+.lh-rare-lot__detail[hidden] {
+  display: none !important;
+}
+
+.lh-rare-lot__detail dl {
+  margin: 0.85rem 0 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.lh-rare-lot__detail dt {
+  margin: 0;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--smoke, #3a424c);
+}
+
+.lh-rare-lot__detail dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--carbon, #0a0c10);
+}
+
+.lh-rare__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1.5px solid rgba(10, 12, 16, 0.14);
+}
+
+.lh-rare-teaser {
+  margin: 0 0 1.5rem;
+  padding: 1.15rem 1.2rem;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: #fff;
+  box-shadow: 5px 5px 0 var(--signal, #ff2d1a);
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 720px) {
+  .lh-rare-teaser {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+}
+
+.lh-rare-teaser .lh-sec__kicker {
+  margin: 0;
+}
+
+.lh-rare-teaser .lh-sec__title {
+  margin: 0.3rem 0 0;
+  font-size: clamp(1.25rem, 2.8vw, 1.65rem);
+}
+
+.lh-rare-teaser .lh-sec__lede {
+  margin: 0.4rem 0 0;
+  font-size: 0.88rem;
+  max-width: 46ch;
+}

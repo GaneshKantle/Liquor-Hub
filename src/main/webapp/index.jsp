@@ -46,6 +46,7 @@
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
   <link rel="stylesheet" href="<%= ctx %>/css/about.css">
+  <link rel="stylesheet" href="<%= ctx %>/css/rare.css">
   <link rel="stylesheet" href="<%= ctx %>/css/home.css">
   <link rel="stylesheet" href="<%= ctx %>/css/footer.css">
   <link rel="stylesheet" href="<%= ctx %>/css/cart-shelf.css">
@@ -252,6 +253,22 @@
              } else { %>
           <p class="lh-panel">Categories load with the catalogue.</p>
           <% } %>
+        </div>
+      </div>
+    </section>
+
+    <section class="lh-sec scroll-mt-28" id="rare-teaser" style="padding-bottom:0">
+      <div class="lh-shell lh-reveal">
+        <div class="lh-rare-teaser">
+          <div>
+            <p class="lh-sec__kicker">Vault</p>
+            <h2 class="lh-sec__title">Rare Collection</h2>
+            <p class="lh-sec__lede">
+              Ultra-rare whiskies, prestige Champagne, and cellar cognacs — with origin, taste, age, and desk rates.
+              Everyday stock stays on the catalogue; the vault is separate.
+            </p>
+          </div>
+          <a href="<%= ctx %>/rare" class="lh-btn lh-btn--signal">Enter rare floor</a>
         </div>
       </div>
     </section>

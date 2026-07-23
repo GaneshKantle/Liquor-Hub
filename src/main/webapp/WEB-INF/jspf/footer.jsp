@@ -31,6 +31,7 @@
           <p class="lh-sec__kicker">Floor</p>
           <ul>
             <li><a href="<%= footCtx %>/catalog">All products</a></li>
+            <li><a href="<%= footCtx %>/rare">Rare collection</a></li>
             <li><a href="<%= footHome %>#categories">Dossiers</a></li>
             <li><a href="<%= footHome %>#collections">Quote boards</a></li>
             <li><a href="<%= footHome %>#items">Featured</a></li>
