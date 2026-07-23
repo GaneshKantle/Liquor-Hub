@@ -57,6 +57,106 @@
         </aside>
       </div>
 
+      <section class="lh-about-section lh-stack" aria-labelledby="stack-heading">
+        <p class="lh-sec__kicker">Stack</p>
+        <h2 id="stack-heading" class="lh-sec__title">From browser to MySQL.</h2>
+        <p class="lh-sec__lede">
+          One path end to end — JSP in the browser, Jakarta servlets on Tomcat, JDBC into MySQL.
+        </p>
+        <ol class="lh-stack__layers">
+          <li>
+            <strong>Frontend</strong>
+            <span>JSP views, custom CSS design system (Syne / Space Grotesk), vanilla JS.</span>
+          </li>
+          <li>
+            <strong>Server</strong>
+            <span>Jakarta Servlet 5.0 (<code>@WebServlet</code>), RequestDispatcher → JSP, session auth.</span>
+          </li>
+          <li>
+            <strong>Data access</strong>
+            <span>JDBC + DAO / DTO pattern — <code>Connector</code> and DAOImpl classes.</span>
+          </li>
+          <li>
+            <strong>Database</strong>
+            <span>MySQL schema <code>liquorhub</code>, mysql-connector-j 8.0.33.</span>
+          </li>
+          <li>
+            <strong>Runtime</strong>
+            <span>Apache Tomcat 10+, Java 19 (Eclipse Dynamic Web Project).</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="lh-about-section lh-schema" aria-labelledby="schema-heading">
+        <p class="lh-sec__kicker">Schema</p>
+        <h2 id="schema-heading" class="lh-sec__title">Nine tables that run the shop.</h2>
+        <p class="lh-sec__lede">
+          Primary keys and foreign keys that wire catalogue, bag, wishlist, and orders together.
+        </p>
+        <ul class="lh-schema__tables">
+          <li>
+            <code>Customer</code>
+            <span>Accounts — PK <code>customer_id</code></span>
+          </li>
+          <li>
+            <code>Category</code>
+            <span>Drink types — PK <code>category_id</code></span>
+          </li>
+          <li>
+            <code>Product</code>
+            <span>Catalogue lots — PK <code>product_id</code>, FK → Category</span>
+          </li>
+          <li>
+            <code>Cart</code>
+            <span>One bag per shopper — PK <code>cart_id</code>, FK → Customer</span>
+          </li>
+          <li>
+            <code>CartItem</code>
+            <span>Lines in the bag — PK <code>cart_item_id</code>, FK → Cart, Product</span>
+          </li>
+          <li>
+            <code>Orders</code>
+            <span>Placed orders — PK <code>order_id</code>, FK → Customer</span>
+          </li>
+          <li>
+            <code>OrderItem</code>
+            <span>Lines on an order — PK <code>order_item_id</code>, FK → Orders, Product</span>
+          </li>
+          <li>
+            <code>Payment</code>
+            <span>Demo checkout — PK <code>payment_id</code>, FK → Orders</span>
+          </li>
+          <li>
+            <code>WishlistItem</code>
+            <span>Saved favourites — PK <code>wishlist_item_id</code>, FK → Customer, Product</span>
+          </li>
+        </ul>
+        <div class="lh-schema__diagram">
+          <img
+            src="<%= ctx %>/assets/schema-er.svg"
+            alt="Entity-relationship diagram: Category to Product; Customer to Cart, CartItem, Orders, OrderItem, Payment, and WishlistItem, with foreign keys into Product."
+            width="920"
+            height="560"
+            loading="lazy"
+          >
+        </div>
+      </section>
+
+      <section class="lh-about-section lh-source" aria-labelledby="source-heading">
+        <div class="lh-source__panel">
+          <p>Source</p>
+          <h2 id="source-heading">Browse the repo.</h2>
+          <p class="body">
+            Full stack lives on GitHub — servlets, JSPs, SQL, and the shop UI. Fork it, read it, ship your own floor.
+          </p>
+          <a
+            href="https://github.com/GaneshKantle/Liquor-Hub"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Open Liquor-Hub on GitHub →</a>
+        </div>
+      </section>
+
       <jsp:include page="/WEB-INF/jspf/team.jsp" />
 
       <p class="lh-about-page__back">

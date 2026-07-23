@@ -106,6 +106,198 @@
   text-underline-offset: 3px;
 }
 
+.lh-about-section {
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1.5px solid rgba(10, 12, 16, 0.14);
+}
+
+.lh-about-section > .lh-sec__title {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+}
+
+.lh-about-section > .lh-sec__lede {
+  margin: 0.45rem 0 0;
+  max-width: 48ch;
+}
+
+.lh-stack__layers {
+  list-style: none;
+  margin: 1.15rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+  counter-reset: stack-layer;
+}
+
+.lh-stack__layers li {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: rgba(238, 242, 245, 0.85);
+  counter-increment: stack-layer;
+  position: relative;
+  padding-left: 2.75rem;
+}
+
+.lh-stack__layers li::before {
+  content: counter(stack-layer);
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: var(--signal, #ff2d1a);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.lh-stack__layers strong {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--signal-ink, #b0180c);
+}
+
+.lh-stack__layers span {
+  font-size: 0.9rem;
+  color: var(--smoke, #3a424c);
+  line-height: 1.45;
+}
+
+.lh-stack__layers code {
+  font-family: var(--font-mono, "Space Grotesk", ui-monospace, monospace);
+  font-size: 0.84em;
+  color: var(--carbon, #0a0c10);
+}
+
+.lh-schema__tables {
+  list-style: none;
+  margin: 1.15rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+@media (min-width: 700px) {
+  .lh-schema__tables {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .lh-schema__tables {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.lh-schema__tables li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: rgba(238, 242, 245, 0.85);
+}
+
+.lh-schema__tables code {
+  font-family: var(--font-display, "Syne", system-ui, sans-serif);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--carbon, #0a0c10);
+}
+
+.lh-schema__tables span {
+  font-size: 0.82rem;
+  color: var(--smoke, #3a424c);
+  line-height: 1.4;
+}
+
+.lh-schema__tables span code {
+  font-family: var(--font-mono, "Space Grotesk", ui-monospace, monospace);
+  font-size: 0.9em;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--signal-ink, #b0180c);
+}
+
+.lh-schema__diagram {
+  margin-top: 1.25rem;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: var(--chalk, #eef2f5);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lh-schema__diagram img {
+  display: block;
+  width: 920px;
+  max-width: none;
+  height: auto;
+}
+
+@media (min-width: 960px) {
+  .lh-schema__diagram img {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.lh-source__panel {
+  padding: 1.15rem 1.2rem 1.25rem;
+  border: 1.5px solid var(--carbon, #0a0c10);
+  background: var(--carbon, #0a0c10);
+  color: #f5f5f7;
+  box-shadow: 5px 5px 0 var(--signal, #ff2d1a);
+  max-width: 36rem;
+}
+
+.lh-source__panel > p:first-child {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.lh-source__panel h2 {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-display, "Syne", system-ui, sans-serif);
+  font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.lh-source__panel .body {
+  margin: 0.65rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  opacity: 0.82;
+}
+
+.lh-source__panel a {
+  display: inline-flex;
+  margin-top: 0.95rem;
+  color: #e8ff6a;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lh-source__panel a:hover {
+  color: #fff;
+}
+
 .lh-team {
   margin-top: 2.25rem;
   padding-top: 1.75rem;

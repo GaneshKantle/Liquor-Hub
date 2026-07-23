@@ -1,0 +1,124 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="er-title er-desc">
+  <title id="er-title">LiquorHub database relationships</title>
+  <desc id="er-desc">Category links to Product. Customer links to Cart, Orders, and WishlistItem. Cart links to CartItem. Orders links to OrderItem and Payment. CartItem, OrderItem, and WishlistItem link to Product.</desc>
+  <rect width="920" height="560" fill="#eef2f5"/>
+
+  <g fill="none" stroke="#ff2d1a" stroke-width="1.75" stroke-linecap="square">
+    <path d="M190 65 H310"/>
+    <path d="M190 195 H310"/>
+    <path d="M190 230 H250 V345 H310"/>
+    <path d="M115 260 V430"/>
+    <path d="M460 195 H610"/>
+    <path d="M460 345 H610"/>
+    <path d="M385 390 V430"/>
+    <path d="M685 160 V116 H460"/>
+    <path d="M760 320 H800 V65 H460"/>
+    <path d="M190 473 H520 V116"/>
+  </g>
+
+  <g fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">
+    <text x="235" y="58">FK</text>
+    <text x="235" y="188">FK</text>
+    <text x="210" y="300">FK</text>
+    <text x="122" y="340">FK</text>
+    <text x="520" y="188">FK</text>
+    <text x="520" y="338">FK</text>
+    <text x="395" y="418">FK</text>
+    <text x="540" y="110">FK</text>
+    <text x="808" y="200">FK</text>
+    <text x="340" y="466">FK</text>
+  </g>
+
+  <g font-family="Syne, system-ui, sans-serif">
+    <g transform="translate(40,30)">
+      <rect width="150" height="70" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">Category</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK category_id</text>
+      <text x="10" y="62" fill="#3a424c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10">category_name</text>
+    </g>
+
+    <g transform="translate(310,30)">
+      <rect width="150" height="86" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">Product</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK product_id</text>
+      <text x="10" y="62" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK category_id</text>
+      <text x="10" y="76" fill="#3a424c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10">name, brand, price</text>
+    </g>
+
+    <g transform="translate(40,160)">
+      <rect width="150" height="100" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">Customer</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK customer_id</text>
+      <text x="10" y="62" fill="#3a424c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10">email, name</text>
+      <text x="10" y="76" fill="#3a424c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10">phone, address</text>
+      <text x="10" y="90" fill="#3a424c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10">password</text>
+    </g>
+
+    <g transform="translate(310,160)">
+      <rect width="150" height="70" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">Cart</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK cart_id</text>
+      <text x="10" y="62" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK customer_id</text>
+    </g>
+
+    <g transform="translate(610,160)">
+      <rect width="150" height="86" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">CartItem</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK cart_item_id</text>
+      <text x="10" y="62" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK cart_id</text>
+      <text x="10" y="76" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK product_id</text>
+    </g>
+
+    <g transform="translate(310,300)">
+      <rect width="150" height="90" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">Orders</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK order_id</text>
+      <text x="10" y="62" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK customer_id</text>
+      <text x="10" y="76" fill="#3a424c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10">date, total, status</text>
+    </g>
+
+    <g transform="translate(610,300)">
+      <rect width="150" height="86" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">OrderItem</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK order_item_id</text>
+      <text x="10" y="62" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK order_id</text>
+      <text x="10" y="76" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK product_id</text>
+    </g>
+
+    <g transform="translate(40,430)">
+      <rect width="150" height="86" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">WishlistItem</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK wishlist_item_id</text>
+      <text x="10" y="62" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK customer_id</text>
+      <text x="10" y="76" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK product_id</text>
+    </g>
+
+    <g transform="translate(310,430)">
+      <rect width="150" height="86" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+      <rect width="150" height="24" fill="#0a0c10"/>
+      <text x="10" y="16" fill="#f5f5f7" font-size="12" font-weight="800">Payment</text>
+      <text x="10" y="46" fill="#0a0c10" font-family="Space Grotesk, system-ui, sans-serif" font-size="11" font-weight="700">PK payment_id</text>
+      <text x="10" y="62" fill="#b0180c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10" font-weight="700">FK order_id</text>
+      <text x="10" y="76" fill="#3a424c" font-family="Space Grotesk, system-ui, sans-serif" font-size="10">method, status</text>
+    </g>
+  </g>
+
+  <g transform="translate(610,430)" font-family="Space Grotesk, system-ui, sans-serif">
+    <rect width="250" height="86" fill="#fff" stroke="#0a0c10" stroke-width="1.5"/>
+    <text x="14" y="24" fill="#0a0c10" font-family="Syne, system-ui, sans-serif" font-size="12" font-weight="800">KEY</text>
+    <line x1="14" y1="42" x2="48" y2="42" stroke="#ff2d1a" stroke-width="1.75"/>
+    <text x="56" y="46" fill="#3a424c" font-size="11">Foreign key link</text>
+    <text x="14" y="70" fill="#0a0c10" font-size="11" font-weight="700">PK</text>
+    <text x="36" y="70" fill="#3a424c" font-size="11">primary -</text>
+    <text x="90" y="70" fill="#b0180c" font-size="11" font-weight="700">FK</text>
+    <text x="110" y="70" fill="#3a424c" font-size="11">foreign</text>
+  </g>
+</svg>
