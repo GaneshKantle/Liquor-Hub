@@ -66,7 +66,7 @@
         <ol class="lh-stack__layers">
           <li>
             <strong>Frontend</strong>
-            <span>JSP views, custom CSS design system (Syne / Space Grotesk), vanilla JS.</span>
+            <span>JSP views, Tailwind CSS</span>
           </li>
           <li>
             <strong>Server</strong>
