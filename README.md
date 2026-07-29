@@ -11,7 +11,7 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 | Dependency | Version / notes |
 |---|---|
 | JDK | 17 |
-| Servlet API | Jakarta EE 5 / Servlet 5.0 |
+| Servlet API | Jakarta EE 5 / Servlet |
 | Application server | Apache Tomcat 10+ (Jakarta) |
 | Database | MySQL 8.x |
 | IDE (recommended) | Eclipse IDE for Enterprise Java and Web Developers |
