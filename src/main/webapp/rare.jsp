@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light only">
   <title>Rare Collection | LiquorHub</title>
-  <meta name="description" content="LiquorHub Rare Collection — ultra-rare bottles with origin, taste, age, and desk rates.">
+  <meta name="description" content="LiquorHub Rare Collection - Ultra-rare bottles with origin, taste, age, and desk rates.">
   <link rel="icon" href="<%= ctx %>/assets/favicon.png" type="image/png">
   <link rel="stylesheet" href="<%= ctx %>/css/beer-loader.css">
   <link rel="stylesheet" href="<%= ctx %>/css/exchange.css">
