@@ -45,7 +45,6 @@ Context path may differ if you rename the project in Eclipse. Welcome file forwa
 - **Orders** — order history and detail views
 - **Rare collection** — curated collector bottles (`/rare`)
 - **About / contact** — static informational pages
-- **404 handling** — custom error page via `web.xml`
 
 ---
 
