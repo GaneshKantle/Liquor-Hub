@@ -31,9 +31,7 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 http://localhost:8080/LiqourHub/
 ```
 
-Context path may differ if you rename the project in Eclipse. Welcome file forwards through `/home`.
-
----
+   
 
 ## Features
 
