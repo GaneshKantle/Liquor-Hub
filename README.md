@@ -30,7 +30,6 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 ```
 http://localhost:8080/LiqourHub/
 ```
-
    
 
 ## Features
