@@ -27,12 +27,7 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 4. Add Tomcat 10+ as a server runtime; ensure the project targets Java 17 and Servlet 5.0.
 5. Deploy and open:
 
-```
-http://localhost:8080/LiqourHub/
-```
-   
-
-## Features
+ 
 
 - **Age gate + liquor quiz** — first-visit client-side gates (`js/gates.js`) before browsing
 - **Accounts** — register, login, logout, profile/dashboard, password forget/reset, profile update
