@@ -40,7 +40,7 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 
 ---
 
-## Architecture
+## Architecture 
 
 Layered package layout under `com.LiquorHub`:
 
