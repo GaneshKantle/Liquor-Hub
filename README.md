@@ -35,7 +35,7 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 - **Wishlist** — save favourites (`/wishlist`, `/favourite`)
 - **Cart & checkout** — add/update/remove items, buy-now, payment record per order
 - **Orders** — order history and detail views
-- **Rare collection** — curated collector bottles (`/rare`)
+- **Rare collection** — curated collector bottles 
 - **About / contact** — static informational pages
 
 ---
