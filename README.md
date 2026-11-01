@@ -28,11 +28,11 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 
  
 
-- **Age gate + liquor quiz** — first-visit client-side gates (`js/gates.js`) before browsing 
+- **Age gate + liquor quiz** — first-visit client-side gates (`js/gates.js`) before browsin 
 - **Accounts** — register,login, logout, profile/dashboard, password forget/reset, profile update
 - **Catalogue** — categories (Whisky, Vodka, Rum, Gin, Beer, Wine, Brandy, Tequila), search/browse, curated home shelves
 - **Wishlist** — save favourites (`/wishlist`, `/favourite`)
-- **Cart & checkout** — add/update/remove items, buy-now, payment record per orde 
+- **Cart & checkout** — add/update/remove items, buy-now, payment record per orde
 - **Orders** — order history and detail video
 - **Rare collection** — curated collector bottle
 - **About / contact** — static informational page
