@@ -32,9 +32,9 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 - **Accounts** — register,login, logout, profile/dashboard, password forget/reset, profile update
 - **Catalogue** — categories (Whisky, Vodka, Rum, Gin, Beer, Wine, Brandy, Tequila), search/browse, curated home shelves
 - **Wishlist** — save favourites (`/wishlist`, `/favourite`)
-- **Cart & checkout** — add/update/remove items, buy-now, payment record per orde
+- **Cart & checkout** — add/update/remove items, buy-now, payment record per order
 - **Orders** — order history and detail video
-- **Rare collection** — curated collector bottles 
+- **Rare collection** — curated collector bottles
 - **About / contact** — static informational page
 
 ---
