@@ -35,7 +35,7 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 - **Cart & checkout** — add/update/remove items, buy-now, payment record per orders
 - **Orders** — order history and detail video
 - **Rare collection** — curated collector bottle
-- **About / contact** — static informational page 
+- **About / contact** — static informational page s
 
 ---
 
