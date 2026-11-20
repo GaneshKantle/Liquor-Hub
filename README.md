@@ -62,7 +62,7 @@ Browser (JSP + CSS/JS)
 | Models | `dto` | Transfer objects |
 | Shared | `utility` | DB connector, validators, catalogue helpers, rare collection data |
 
-`Connector` loads `db.properties` from the **classpath** at runtime.
+`Connector` loads `db.properties` from the **classpath** at runtime 
 
 ---
 
