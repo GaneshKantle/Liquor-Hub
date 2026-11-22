@@ -24,7 +24,7 @@ J2EE e-commerce web app for browsing, carting, and ordering spirits — Java Ser
 1. Clone the repository and open it as an Eclipse Dynamic Web Project (or import existing project).
 2. Create and seed MySQL — see [Database configuration](#database-configuration).
 3. Place `db.properties` on the classpath (see below).
-4. Add Tomcat 10+ as a server runtime; ensure the project targets Java 17 and Servlet 5.0.
+4. Add Tomcat 10+ as a server runtime; ensure the project targets Java 17 and Servlet 5.0 
 
  
 
@@ -62,7 +62,7 @@ Browser (JSP + CSS/JS)
 | Models | `dto` | Transfer objects |
 | Shared | `utility` | DB connector, validators, catalogue helpers, rare collection data |
 
-`Connector` loads `db.properties` from the **classpath** at runtime
+`Connector` loads `db.properties` from the **classpath** at runtim
 
 ---
 
